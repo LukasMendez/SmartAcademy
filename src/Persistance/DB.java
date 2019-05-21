@@ -4,6 +4,6 @@ package Persistance;
  * Created by Lukas
  * 21-05-2019.
  */
-public class DBFaçade {
+public class DB {
 
 }
