@@ -5,8 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import Application.MainController;
+
+
 
 public class Main extends Application {
+
+    MainController c = new MainController();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -14,6 +19,8 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
+
+        c.start();
     }
 
 
