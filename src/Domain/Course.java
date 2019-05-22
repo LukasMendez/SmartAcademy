@@ -28,6 +28,7 @@ public class Course {
     }
 
     public void setCourseNumber(int value) { courseNumberProperty().set(value); }
+
     public int getCourseNumber() { return courseNumberProperty().get(); }
     public IntegerProperty courseNumberProperty() {
         if (courseNumber == null) courseNumber = new SimpleIntegerProperty(this, "courseNumber");
