@@ -10,6 +10,10 @@ import javafx.scene.control.TableView;
 public class MainController {
 
     private DB db = DB.getInstance();
+    private CourseToEPController courseToEPController = new CourseToEPController();
+
+
+
 
     @FXML
     private TableView educationMatrixTableView;
@@ -32,6 +36,11 @@ public class MainController {
     public void start() {
         db.connect();
         //db.test();
+    }
+
+
+    public void initialize(){
+
     }
 
 
