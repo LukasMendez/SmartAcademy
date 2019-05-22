@@ -25,20 +25,28 @@
               <tabs>
                 <Tab text="Courses">
                      <content>
-                        <TableView prefHeight="665.0" prefWidth="1000.0">
+                        <TableView prefHeight="665.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn prefWidth="120.5" text="Course Number" />
+                            <TableColumn prefWidth="135.0" text="Information" />
+                              <TableColumn prefWidth="360.0" text="Provider" />
+                              <TableColumn prefWidth="140.0" text="Number of days" />
                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TableView>
                      </content>
                 </Tab>
                 <Tab text="Education Matrix">
                      <content>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="educationMatrixTableView" prefHeight="400.0" prefWidth="782.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn prefWidth="75.0" text="Employee Number" />
+                            <TableColumn prefWidth="75.0" text="Education Title" />
+                              <TableColumn prefWidth="75.0" text="Information" />
+                              <TableColumn prefWidth="75.0" text="Provider" />
+                              <TableColumn prefWidth="75.0" text="Column X" />
                           </columns>
                         </TableView>
                      </content>
@@ -58,7 +66,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                   </Tab>
-                  <Tab fx:id="providerTab" text="Provider">
+                  <Tab fx:id="providerTab" style="-fx-padding: : 3em 0.5em 3em 0.5em;" text="Provider">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
