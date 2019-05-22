@@ -88,10 +88,11 @@ public class DB {
                 String CVRNumber = rs.getString("fldCVRNumber");
                 listOfCourses.add(new Course(courseNumber, information, additionalInformation, numberOfDays, locationID, CVRNumber));
             }
+            /*
             //printing for debugging
             for (int i = 0; i < listOfCourses.size(); i++) {
                 System.out.println(listOfCourses.get(i).toString());
-            }
+            }*/
             //close
             close();
 
