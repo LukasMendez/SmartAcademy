@@ -1,10 +1,11 @@
 package Persistance;
 
+import Domain.Course;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 
 /**
@@ -64,18 +65,42 @@ public class DB {
         }
     }
 
-    /*
-    public static void test(){
+
+    public static ObservableList<Course> testGetCourseList(){
+        ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
         try {
+            //connect
+            connect();
+            //create Statement + ResultSet
             Statement stmt = con.createStatement();
-            String record="INSERT INTO tblCity "
-                    + "VALUES (6200,'Aabenraa')";
-            stmt.executeUpdate(record);
-            stmt.close();
+            String record="SELECT * FROM tblCourse";
+            ResultSet rs = stmt.executeQuery(record);
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+                int courseNumber = rs.getInt("fldCourseNumber");
+                String information = rs.getString("fldInformation");
+                String additionalInformation = rs.getString("fldAdditionalInformation");
+                int numberOfDays = rs.getInt("fldNumberOfDays");
+                int locationID = rs.getInt("fldLocationID");
+                String CVRNumber = rs.getString("fldCVRNumber");
+                listOfCourses.add(new Course(courseNumber, information, additionalInformation, numberOfDays, locationID, CVRNumber));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
 
         } catch(Exception e){
             System.err.println(e.getMessage());
         }
-    }*/
+
+        return listOfCourses;
+    }
 
 }
