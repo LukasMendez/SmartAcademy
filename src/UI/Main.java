@@ -16,7 +16,6 @@ import java.time.LocalDate;
 
 public class Main extends Application {
 
-    MainController c = new MainController();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -25,9 +24,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
 
-        MainController c = new MainController();
-
-        c.start();
 
     }
 

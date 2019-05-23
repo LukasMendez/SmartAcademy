@@ -25,13 +25,10 @@ public class DatesToCourseController implements Openable {
 
     public void initialize() {
 
-
         // Will create a mini calender
         DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
         Node popupContent = datePickerSkin.getPopupContent();
-
         calenderVBox.getChildren().addAll(popupContent);
-
 
     }
 
@@ -39,10 +36,11 @@ public class DatesToCourseController implements Openable {
     @Override
     public void openWindow() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\Application.DatesToCourseController"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\DatesToCourseWindow.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
             addDatesToCourseStage.setTitle("Add dates to selected source");
-            addDatesToCourseStage.setScene(new Scene(root1));
+            addDatesToCourseStage.setScene(new Scene(root));
+            addDatesToCourseStage.setResizable(false);
             addDatesToCourseStage.show();
         } catch (Exception e) {
 
@@ -52,6 +50,6 @@ public class DatesToCourseController implements Openable {
 
     @Override
     public boolean isStageOpen() {
-        return false;
+        return addDatesToCourseStage.isShowing();
     }
 }

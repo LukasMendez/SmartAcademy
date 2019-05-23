@@ -20,15 +20,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.MainController">
     <center>
         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <TabPane accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tabPane" accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                         <Tab text="Courses">
                             <content>
-                                <TableView fx:id="courseTable" prefHeight="665.0">
+                                <TableView fx:id="courseTableView" prefHeight="665.0">
                                     <columns>
                                         <TableColumn fx:id="courseNumberColumn" prefWidth="120.5" text="Course Number" />
                                         <TableColumn fx:id="informationColumn" prefWidth="135.0" text="Information" />
@@ -61,7 +61,7 @@
                         </Tab>
                         <Tab fx:id="companiesTab" text="Employee">
                             <content>
-                                <TableView prefHeight="200.0" prefWidth="200.0">
+                                <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0">
                                     <columns>
                                         <TableColumn prefWidth="75.0" text="Name" />
                                         <TableColumn prefWidth="75.0" text="CPR-number" />
@@ -89,7 +89,7 @@
                         </Tab>
                         <Tab text="Companies">
                             <content>
-                                <TableView prefHeight="200.0" prefWidth="200.0">
+                                <TableView fx:id="companiesTableView" prefHeight="200.0" prefWidth="200.0">
                                     <columns>
                                         <TableColumn prefWidth="75.0" text="Name" />
                                         <TableColumn prefWidth="75.0" text="Address" />
@@ -103,12 +103,12 @@
                                 </TableView>
                             </content>
                         </Tab>
-                        <Tab fx:id="providerTab" text="Provider">
+                        <Tab text="Provider">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                             </content>
                             <content>
-                                <TableView prefHeight="200.0" prefWidth="200.0">
+                                <TableView fx:id="providerTableView" prefHeight="200.0" prefWidth="200.0">
                                     <columns>
                                         <TableColumn prefWidth="75.0" text="Name" />
                                         <TableColumn prefWidth="75.0" text="Location" />
@@ -151,7 +151,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;" GridPane.columnIndex="2">
                     <children>
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Button" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -162,7 +162,7 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;" GridPane.columnIndex="1">
                     <children>
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#openAddDatesToCourseWindow" text="Button" />
                     </children>
                 </HBox>
             </children>
