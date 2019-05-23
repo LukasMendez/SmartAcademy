@@ -29,22 +29,6 @@ public class Main extends Application {
 
         c.start();
 
-
-        // TESTING CALENDAR
-/*
-        Stage testStage = new Stage();
-        BorderPane testBorderPane = new BorderPane();
-        testStage.setTitle("Test Window");
-        testStage.setScene(new Scene(testBorderPane,500,400));
-
-        DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
-        Node popupContent = datePickerSkin.getPopupContent();
-
-        testBorderPane.setCenter(popupContent);
-
-        testStage.show();
-*/
-
     }
 
 
