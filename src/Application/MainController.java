@@ -62,7 +62,7 @@ public class MainController {
 
         //Displaying Courses
         //constructing data model
-        courseList = DB.testGetCourseList();
+        courseList = DB.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
         //splitting out the data in the model
@@ -85,7 +85,7 @@ public class MainController {
         informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
         additionalInformationColumn.setCellValueFactory(new PropertyValueFactory("additionalInformation"));
         numberOfDaysColumn.setCellValueFactory(new PropertyValueFactory("numberOfDays"));
-        locationIDColumn.setCellValueFactory(new PropertyValueFactory("locationID"));
+        locationIDColumn.setCellValueFactory(new PropertyValueFactory("location"));
         CVRNumberColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
         //representing the data in the columns
         courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
@@ -94,7 +94,7 @@ public class MainController {
     //Test method
     @FXML
     public void testAddCourse() {
-        courseList.add(new Course(156, "bloop", "bleep", 8, 1, "87564321"));
+        courseList.add(new Course("156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
 

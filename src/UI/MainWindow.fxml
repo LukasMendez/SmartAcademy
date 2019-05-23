@@ -32,9 +32,9 @@
                                     <columns>
                                         <TableColumn fx:id="courseNumberColumn" prefWidth="120.5" text="Course Number" />
                                         <TableColumn fx:id="informationColumn" prefWidth="135.0" text="Information" />
-                                        <TableColumn fx:id="additionalInformationColumn" prefWidth="360.0" text="additional Information" />
-                                        <TableColumn fx:id="numberOfDaysColumn" prefWidth="140.0" text="Number of days" />
-                                        <TableColumn fx:id="locationIDColumn" prefWidth="140.0" text="location ID" />
+                                        <TableColumn fx:id="additionalInformationColumn" prefWidth="360.0" text="Additional Information" />
+                                        <TableColumn fx:id="numberOfDaysColumn" prefWidth="140.0" text="Number of Days" />
+                                        <TableColumn fx:id="locationIDColumn" prefWidth="140.0" text="Location" />
                                         <TableColumn fx:id="CVRNumberColumn" prefWidth="140.0" text="CVR Number" />
                                     </columns>
                                     <columnResizePolicy>
