@@ -4,17 +4,19 @@ import Domain.Course;
 import Domain.Employee;
 import Persistance.DB;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class MainController {
@@ -23,6 +25,8 @@ public class MainController {
     private NewCourseController newCourseController = new NewCourseController();
     private DatesToCourseController datesToCourseController = new DatesToCourseController();
     private NewEmployeeController newEmployeeController = new NewEmployeeController();
+    private ManageEmployeeController manageEmployeeController = new ManageEmployeeController();
+
 
     // Tab indexes
     private int coursesIndex = 0;
@@ -32,7 +36,10 @@ public class MainController {
     private int companiesIndex = 4;
     private int providerIndex = 5;
 
+    // Buttons
 
+    @FXML
+    private Button buttonLeft, buttonMiddle, buttonRight;
 
 
 
@@ -51,12 +58,15 @@ public class MainController {
             employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn; //Employees
 
 
-
     private ObservableList<Course> courseList;
     private ObservableList<Employee> employeeList;
 
 
     public void initialize() {
+
+
+        mouseClickEmployeeHandler();
+        tabHandler();
 
 
         for (int i = 0; i < 10; i++) {
@@ -91,6 +101,7 @@ public class MainController {
         employeeCompanyColumn.setCellValueFactory(new PropertyValueFactory("company"));
         //representing the data in the columns
         employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
+
     }
 
     //Test method
@@ -100,7 +111,11 @@ public class MainController {
     }
 
 
-    //  private Stage addCourseStage = new Stage();
+
+
+
+
+
 
 
     //---------------------------- OPEN NEW WINDOWS---------------------------------//
@@ -128,26 +143,27 @@ public class MainController {
     @FXML
     public void rightBottomButtonAction() {
 
-        if (tabPane.getSelectionModel().getSelectedIndex()==coursesIndex){
+        if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
 
             openAddCourseWindow();
 
-        } else if (tabPane.getSelectionModel().getSelectedIndex()==employeeIndex){
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == employeeIndex) {
 
             openNewEmployeeWindow();
 
-        } else if (tabPane.getSelectionModel().getSelectedIndex()==companiesIndex){
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
 
             // TODO SOMETHING MUST HAPPEN
 
-        } else if (tabPane.getSelectionModel().getSelectedIndex()==providerIndex){
+            // TODO HAVEN'T EVEN MADE AN FXML FILE FOR THIS SCENARIO :I
+
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
 
             // TODO SOMETHING MUST HAPPEN
+
+            // TODO HAVEN'T MADE AN FXML FILE FOR THIS SCENARIO EITHER :/
 
         }
-
-
-        // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
 
     }
 
@@ -172,6 +188,9 @@ public class MainController {
     @FXML
     public void openAddDatesToCourseWindow() {
 
+        /// TODO CHECK IF YOU SELECTED A RECORD ON THE TABLE FIRST
+
+
         if (!datesToCourseController.isStageOpen()) {
 
             datesToCourseController.openWindow();
@@ -194,6 +213,110 @@ public class MainController {
 
             System.out.println("Window is already open");
         }
+
+    }
+
+
+    //---------------------Event handlers--------------------------//
+
+    private void mouseClickEmployeeHandler(){
+
+        employeeTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+
+                        if (!manageEmployeeController.isStageOpen()){
+
+
+                            // TODO GET SELECTED ELEMENT AND OPEN WINDOW WITH THE EMPLOYEE
+
+                            manageEmployeeController.openWindow();
+                        } else {
+
+                            System.out.println("Please close the first window before opening a new one");
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+
+    private void tabHandler(){
+
+        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+
+            System.out.println("The tab selected now has the index: "+ newTab.getTabPane().getSelectionModel().getSelectedIndex());
+
+            if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==coursesIndex){
+
+                buttonLeft.setText("Delete Course");
+                buttonLeft.setVisible(true);
+
+                buttonMiddle.setText("Add dates to selected course");
+                buttonMiddle.setVisible(true);
+
+                buttonRight.setText("Add New Course");
+                buttonRight.setVisible(true);
+
+
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==educationMatrixIndex){
+
+                buttonLeft.setVisible(false);
+                buttonMiddle.setVisible(false);
+                buttonRight.setVisible(false);
+
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==employeeIndex){
+
+                buttonLeft.setText("Delete Employee");
+                buttonLeft.setVisible(true);
+
+                buttonMiddle.setVisible(false);
+
+                buttonRight.setText("Add New Employee");
+                buttonRight.setVisible(true);
+
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==calenderIndex){
+
+                buttonLeft.setVisible(false);
+                buttonMiddle.setVisible(false);
+                buttonRight.setVisible(false);
+
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==companiesIndex){
+
+                buttonLeft.setText("Delete Company");
+                buttonLeft.setVisible(true);
+
+                buttonMiddle.setVisible(false);
+
+                buttonRight.setText("Add New Company");
+                buttonRight.setVisible(true);
+
+                // TODO If this turns out to be the company that you are currently working on, it should handle the situation without issues
+
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==providerIndex){
+
+
+                buttonLeft.setText("Delete Provider");
+                buttonLeft.setVisible(true);
+
+                buttonMiddle.setVisible(false);
+
+                buttonRight.setText("Add New Provider");
+                buttonRight.setVisible(true);
+
+            }
+
+            // TODO REFACTOR CODE
+
+        });
+
+
+
+
 
     }
 
