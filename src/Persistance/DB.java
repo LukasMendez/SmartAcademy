@@ -1,6 +1,7 @@
 package Persistance;
 
 import Domain.Course;
+import Domain.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -66,27 +67,26 @@ public class DB {
     }
 
 
-    public static ObservableList<Course> testGetCourseList(){
+    public static ObservableList<Course> getCourseList(){
         ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
         try {
             //connect
             connect();
             //create Statement + ResultSet
-            Statement stmt = con.createStatement();
-            String record="SELECT * FROM tblCourse";
-            ResultSet rs = stmt.executeQuery(record);
+            CallableStatement cs = con.prepareCall("{call dbo.getAllCourses}");
+            ResultSet rs = cs.executeQuery();
             //create ResultSetMetaData
             ResultSetMetaData rsmd = rs.getMetaData();
 
             //add data to observableList
             while (rs.next()) {
-                int courseNumber = rs.getInt("fldCourseNumber");
+                String courseNumber = rs.getString("fldAMUNumber");
                 String information = rs.getString("fldInformation");
                 String additionalInformation = rs.getString("fldAdditionalInformation");
                 int numberOfDays = rs.getInt("fldNumberOfDays");
-                int locationID = rs.getInt("fldLocationID");
-                String CVRNumber = rs.getString("fldCVRNumber");
-                listOfCourses.add(new Course(courseNumber, information, additionalInformation, numberOfDays, locationID, CVRNumber));
+                String location = rs.getString("fldLocation");
+                String provider = rs.getString("fldProvider");
+                listOfCourses.add(new Course(courseNumber, information, additionalInformation, numberOfDays, location, provider));
             }
             /*
             //printing for debugging
@@ -101,6 +101,41 @@ public class DB {
         }
 
         return listOfCourses;
+    }
+
+    public static ObservableList<Employee> getEmployeeList(){
+        ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllEmployees}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+                String name = rs.getString("fldname");
+                String CPRNumber = rs.getString("fldCPRNumber");
+                String email = rs.getString("fldEmail");
+                String phoneNumber = rs.getString("fldPhoneNumber");
+                String company = rs.getString("fldCompany");
+                listOfEmployees.add(new Employee(name, CPRNumber, email, phoneNumber, company));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
+
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+
+        return listOfEmployees;
     }
 
 }
