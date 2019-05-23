@@ -5,12 +5,25 @@ import Persistance.DB;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainController {
+
+    // Controllers (Windows)
+    private NewCourseController newCourseController = new NewCourseController();
+    private DatesToCourseController datesToCourseController = new DatesToCourseController();
+
+
+
 
     private DB db = DB.getInstance();
     private CourseToEPController courseToEPController = new CourseToEPController();
@@ -24,6 +37,12 @@ public class MainController {
 
     @FXML
     private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn;
+
+
+
+
+
+
 
     private ObservableList<Course> courseList;
 
@@ -58,6 +77,43 @@ public class MainController {
     public void testAddCourse(){
         courseList.add(new Course(156,"bloop","bleep",8,1,"87564321"));
     }
+
+
+  //  private Stage addCourseStage = new Stage();
+
+
+
+
+
+    //---------------------------- OPEN NEW WINDOWS---------------------------------//
+
+    @FXML
+    public void openAddCourseWindow() throws IOException{
+
+
+        if (!newCourseController.isStageOpen()){
+
+            newCourseController.openWindow();
+
+        } else {
+
+            System.out.println("Window already open");
+        }
+
+    }
+
+    @FXML
+    public void openAddDatesToCourseWindow() throws IOException{
+
+       // if (!datesToCourseController)
+
+
+
+
+
+    }
+
+
 
     public void start() {
 

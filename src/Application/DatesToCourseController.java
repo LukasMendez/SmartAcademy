@@ -2,9 +2,13 @@ package Application;
 
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
@@ -12,7 +16,9 @@ import java.time.LocalDate;
  * Created by Lukas
  * 21-05-2019.
  */
-public class DatesToCourseController {
+public class DatesToCourseController implements Openable {
+
+    private Stage addDatesToCourseStage = new Stage();
 
     @FXML
     private VBox calenderVBox;
@@ -30,4 +36,22 @@ public class DatesToCourseController {
     }
 
 
+    @Override
+    public void openWindow() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\Application.DatesToCourseController"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            addDatesToCourseStage.setTitle("Add dates to selected source");
+            addDatesToCourseStage.setScene(new Scene(root1));
+            addDatesToCourseStage.show();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean isStageOpen() {
+        return false;
+    }
 }
