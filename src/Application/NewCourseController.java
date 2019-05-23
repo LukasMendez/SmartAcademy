@@ -24,9 +24,9 @@ public class NewCourseController implements Openable{
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseWindow.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            Parent root = (Parent) fxmlLoader.load();
             addCourseStage.setTitle("ABC");
-            addCourseStage.setScene(new Scene(root1));
+            addCourseStage.setScene(new Scene(root));
             addCourseStage.show();
         } catch (Exception e) {
 
