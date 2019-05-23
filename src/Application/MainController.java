@@ -1,6 +1,7 @@
 package Application;
 
 import Domain.Course;
+import Domain.Employee;
 import Persistance.DB;
 
 import javafx.collections.ObservableList;
@@ -45,12 +46,14 @@ public class MainController {
     private TableView courseTableView, educationMatrixTableView, employeeTableView, companiesTableView, providerTableView;
 
     @FXML
-    private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn;
+    private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, //Courses
+            locationIDColumn, CVRNumberColumn, //Courses
+            employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn; //Employees
 
 
 
     private ObservableList<Course> courseList;
-    private ObservableList<Course> companyList;
+    private ObservableList<Employee> employeeList;
 
 
     public void initialize() {
@@ -60,9 +63,9 @@ public class MainController {
             educationMatrixTableView.getColumns().addAll(new TableColumn("Test no." + i));
         }
 
-        //Displaying Courses
+        //Courses
         //constructing data model
-        courseList = DB.testGetCourseList();
+        courseList = DB.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
         //splitting out the data in the model
@@ -75,26 +78,25 @@ public class MainController {
         //representing the data in the columns
         courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
 
-        //Display Companies
+        //Employees
         //constructing data model
-        //companyList = DB.testGetCourseList();
+        employeeList = DB.getEmployeeList();
         //data binding
-        //companyTable.setItems(companyList);
+        employeeTableView.setItems(employeeList);
         //splitting out the data in the model
-        courseNumberColumn.setCellValueFactory(new PropertyValueFactory("courseNumber"));
-        informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
-        additionalInformationColumn.setCellValueFactory(new PropertyValueFactory("additionalInformation"));
-        numberOfDaysColumn.setCellValueFactory(new PropertyValueFactory("numberOfDays"));
-        locationIDColumn.setCellValueFactory(new PropertyValueFactory("locationID"));
-        CVRNumberColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        employeeNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        employeeCPRColumn.setCellValueFactory(new PropertyValueFactory("CPRNumber"));
+        employeeEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
+        employeePhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        employeeCompanyColumn.setCellValueFactory(new PropertyValueFactory("company"));
         //representing the data in the columns
-        courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
+        employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
     }
 
     //Test method
     @FXML
     public void testAddCourse() {
-        courseList.add(new Course(156, "bloop", "bleep", 8, 1, "87564321"));
+        courseList.add(new Course("156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
 
