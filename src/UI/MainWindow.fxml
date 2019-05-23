@@ -143,7 +143,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;">
                     <children>
-                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#testAddCourse" text="AddButton" />
+                        <Button fx:id="buttonLeft" mnemonicParsing="false" onAction="#testAddCourse" text="AddButton" />
                     </children>
                     <padding>
                         <Insets left="20.0" />
@@ -151,7 +151,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;" GridPane.columnIndex="2">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Button" />
+                        <Button fx:id="buttonRight" mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Button" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -162,7 +162,7 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;" GridPane.columnIndex="1">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#openAddDatesToCourseWindow" text="Button" />
+                        <Button fx:id="buttonMiddle" mnemonicParsing="false" onAction="#openAddDatesToCourseWindow" text="Button" />
                     </children>
                 </HBox>
             </children>

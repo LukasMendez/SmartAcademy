@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.ManageEmployeeController">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="600.0" prefWidth="435.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -116,7 +115,7 @@
                      <children>
                         <Button mnemonicParsing="false" text="Delete course" />
                         <Button mnemonicParsing="false" text="Mark as completed" />
-                        <Button mnemonicParsing="false" text="Add course" />
+                        <Button mnemonicParsing="false" onAction="#addCourseToEducationPlan" text="Add course" />
                      </children>
                   </HBox>
                   <Button mnemonicParsing="false" prefHeight="22.0" prefWidth="95.0" text="Show history" />
