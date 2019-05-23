@@ -26,6 +26,8 @@ public class MainController {
     private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn;
 
     private ObservableList<Course> courseList;
+    private ObservableList<Course> companyList;
+
 
     public void initialize() {
 
@@ -39,6 +41,21 @@ public class MainController {
         courseList = DB.testGetCourseList();
         //data binding
         courseTable.setItems(courseList);
+        //splitting out the data in the model
+        courseNumberColumn.setCellValueFactory(new PropertyValueFactory("courseNumber"));
+        informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
+        additionalInformationColumn.setCellValueFactory(new PropertyValueFactory("additionalInformation"));
+        numberOfDaysColumn.setCellValueFactory(new PropertyValueFactory("numberOfDays"));
+        locationIDColumn.setCellValueFactory(new PropertyValueFactory("locationID"));
+        CVRNumberColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        //representing the data in the columns
+        courseTable.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
+
+        //Display Companies
+        //constructing data model
+        //companyList = DB.testGetCourseList();
+        //data binding
+        companyTable.setItems(companyList);
         //splitting out the data in the model
         courseNumberColumn.setCellValueFactory(new PropertyValueFactory("courseNumber"));
         informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
