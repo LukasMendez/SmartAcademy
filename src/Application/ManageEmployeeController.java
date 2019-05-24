@@ -15,7 +15,14 @@ import javafx.stage.Stage;
  */
 public class ManageEmployeeController implements Openable {
 
-    private Stage manageEmployeeStage = new Stage();
+    // Static because we only want one Stage at a time
+    private static Stage manageEmployeeStage = new Stage();
+    private FXMLLoader fxmlLoader;
+
+    // Instance of itself. Used for regaining access to the instance from the MainController.
+    private ManageEmployeeController manageEmployeeController;
+
+
     private Employee selectedEmployee;
 
     //TextFields
@@ -26,7 +33,8 @@ public class ManageEmployeeController implements Openable {
     // Controller (Window)
     private CourseToEPController courseToEPController = new CourseToEPController();
 
-    public void initialize() {
+
+    public void initialize(){
 
     }
 
@@ -35,25 +43,15 @@ public class ManageEmployeeController implements Openable {
     public void openWindow() {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             manageEmployeeStage.setTitle("Manage Selected Employee");
             manageEmployeeStage.setScene(new Scene(root));
             manageEmployeeStage.setResizable(false);
             manageEmployeeStage.show();
 
-
-            // TESTING AREA TODO PLEASE REMOVE THIS SOON!!!
-            if (nameTextField==null){
-
-                System.out.println("TextField is not initialized sorry");
-            } else {
-
-                System.out.println("Should not be null! Inserting text");
-                nameTextField.setText("heii mom");
-
-            }
-
+            // Since the FXMLLoader creates a new Controller object in the background, we need regain control
+            manageEmployeeController = fxmlLoader.getController();
 
 
         } catch (Exception e) {
@@ -64,7 +62,23 @@ public class ManageEmployeeController implements Openable {
 
     @Override
     public boolean isStageOpen() {
+
+
+        System.out.println("manageEmployeeStage showing: " + manageEmployeeStage);
+
         return manageEmployeeStage.isShowing();
+
+    }
+
+    public Stage getStage(){
+
+        return manageEmployeeStage;
+    }
+
+
+    public ManageEmployeeController getController(){
+
+        return manageEmployeeController;
     }
 
 
@@ -72,15 +86,12 @@ public class ManageEmployeeController implements Openable {
 
         selectedEmployee = employee;
 
-
           nameTextField.setText(selectedEmployee.getName());
           cprTextField.setText(selectedEmployee.getCPRNumber());
           emailTextField.setText(selectedEmployee.getEmail());
           phoneNumTextField.setText(selectedEmployee.getPhoneNumber());
 
-
         System.out.println("The record belongs to: " + selectedEmployee.getName() + " and the ID is: " + selectedEmployee.getEmployeeID());
-
 
     }
 
