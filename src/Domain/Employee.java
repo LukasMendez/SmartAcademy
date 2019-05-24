@@ -9,13 +9,16 @@ import javafx.beans.property.StringProperty;
  */
 public class Employee {
 
+    private int employeeID;
     private StringProperty name;
     private StringProperty CPRNumber;
     private StringProperty email;
     private StringProperty phoneNumber;
     private StringProperty company;
 
-    public Employee(String name, String CPRNumber, String email, String phoneNumber, String company){
+    public Employee(int employeeID, String name, String CPRNumber, String email, String phoneNumber, String company){
+
+        this.employeeID=employeeID;
         this.setName(name);
         this.setCPRNumber(CPRNumber);
         this.setEmail(email);
@@ -57,4 +60,11 @@ public class Employee {
         if (company == null) company = new SimpleStringProperty(this, "company");
         return company;
     }
+
+    public int getEmployeeID(){
+        return employeeID;
+
+    }
+
+
 }
