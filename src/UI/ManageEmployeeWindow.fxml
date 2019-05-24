@@ -41,9 +41,9 @@
                      </padding>
                      <children>
                         <Label text="Name" />
-                        <TextField editable="false" />
+                        <TextField fx:id="nameTextField" editable="false" />
                         <Label text="E-mail" />
-                        <TextField editable="false" />
+                        <TextField fx:id="emailTextField" editable="false" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1">
@@ -52,9 +52,9 @@
                      </padding>
                      <children>
                         <Label text="CPR number" />
-                        <TextField editable="false" />
+                        <TextField fx:id="cprTextField" editable="false" />
                         <Label text="Phone Number" />
-                        <TextField editable="false" />
+                        <TextField fx:id="phoneNumTextField" editable="false" />
                      </children>
                   </VBox>
                </children>
@@ -64,7 +64,7 @@
                   <Insets top="-20.0" />
                </VBox.margin>
                <children>
-                  <Button mnemonicParsing="false" text="Edit info" />
+                  <Button mnemonicParsing="false" onAction="#setTheText" text="Edit info" />
                   <Button disable="true" mnemonicParsing="false" text="Apply changes" />
                </children>
             </HBox>

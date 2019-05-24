@@ -116,19 +116,15 @@ public class DB {
 
             //add data to observableList
             while (rs.next()) {
+                int employeeID = rs.getInt("fldEmployeeID");
                 String name = rs.getString("fldname");
                 String CPRNumber = rs.getString("fldCPRNumber");
                 String email = rs.getString("fldEmail");
                 String phoneNumber = rs.getString("fldPhoneNumber");
                 String company = rs.getString("fldCompany");
-                listOfEmployees.add(new Employee(name, CPRNumber, email, phoneNumber, company));
+                listOfEmployees.add(new Employee(employeeID, name, CPRNumber, email, phoneNumber, company));
             }
-            /*
-            //printing for debugging
-            for (int i = 0; i < listOfCourses.size(); i++) {
-                System.out.println(listOfCourses.get(i).toString());
-            }*/
-            //close
+
             close();
 
         } catch(Exception e){

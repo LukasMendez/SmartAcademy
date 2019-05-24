@@ -22,10 +22,18 @@ import java.io.IOException;
 public class MainController {
 
     // Controllers (Windows)
+    @FXML
     private NewCourseController newCourseController = new NewCourseController();
+    @FXML
     private DatesToCourseController datesToCourseController = new DatesToCourseController();
+    @FXML
     private NewEmployeeController newEmployeeController = new NewEmployeeController();
+    @FXML
     private ManageEmployeeController manageEmployeeController = new ManageEmployeeController();
+    @FXML
+    private NewCompanyController newCompanyController = new NewCompanyController();
+    @FXML
+    private NewProviderController newProviderController = new NewProviderController();
 
 
     // Tab indexes
@@ -63,6 +71,7 @@ public class MainController {
 
 
     public void initialize() {
+
 
 
         mouseClickEmployeeHandler();
@@ -153,15 +162,11 @@ public class MainController {
 
         } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
 
-            // TODO SOMETHING MUST HAPPEN
-
-            // TODO HAVEN'T EVEN MADE AN FXML FILE FOR THIS SCENARIO :I
+            openNewCompanyWindow();
 
         } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
 
-            // TODO SOMETHING MUST HAPPEN
-
-            // TODO HAVEN'T MADE AN FXML FILE FOR THIS SCENARIO EITHER :/
+            openNewProviderWindow();
 
         }
 
@@ -216,6 +221,34 @@ public class MainController {
 
     }
 
+    @FXML
+    public void openNewCompanyWindow(){
+
+        if (!newCompanyController.isStageOpen()){
+
+            newCompanyController.openWindow();
+        } else {
+
+            System.out.println("Window is already open");
+        }
+
+    }
+
+
+    @FXML
+    public void openNewProviderWindow(){
+
+        if (!newProviderController.isStageOpen()){
+
+            newProviderController.openWindow();
+        } else {
+
+            System.out.println("Window is already open");
+        }
+
+
+    }
+
 
     //---------------------Event handlers--------------------------//
 
@@ -227,22 +260,61 @@ public class MainController {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
 
+                        Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
+
+
+                        loadWindowTest(employee);
+
+
+                        /*
                         if (!manageEmployeeController.isStageOpen()){
 
+                            // Will get the employee object that the user selects from the table view
+                            Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
 
-                            // TODO GET SELECTED ELEMENT AND OPEN WINDOW WITH THE EMPLOYEE
 
-                            manageEmployeeController.openWindow();
+                           // manageEmployeeController.openWindow();
+
+                            // Will hand in the employee object to the next controller
+                            manageEmployeeController.setSelectedEmployee(employee);
+
                         } else {
 
                             System.out.println("Please close the first window before opening a new one");
-                        }
+                        } */
                     }
                 }
             }
         });
 
     }
+
+    public void loadWindowTest(Employee employee){
+
+        try {
+            //Load second scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
+            Parent root = loader.load();
+
+            //Get controller of scene2
+            ManageEmployeeController scene2Controller = loader.getController();
+            //Pass whatever data you want. You can have multiple method calls here
+            scene2Controller.setSelectedEmployee(employee);
+
+            //Show scene 2 in new window
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Second Window");
+            stage.show();
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+
+
+
+
+    }
+
 
 
     private void tabHandler(){
@@ -252,59 +324,44 @@ public class MainController {
             System.out.println("The tab selected now has the index: "+ newTab.getTabPane().getSelectionModel().getSelectedIndex());
 
             if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==coursesIndex){
-
                 buttonLeft.setText("Delete Course");
                 buttonLeft.setVisible(true);
-
                 buttonMiddle.setText("Add dates to selected course");
                 buttonMiddle.setVisible(true);
-
                 buttonRight.setText("Add New Course");
                 buttonRight.setVisible(true);
 
 
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==educationMatrixIndex){
-
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
                 buttonRight.setVisible(false);
 
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==employeeIndex){
-
                 buttonLeft.setText("Delete Employee");
                 buttonLeft.setVisible(true);
-
                 buttonMiddle.setVisible(false);
-
                 buttonRight.setText("Add New Employee");
                 buttonRight.setVisible(true);
 
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==calenderIndex){
-
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
                 buttonRight.setVisible(false);
 
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==companiesIndex){
-
                 buttonLeft.setText("Delete Company");
                 buttonLeft.setVisible(true);
-
                 buttonMiddle.setVisible(false);
-
                 buttonRight.setText("Add New Company");
                 buttonRight.setVisible(true);
 
                 // TODO If this turns out to be the company that you are currently working on, it should handle the situation without issues
 
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==providerIndex){
-
-
                 buttonLeft.setText("Delete Provider");
                 buttonLeft.setVisible(true);
-
                 buttonMiddle.setVisible(false);
-
                 buttonRight.setText("Add New Provider");
                 buttonRight.setVisible(true);
 
