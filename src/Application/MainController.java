@@ -50,7 +50,6 @@ public class MainController {
     private Button buttonLeft, buttonMiddle, buttonRight;
 
 
-
     private DB db = DB.getInstance();
     private CourseToEPController courseToEPController = new CourseToEPController();
 
@@ -71,7 +70,6 @@ public class MainController {
 
 
     public void initialize() {
-
 
 
         mouseClickEmployeeHandler();
@@ -118,13 +116,6 @@ public class MainController {
     public void testAddCourse() {
         courseList.add(new Course("156", "bloop", "bleep", 8, "locName", "providerName"));
     }
-
-
-
-
-
-
-
 
 
     //---------------------------- OPEN NEW WINDOWS---------------------------------//
@@ -222,9 +213,9 @@ public class MainController {
     }
 
     @FXML
-    public void openNewCompanyWindow(){
+    public void openNewCompanyWindow() {
 
-        if (!newCompanyController.isStageOpen()){
+        if (!newCompanyController.isStageOpen()) {
 
             newCompanyController.openWindow();
         } else {
@@ -236,9 +227,9 @@ public class MainController {
 
 
     @FXML
-    public void openNewProviderWindow(){
+    public void openNewProviderWindow() {
 
-        if (!newProviderController.isStageOpen()){
+        if (!newProviderController.isStageOpen()) {
 
             newProviderController.openWindow();
         } else {
@@ -252,7 +243,8 @@ public class MainController {
 
     //---------------------Event handlers--------------------------//
 
-    private void mouseClickEmployeeHandler(){
+    private void mouseClickEmployeeHandler() {
+
 
         employeeTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -260,20 +252,16 @@ public class MainController {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
 
-                        Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
-
-
-                        loadWindowTest(employee);
-
-
-                        /*
-                        if (!manageEmployeeController.isStageOpen()){
+                        if (!manageEmployeeController.isStageOpen()) {
 
                             // Will get the employee object that the user selects from the table view
                             Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
 
+                            // 1) Open the window
+                            manageEmployeeController.openWindow();
 
-                           // manageEmployeeController.openWindow();
+                            // 2) Get the right controller instance
+                            manageEmployeeController = manageEmployeeController.getController();
 
                             // Will hand in the employee object to the next controller
                             manageEmployeeController.setSelectedEmployee(employee);
@@ -281,7 +269,7 @@ public class MainController {
                         } else {
 
                             System.out.println("Please close the first window before opening a new one");
-                        } */
+                        }
                     }
                 }
             }
@@ -289,7 +277,7 @@ public class MainController {
 
     }
 
-    public void loadWindowTest(Employee employee){
+    public void loadWindowTest(Employee employee) {
 
         try {
             //Load second scene
@@ -311,19 +299,16 @@ public class MainController {
         }
 
 
-
-
     }
 
 
-
-    private void tabHandler(){
+    private void tabHandler() {
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
 
-            System.out.println("The tab selected now has the index: "+ newTab.getTabPane().getSelectionModel().getSelectedIndex());
+            System.out.println("The tab selected now has the index: " + newTab.getTabPane().getSelectionModel().getSelectedIndex());
 
-            if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==coursesIndex){
+            if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == coursesIndex) {
                 buttonLeft.setText("Delete Course");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setText("Add dates to selected course");
@@ -332,24 +317,24 @@ public class MainController {
                 buttonRight.setVisible(true);
 
 
-            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==educationMatrixIndex){
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == educationMatrixIndex) {
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
                 buttonRight.setVisible(false);
 
-            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==employeeIndex){
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == employeeIndex) {
                 buttonLeft.setText("Delete Employee");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Employee");
                 buttonRight.setVisible(true);
 
-            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==calenderIndex){
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == calenderIndex) {
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
                 buttonRight.setVisible(false);
 
-            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==companiesIndex){
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == companiesIndex) {
                 buttonLeft.setText("Delete Company");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
@@ -358,7 +343,7 @@ public class MainController {
 
                 // TODO If this turns out to be the company that you are currently working on, it should handle the situation without issues
 
-            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex()==providerIndex){
+            } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == providerIndex) {
                 buttonLeft.setText("Delete Provider");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
@@ -370,9 +355,6 @@ public class MainController {
             // TODO REFACTOR CODE
 
         });
-
-
-
 
 
     }
