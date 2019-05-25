@@ -82,6 +82,11 @@ public class ManageEmployeeController implements Openable {
 
     }
 
+    public Stage getStage(){
+
+        return manageEmployeeStage;
+    }
+
 
     @Override
     public Object getController(){
@@ -126,22 +131,22 @@ public class ManageEmployeeController implements Openable {
 
         if (updatedEmployee!=null){
 
-
-            // TODO IF THE UPDATE STATEMENT SUCCEEDS THIS BLOCK OF CODE SHOULD BE EXECUTED
-
             editInfoButton.setDisable(false);
             applyChangesButton.setDisable(true);
 
             infoLabel.setText("Info was saved successfully");
             infoLabel.setVisible(true);
 
+            nameTextField.setEditable(false);
+            cprTextField.setEditable(false);
+            emailTextField.setEditable(false);
+            phoneNumTextField.setEditable(false);
+
+
             System.out.println("Updated record successfully (DEBUGGING)");
 
 
         } else {
-
-
-            // TODO IF SOMETHING GOES WRONG. MAYBE YOU ARE USING ILLEGAL ARGUMENTS, THIS WILL HAPPEN
 
             infoLabel.setText("Invalid information. Please try again");
             infoLabel.setVisible(true);
@@ -149,8 +154,11 @@ public class ManageEmployeeController implements Openable {
 
         }
 
-
     }
+
+
+
+
 
 
     @FXML
