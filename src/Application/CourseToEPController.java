@@ -33,4 +33,9 @@ public class CourseToEPController implements Openable {
     public boolean isStageOpen() {
         return courseToEducationPlanStage.isShowing();
     }
+
+    @Override
+    public Object getController() {
+        return null;
+    }
 }

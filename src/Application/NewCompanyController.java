@@ -36,4 +36,9 @@ public class NewCompanyController implements Openable {
     public boolean isStageOpen() {
         return newCompanyStage.isShowing();
     }
+
+    @Override
+    public Object getController() {
+        return null;
+    }
 }

@@ -250,7 +250,7 @@ public class MainController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    if (mouseEvent.getClickCount() == 2) {
+                    if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem()!=null) {
 
                         if (!manageEmployeeController.isStageOpen()) {
 
@@ -261,7 +261,7 @@ public class MainController {
                             manageEmployeeController.openWindow();
 
                             // 2) Get the right controller instance
-                            manageEmployeeController = manageEmployeeController.getController();
+                            manageEmployeeController = (ManageEmployeeController)manageEmployeeController.getController();
 
                             // Will hand in the employee object to the next controller
                             manageEmployeeController.setSelectedEmployee(employee);
@@ -274,30 +274,6 @@ public class MainController {
                 }
             }
         });
-
-    }
-
-    public void loadWindowTest(Employee employee) {
-
-        try {
-            //Load second scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
-            Parent root = loader.load();
-
-            //Get controller of scene2
-            ManageEmployeeController scene2Controller = loader.getController();
-            //Pass whatever data you want. You can have multiple method calls here
-            scene2Controller.setSelectedEmployee(employee);
-
-            //Show scene 2 in new window
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Second Window");
-            stage.show();
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
-
 
     }
 
