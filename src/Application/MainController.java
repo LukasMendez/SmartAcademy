@@ -290,10 +290,7 @@ public class MainController {
                 public void handle(WindowEvent e) {
                     System.out.println("THE WINDOW WAS CLOSED");
 
-                    // TODO UPDATE THE VIEW - should be easy when we are using databinding right?
-
-                    employeeList = DB.getEmployeeList();
-                    employeeTableView.setItems(employeeList);
+                    updateEmployeeTable();
 
                 }
             });
@@ -301,6 +298,35 @@ public class MainController {
 
     }
 
+
+    //------REFRESH THE TABLES--------//
+
+
+    private void updateEmployeeTable(){
+
+        employeeList = DB.getEmployeeList();
+        employeeTableView.setItems(employeeList);
+
+    }
+
+    private void updateCoursesTable(){
+
+
+        // TODO Make it update the course table
+    }
+
+    private void updateCompanyTable(){
+
+
+        // TODO Make it update the company table
+    }
+
+
+    private void updateProviderTable(){
+
+        // TODO Make it update the provider table
+
+    }
 
 
 
