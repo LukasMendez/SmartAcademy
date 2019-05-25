@@ -292,14 +292,15 @@ public class MainController {
 
                     // TODO UPDATE THE VIEW - should be easy when we are using databinding right?
 
-                    // employeeList = DB.getEmployeeList();
-                    // employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
+                    employeeList = DB.getEmployeeList();
+                    employeeTableView.setItems(employeeList);
 
                 }
             });
 
 
     }
+
 
 
 
