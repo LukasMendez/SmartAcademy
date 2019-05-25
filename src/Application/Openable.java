@@ -10,5 +10,6 @@ public interface Openable {
 
     boolean isStageOpen();
 
+    Object getController();
 
 }

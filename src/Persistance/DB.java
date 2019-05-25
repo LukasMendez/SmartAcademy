@@ -20,16 +20,18 @@ public class DB {
     private static String propertiesPath = System.getProperty("user.dir") + "\\src\\Foundation\\db.properties";
 
     private static DB instance;
-    private DB(){
+
+    private DB() {
     }
 
     /**
      * Singleton DB object (note private constructor)
+     *
      * @return
      */
-    public static synchronized DB getInstance(){
-        if(instance == null)
-            instance =new DB();
+    public static synchronized DB getInstance() {
+        if (instance == null)
+            instance = new DB();
 
         return instance;
     }
@@ -67,7 +69,7 @@ public class DB {
     }
 
 
-    public static ObservableList<Course> getCourseList(){
+    public static ObservableList<Course> getCourseList() {
         ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
         try {
             //connect
@@ -76,7 +78,7 @@ public class DB {
             CallableStatement cs = con.prepareCall("{call dbo.getAllCourses}");
             ResultSet rs = cs.executeQuery();
             //create ResultSetMetaData
-            ResultSetMetaData rsmd = rs.getMetaData();
+            ResultSetMetaData rsmd = rs.getMetaData(); //TODO Will you use this or not??
 
             //add data to observableList
             while (rs.next()) {
@@ -96,14 +98,14 @@ public class DB {
             //close
             close();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
         return listOfCourses;
     }
 
-    public static ObservableList<Employee> getEmployeeList(){
+    public static ObservableList<Employee> getEmployeeList() {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         try {
             //connect
@@ -112,7 +114,7 @@ public class DB {
             CallableStatement cs = con.prepareCall("{call dbo.getAllEmployees}");
             ResultSet rs = cs.executeQuery();
             //create ResultSetMetaData
-            ResultSetMetaData rsmd = rs.getMetaData();
+            ResultSetMetaData rsmd = rs.getMetaData(); //TODO Will you use this or not??
 
             //add data to observableList
             while (rs.next()) {
@@ -127,11 +129,49 @@ public class DB {
 
             close();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
         return listOfEmployees;
+    }
+
+    public static Employee updateEmployee(String name, String cprNumber, String email, String phoneNumber, String company, int employeeID) {
+
+        int rowsAffected = 0;
+
+        Employee employee = null;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.updateEmployee(?,?,?,?,?)}");
+
+            cs.setString(1, cprNumber);
+            cs.setString(2, name);
+            cs.setString(3, email);
+            cs.setString(4, phoneNumber);
+            cs.setInt(5, employeeID);
+
+            rowsAffected = cs.executeUpdate();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            employee = new Employee(employeeID, name, cprNumber, email, phoneNumber, company);
+
+        }
+
+        return employee;
+
+
     }
 
 }

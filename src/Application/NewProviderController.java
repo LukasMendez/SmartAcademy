@@ -37,4 +37,9 @@ public class NewProviderController implements Openable {
     public boolean isStageOpen() {
         return newProviderStage.isShowing();
     }
+
+    @Override
+    public Object getController() {
+        return null;
+    }
 }

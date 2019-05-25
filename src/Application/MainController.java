@@ -4,6 +4,7 @@ import Domain.Course;
 import Domain.Employee;
 import Persistance.DB;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -16,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -140,6 +142,7 @@ public class MainController {
     }
 
 
+
     @FXML
     public void rightBottomButtonAction() {
 
@@ -245,12 +248,11 @@ public class MainController {
 
     private void mouseClickEmployeeHandler() {
 
-
         employeeTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    if (mouseEvent.getClickCount() == 2) {
+                    if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem()!=null) {
 
                         if (!manageEmployeeController.isStageOpen()) {
 
@@ -261,10 +263,13 @@ public class MainController {
                             manageEmployeeController.openWindow();
 
                             // 2) Get the right controller instance
-                            manageEmployeeController = manageEmployeeController.getController();
+                            manageEmployeeController = (ManageEmployeeController)manageEmployeeController.getController();
 
                             // Will hand in the employee object to the next controller
                             manageEmployeeController.setSelectedEmployee(employee);
+
+                            // Will activate the eventHandler to check if the stage is closed
+                            closeStageHandler(manageEmployeeController.getStage());
 
                         } else {
 
@@ -277,29 +282,35 @@ public class MainController {
 
     }
 
-    public void loadWindowTest(Employee employee) {
 
-        try {
-            //Load second scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
-            Parent root = loader.load();
+    public void closeStageHandler(Stage stage){
 
-            //Get controller of scene2
-            ManageEmployeeController scene2Controller = loader.getController();
-            //Pass whatever data you want. You can have multiple method calls here
-            scene2Controller.setSelectedEmployee(employee);
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    System.out.println("THE WINDOW WAS CLOSED");
 
-            //Show scene 2 in new window
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Second Window");
-            stage.show();
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
+                    // TODO UPDATE THE VIEW - should be easy when we are using databinding right?
+
+                    // employeeList = DB.getEmployeeList();
+                    // employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
+
+                }
+            });
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
     private void tabHandler() {

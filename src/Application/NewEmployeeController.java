@@ -35,4 +35,9 @@ public class NewEmployeeController implements Openable {
 
         return newEmployeeStage.isShowing();
     }
+
+    @Override
+    public Object getController() {
+        return null;
+    }
 }

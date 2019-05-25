@@ -1,11 +1,13 @@
 package Application;
 
 import Domain.Employee;
+import Persistance.DB;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -19,6 +21,7 @@ public class ManageEmployeeController implements Openable {
     private static Stage manageEmployeeStage = new Stage();
     private FXMLLoader fxmlLoader;
 
+
     // Instance of itself. Used for regaining access to the instance from the MainController.
     private ManageEmployeeController manageEmployeeController;
 
@@ -26,9 +29,18 @@ public class ManageEmployeeController implements Openable {
     private Employee selectedEmployee;
 
     //TextFields
-
     @FXML
     private TextField nameTextField, cprTextField, emailTextField, phoneNumTextField;
+
+    //Buttons
+    @FXML
+    private Button editInfoButton, applyChangesButton;
+
+    //Labels
+    @FXML
+    private Label infoLabel;
+
+
 
     // Controller (Window)
     private CourseToEPController courseToEPController = new CourseToEPController();
@@ -76,7 +88,8 @@ public class ManageEmployeeController implements Openable {
     }
 
 
-    public ManageEmployeeController getController(){
+    @Override
+    public Object getController(){
 
         return manageEmployeeController;
     }
@@ -97,16 +110,55 @@ public class ManageEmployeeController implements Openable {
 
 
     @FXML
-    private synchronized void setTheText() {
+    public void editMode() {
 
+        nameTextField.setEditable(true);
+        cprTextField.setEditable(true);
+        emailTextField.setEditable(true);
+        phoneNumTextField.setEditable(true);
 
-        nameTextField.setText("Nigga");
-        cprTextField.setText("Dude wtf");
-        emailTextField.setText("I have aids@gmail. gotcha");
-        phoneNumTextField.setText("31939191");
-
+        editInfoButton.setDisable(true);
+        applyChangesButton.setDisable(false);
+        infoLabel.setVisible(false);
 
     }
+
+    @FXML
+    public void saveChangesToEmployee(){
+
+        // This method will try to update the data in the database and return a new fresh employee object if the action succeeded or null if there was an error
+        Employee updatedEmployee = DB.updateEmployee(nameTextField.getText(),cprTextField.getText(), emailTextField.getText(),phoneNumTextField.getText(),selectedEmployee.getCompany(),selectedEmployee.getEmployeeID());
+
+        if (updatedEmployee!=null){
+
+            editInfoButton.setDisable(false);
+            applyChangesButton.setDisable(true);
+
+            infoLabel.setText("Info was saved successfully");
+            infoLabel.setVisible(true);
+
+            nameTextField.setEditable(false);
+            cprTextField.setEditable(false);
+            emailTextField.setEditable(false);
+            phoneNumTextField.setEditable(false);
+
+
+            System.out.println("Updated record successfully (DEBUGGING)");
+
+
+        } else {
+
+            infoLabel.setText("Invalid information. Please try again");
+            infoLabel.setVisible(true);
+
+
+        }
+
+    }
+
+
+
+
 
 
     @FXML

@@ -52,4 +52,9 @@ public class DatesToCourseController implements Openable {
     public boolean isStageOpen() {
         return addDatesToCourseStage.isShowing();
     }
+
+    @Override
+    public Object getController() {
+        return null;
+    }
 }

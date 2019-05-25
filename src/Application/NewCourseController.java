@@ -42,5 +42,10 @@ public class NewCourseController implements Openable{
         return addCourseStage.isShowing();
     }
 
+    @Override
+    public Object getController() {
+        return null;
+    }
+
 
 }
