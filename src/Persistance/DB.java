@@ -1,5 +1,6 @@
 package Persistance;
 
+import Domain.Company;
 import Domain.Course;
 import Domain.Employee;
 import Domain.Qualification;
@@ -137,6 +138,40 @@ public class DB {
         return listOfEmployees;
     }
 
+    public static ObservableList<Company> getCompanyList(){
+        ObservableList<Company> listOfCompanies = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllCompanies}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+                String name = rs.getString("fldname");
+                String CPRNumber = rs.getString("fldCPRNumber");
+                String email = rs.getString("fldEmail");
+                String phoneNumber = rs.getString("fldPhoneNumber");
+                String company = rs.getString("fldCompany");
+                listOfEmployees.add(new Employee(name, CPRNumber, email, phoneNumber, company));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
+
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+
+        return listOfEmployees;
+    }
 
     public static ObservableList<Qualification> getQualifications(Employee employee){
 
