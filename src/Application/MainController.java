@@ -91,7 +91,7 @@ public class MainController {
         informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
         additionalInformationColumn.setCellValueFactory(new PropertyValueFactory("additionalInformation"));
         numberOfDaysColumn.setCellValueFactory(new PropertyValueFactory("numberOfDays"));
-        locationIDColumn.setCellValueFactory(new PropertyValueFactory("locationID"));
+        locationIDColumn.setCellValueFactory(new PropertyValueFactory("location"));
         CVRNumberColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
         //representing the data in the columns
         courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
