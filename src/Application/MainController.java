@@ -269,6 +269,44 @@ public class MainController {
     }
 
 
+
+
+    //------REFRESH THE TABLES--------//
+
+
+    private void updateEmployeeTable(){
+
+        employeeList = DB.getEmployeeList();
+        employeeTableView.setItems(employeeList);
+
+    }
+
+    private void updateCoursesTable(){
+
+
+        // TODO Make it update the course table
+    }
+
+    private void updateCompanyTable(){
+
+
+        // TODO Make it update the company table
+    }
+
+
+    private void updateProviderTable(){
+
+        // TODO Make it update the provider table
+
+    }
+
+
+
+
+
+
+
+
     //---------------------Event handlers--------------------------//
 
     private void mouseClickEmployeeHandler() {
@@ -309,18 +347,13 @@ public class MainController {
 
 
     public void closeStageHandler(Stage stage){
-
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent e) {
-                    System.out.println("THE WINDOW WAS CLOSED");
-
-                    updateEmployeeTableView();
-
+            @Override
+            public void handle(WindowEvent e) {
+                System.out.println("THE WINDOW WAS CLOSED");
+                updateEmployeeTable(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
                 }
             });
-
-
     }
 
 
@@ -347,24 +380,15 @@ public class MainController {
     }
 
 
+       
+
+
     private void updateProviderTableView(){
         //constructing data model
         providerList = DB.getProviderList();
         //data binding
         providerTableView.setItems(providerList);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void tabHandler() {
 

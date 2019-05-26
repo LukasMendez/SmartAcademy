@@ -18,15 +18,11 @@ import javafx.stage.Stage;
  */
 public class ManageEmployeeController implements Openable {
 
-    // Static because we only want one Stage at a time
+    // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage manageEmployeeStage = new Stage();
     private FXMLLoader fxmlLoader;
 
-
-    // Instance of itself. Used for regaining access to the instance from the MainController.
-    private ManageEmployeeController manageEmployeeController;
-
-
+    // The employee which is sent from the Main Controller
     private Employee selectedEmployee;
 
     //TextFields
@@ -73,10 +69,6 @@ public class ManageEmployeeController implements Openable {
             manageEmployeeStage.setResizable(false);
             manageEmployeeStage.show();
 
-            // Since the FXMLLoader creates a new Controller object in the background, we need regain control
-            manageEmployeeController = fxmlLoader.getController();
-
-
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -93,6 +85,7 @@ public class ManageEmployeeController implements Openable {
 
     }
 
+    @Override
     public Stage getStage() {
 
         return manageEmployeeStage;
@@ -102,7 +95,8 @@ public class ManageEmployeeController implements Openable {
     @Override
     public Object getController() {
 
-        return manageEmployeeController;
+        return fxmlLoader.getController();
+
     }
 
 
@@ -135,6 +129,11 @@ public class ManageEmployeeController implements Openable {
         emailTextField.setEditable(true);
         phoneNumTextField.setEditable(true);
 
+        nameTextField.setDisable(false);
+        cprTextField.setDisable(false);
+        emailTextField.setDisable(false);
+        phoneNumTextField.setDisable(false);
+
         editInfoButton.setDisable(true);
         applyChangesButton.setDisable(false);
         infoLabel.setVisible(false);
@@ -159,6 +158,12 @@ public class ManageEmployeeController implements Openable {
             cprTextField.setEditable(false);
             emailTextField.setEditable(false);
             phoneNumTextField.setEditable(false);
+
+            nameTextField.setDisable(true);
+            cprTextField.setDisable(true);
+            emailTextField.setDisable(true);
+            phoneNumTextField.setDisable(true);
+
 
 
             System.out.println("Updated record successfully (DEBUGGING)");

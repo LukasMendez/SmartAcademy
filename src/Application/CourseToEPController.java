@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 public class CourseToEPController implements Openable {
 
     private Stage courseToEducationPlanStage = new Stage();
+    private FXMLLoader fxmlLoader;
+
+    // Instance of itself. Used for regaining access to the instance from the MainController.
+    private CourseToEPController courseToEPController;
 
     @Override
     public void openWindow() {
@@ -36,6 +40,11 @@ public class CourseToEPController implements Openable {
 
     @Override
     public Object getController() {
+        return null;
+    }
+
+    @Override
+    public Stage getStage() {
         return null;
     }
 }
