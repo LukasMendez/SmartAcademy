@@ -15,7 +15,6 @@ public class NewCompanyController implements Openable {
 
     @Override
     public void openWindow() {
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCompanyWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -24,12 +23,8 @@ public class NewCompanyController implements Openable {
             newCompanyStage.setResizable(false);
             newCompanyStage.show();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
-
-
-
     }
 
     @Override

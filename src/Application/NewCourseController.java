@@ -23,13 +23,8 @@ public class NewCourseController implements Openable{
     @FXML
     private TextField amuNoTextField, cvrNoTextField, infoTextField, locationTextField, noOfDaysTextField, additionalInfoTextField;
 
-
-
-
     @Override
     public void openWindow() {
-
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -37,17 +32,13 @@ public class NewCourseController implements Openable{
             addCourseStage.setScene(new Scene(root));
             addCourseStage.show();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
-
-
     }
 
 
     @Override
     public boolean isStageOpen(){
-
         return addCourseStage.isShowing();
     }
 
@@ -63,15 +54,7 @@ public class NewCourseController implements Openable{
 
 
     public void addNewCourse(){
-
-
         // TODO Add new course to database
-
     }
-
-
-
-
-
 
 }

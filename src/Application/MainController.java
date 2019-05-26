@@ -39,7 +39,6 @@ public class MainController {
     @FXML
     private NewProviderController newProviderController = new NewProviderController();
 
-
     // Tab indexes
     private int coursesIndex = 0;
     private int educationMatrixIndex = 1;
@@ -49,10 +48,8 @@ public class MainController {
     private int providerIndex = 5;
 
     // Buttons
-
     @FXML
     private Button buttonLeft, buttonMiddle, buttonRight;
-
 
     private DB db = DB.getInstance();
     private CourseToEPController courseToEPController = new CourseToEPController();
@@ -77,10 +74,8 @@ public class MainController {
 
     public void initialize() {
 
-
         mouseClickEmployeeHandler();
         tabHandler();
-
 
         for (int i = 0; i < 10; i++) {
             educationMatrixTableView.getColumns().addAll(new TableColumn("Test no." + i));
@@ -144,218 +139,117 @@ public class MainController {
         courseList.add(new Course("156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
-
     //---------------------------- OPEN NEW WINDOWS---------------------------------//
-
 
     // BUTTON EVENT HANDLERS
 
-
     @FXML
     public void leftBottomButtonAction() {
-
-
         // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
-
     }
 
     @FXML
     public void middleBottomButtonAction() {
-
         // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
-
     }
-
-
 
     @FXML
     public void rightBottomButtonAction() {
-
         if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
-
             openAddCourseWindow();
-
         } else if (tabPane.getSelectionModel().getSelectedIndex() == employeeIndex) {
-
             openNewEmployeeWindow();
-
         } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
-
             openNewCompanyWindow();
-
         } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
-
             openNewProviderWindow();
-
         }
-
     }
-
 
     // FUNCTIONS
 
-
     public void openAddCourseWindow() {
-
-
         if (!newCourseController.isStageOpen()) {
-
             newCourseController.openWindow();
-
         } else {
-
             System.out.println("Window already open");
         }
-
     }
 
     @FXML
     public void openAddDatesToCourseWindow() {
-
         /// TODO CHECK IF YOU SELECTED A RECORD ON THE TABLE FIRST
-
-
         if (!datesToCourseController.isStageOpen()) {
-
             datesToCourseController.openWindow();
-
         } else {
-
             System.out.println("Window already open");
         }
-
-
     }
 
     @FXML
     public void openNewEmployeeWindow() {
-
         if (!newEmployeeController.isStageOpen()) {
-
             newEmployeeController.openWindow();
         } else {
-
             System.out.println("Window is already open");
         }
-
     }
 
     @FXML
     public void openNewCompanyWindow() {
-
         if (!newCompanyController.isStageOpen()) {
-
             newCompanyController.openWindow();
         } else {
-
             System.out.println("Window is already open");
         }
-
     }
-
 
     @FXML
     public void openNewProviderWindow() {
-
         if (!newProviderController.isStageOpen()) {
-
             newProviderController.openWindow();
         } else {
-
             System.out.println("Window is already open");
         }
-
-
     }
-
-
-
-
-    //------REFRESH THE TABLES--------//
-
-
-    private void updateEmployeeTable(){
-
-        employeeList = DB.getEmployeeList();
-        employeeTableView.setItems(employeeList);
-
-    }
-
-    private void updateCoursesTable(){
-
-
-        // TODO Make it update the course table
-    }
-
-    private void updateCompanyTable(){
-
-
-        // TODO Make it update the company table
-    }
-
-
-    private void updateProviderTable(){
-
-        // TODO Make it update the provider table
-
-    }
-
-
-
-
-
-
-
 
     //---------------------Event handlers--------------------------//
 
     private void mouseClickEmployeeHandler() {
-
         employeeTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem()!=null) {
-
                         if (!manageEmployeeController.isStageOpen()) {
-
                             // Will get the employee object that the user selects from the table view
                             Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
-
                             // 1) Open the window
                             manageEmployeeController.openWindow();
-
                             // 2) Get the right controller instance
                             manageEmployeeController = (ManageEmployeeController)manageEmployeeController.getController();
-
                             // Will hand in the employee object to the next controller
                             manageEmployeeController.setSelectedEmployee(employee);
-
                             // Will activate the eventHandler to check if the stage is closed
                             closeStageHandler(manageEmployeeController.getStage());
-
                         } else {
-
                             System.out.println("Please close the first window before opening a new one");
                         }
                     }
                 }
             }
         });
-
     }
-
 
     public void closeStageHandler(Stage stage){
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
-                updateEmployeeTable(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+                updateEmployeeTableView(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
                 }
             });
     }
-
 
     //------REFRESH THE TABLEVIEWS--------//
     private void updateCourseTableView(){
@@ -379,10 +273,6 @@ public class MainController {
         companyTableView.setItems(companyList);
     }
 
-
-       
-
-
     private void updateProviderTableView(){
         //constructing data model
         providerList = DB.getProviderList();
@@ -391,11 +281,8 @@ public class MainController {
     }
 
     private void tabHandler() {
-
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-
             System.out.println("The tab selected now has the index: " + newTab.getTabPane().getSelectionModel().getSelectedIndex());
-
             if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == coursesIndex) {
                 buttonLeft.setText("Delete Course");
                 buttonLeft.setVisible(true);
@@ -403,49 +290,35 @@ public class MainController {
                 buttonMiddle.setVisible(true);
                 buttonRight.setText("Add New Course");
                 buttonRight.setVisible(true);
-
-
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == educationMatrixIndex) {
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
                 buttonRight.setVisible(false);
-
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == employeeIndex) {
                 buttonLeft.setText("Delete Employee");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Employee");
                 buttonRight.setVisible(true);
-
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == calenderIndex) {
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
                 buttonRight.setVisible(false);
-
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == companiesIndex) {
                 buttonLeft.setText("Delete Company");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Company");
                 buttonRight.setVisible(true);
-
                 // TODO If this turns out to be the company that you are currently working on, it should handle the situation without issues
-
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == providerIndex) {
                 buttonLeft.setText("Delete Provider");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Provider");
                 buttonRight.setVisible(true);
-
             }
-
             // TODO REFACTOR CODE
-
         });
-
-
     }
-
-
 }

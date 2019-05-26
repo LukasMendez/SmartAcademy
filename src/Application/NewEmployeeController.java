@@ -15,7 +15,6 @@ public class NewEmployeeController implements Openable {
 
     @Override
     public void openWindow() {
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddEmployeeWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -24,15 +23,12 @@ public class NewEmployeeController implements Openable {
             newEmployeeStage.setResizable(false);
             newEmployeeStage.show();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
-
     }
 
     @Override
     public boolean isStageOpen() {
-
         return newEmployeeStage.isShowing();
     }
 

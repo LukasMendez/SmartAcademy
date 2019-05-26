@@ -19,7 +19,6 @@ public class CourseToEPController implements Openable {
 
     @Override
     public void openWindow() {
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseToEPWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -28,7 +27,6 @@ public class CourseToEPController implements Openable {
             courseToEducationPlanStage.setResizable(false);
             courseToEducationPlanStage.show();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }

@@ -24,12 +24,10 @@ public class DatesToCourseController implements Openable {
     private VBox calenderVBox;
 
     public void initialize() {
-
         // Will create a mini calender
         DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
         Node popupContent = datePickerSkin.getPopupContent();
         calenderVBox.getChildren().addAll(popupContent);
-
     }
 
 
@@ -43,7 +41,6 @@ public class DatesToCourseController implements Openable {
             addDatesToCourseStage.setResizable(false);
             addDatesToCourseStage.show();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
