@@ -1,8 +1,6 @@
 package Persistance;
 
-import Domain.Course;
-import Domain.Employee;
-import Domain.Qualification;
+import Domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -137,6 +135,79 @@ public class DB {
         return listOfEmployees;
     }
 
+    public static ObservableList<Company> getCompanyList(){
+        ObservableList<Company> listOfCompanies = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllCompanies}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+                String name = rs.getString("fldname");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
+                String email = rs.getString("fldEmail");
+                String phoneNumber = rs.getString("fldPhoneNumber");
+                String CVRNumber = rs.getString("fldCVRNumber");
+
+                listOfCompanies.add(new Company(name, address, zip, email, phoneNumber, CVRNumber));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
+
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+
+        return listOfCompanies;
+    }
+
+    public static ObservableList<Provider> getProviderList(){
+        ObservableList<Provider> listOfProviders = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllProviders}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+                String name = rs.getString("fldname");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
+                String email = rs.getString("fldEmail");
+                String phoneNumber = rs.getString("fldPhoneNumber");
+                String CVRNumber = rs.getString("fldCVRNumber");
+
+                listOfProviders.add(new Provider(name, address, zip, email, phoneNumber, CVRNumber));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
+
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+
+        return listOfProviders;
+    }
 
     public static ObservableList<Qualification> getQualifications(Employee employee){
 

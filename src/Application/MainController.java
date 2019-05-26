@@ -1,7 +1,9 @@
 package Application;
 
+import Domain.Company;
 import Domain.Course;
 import Domain.Employee;
+import Domain.Provider;
 import Persistance.DB;
 
 import javafx.application.Platform;
@@ -59,17 +61,19 @@ public class MainController {
     private TabPane tabPane;
 
     @FXML
-    private TableView courseTableView, educationMatrixTableView, employeeTableView, companiesTableView, providerTableView;
+    private TableView courseTableView, educationMatrixTableView, employeeTableView, companyTableView, providerTableView;
 
     @FXML
     private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, //Courses
             locationIDColumn, CVRNumberColumn, //Courses
-            employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn; //Employees
-
+            employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn, //Employees
+            companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn, //Companies
+            providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn; //Providers
 
     private ObservableList<Course> courseList;
     private ObservableList<Employee> employeeList;
-
+    private ObservableList<Company> companyList;
+    private ObservableList<Provider> providerList;
 
     public void initialize() {
 
@@ -83,25 +87,21 @@ public class MainController {
         }
 
         //Courses
-        //constructing data model
-        courseList = DB.getCourseList();
-        //data binding
-        courseTableView.setItems(courseList);
+        //constructing data model + data binding
+        updateCourseTableView();
         //splitting out the data in the model
         courseNumberColumn.setCellValueFactory(new PropertyValueFactory("courseNumber"));
         informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
         additionalInformationColumn.setCellValueFactory(new PropertyValueFactory("additionalInformation"));
         numberOfDaysColumn.setCellValueFactory(new PropertyValueFactory("numberOfDays"));
-        locationIDColumn.setCellValueFactory(new PropertyValueFactory("locationID"));
+        locationIDColumn.setCellValueFactory(new PropertyValueFactory("location"));
         CVRNumberColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
         //representing the data in the columns
         courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
 
         //Employees
-        //constructing data model
-        employeeList = DB.getEmployeeList();
-        //data binding
-        employeeTableView.setItems(employeeList);
+        //constructing data model + data binding
+        updateEmployeeTableView();
         //splitting out the data in the model
         employeeNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
         employeeCPRColumn.setCellValueFactory(new PropertyValueFactory("CPRNumber"));
@@ -111,6 +111,31 @@ public class MainController {
         //representing the data in the columns
         employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
 
+        //Companies
+        //constructing data model + data binding
+        updateCompanyTableView();
+        //splitting out the data in the model
+        companyNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        companyAddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
+        companyZipColumn.setCellValueFactory(new PropertyValueFactory("zip"));
+        companyEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
+        companyPhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        companyCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        //representing the data in the columns
+        companyTableView.getColumns().setAll(companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn);
+
+        //Providers
+        //constructing data model + data binding
+        updateProviderTableView();
+        //splitting out the data in the model
+        providerNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        providerAddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
+        providerZipColumn.setCellValueFactory(new PropertyValueFactory("zip"));
+        providerEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
+        providerPhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        providerCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        //representing the data in the columns
+        providerTableView.getColumns().setAll(providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn);
     }
 
     //Test method
@@ -322,19 +347,47 @@ public class MainController {
 
 
     public void closeStageHandler(Stage stage){
-
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
-
                 updateEmployeeTable(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+                }
+            });
+    }
 
 
-            }
-        });
+    //------REFRESH THE TABLEVIEWS--------//
+    private void updateCourseTableView(){
+        //constructing data model
+        courseList = DB.getCourseList();
+        //data binding
+        courseTableView.setItems(courseList);
+    }
+
+    private void updateEmployeeTableView(){
+        //constructing data model
+        employeeList = DB.getEmployeeList();
+        //data binding
+        employeeTableView.setItems(employeeList);
+    }
+
+    private void updateCompanyTableView(){
+        //constructing data model
+        companyList = DB.getCompanyList();
+        //data binding
+        companyTableView.setItems(companyList);
+    }
 
 
+       
+
+
+    private void updateProviderTableView(){
+        //constructing data model
+        providerList = DB.getProviderList();
+        //data binding
+        providerTableView.setItems(providerList);
     }
 
     private void tabHandler() {
