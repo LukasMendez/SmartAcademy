@@ -3,6 +3,7 @@ package Application;
 import Domain.Company;
 import Domain.Course;
 import Domain.Employee;
+import Domain.Provider;
 import Persistance.DB;
 
 import javafx.application.Platform;
@@ -66,11 +67,13 @@ public class MainController {
     private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, //Courses
             locationIDColumn, CVRNumberColumn, //Courses
             employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn, //Employees
-            companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn; //Companies
+            companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn, //Companies
+            providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn; //Providers
 
     private ObservableList<Course> courseList;
     private ObservableList<Employee> employeeList;
     private ObservableList<Company> companyList;
+    private ObservableList<Provider> providerList;
 
     public void initialize() {
 
@@ -120,6 +123,19 @@ public class MainController {
         companyCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
         //representing the data in the columns
         companyTableView.getColumns().setAll(companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn);
+
+        //Providers
+        //constructing data model + data binding
+        updateProviderTableView();
+        //splitting out the data in the model
+        providerNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        providerAddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
+        providerZipColumn.setCellValueFactory(new PropertyValueFactory("zip"));
+        providerEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
+        providerPhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        providerCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        //representing the data in the columns
+        providerTableView.getColumns().setAll(providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn);
     }
 
     //Test method
@@ -331,10 +347,11 @@ public class MainController {
     }
 
 
-    private void updateProviderTable(){
-
-        // TODO Make it update the provider table
-
+    private void updateProviderTableView(){
+        //constructing data model
+        providerList = DB.getProviderList();
+        //data binding
+        providerTableView.setItems(providerList);
     }
 
 

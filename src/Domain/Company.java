@@ -19,7 +19,6 @@ public class Company {
     private StringProperty CVRNumber;
 
     public Company(String name, String address, int zip, String email, String phoneNumber, String CVRNumber){
-
         this.setName(name);
         this.setAddress(address);
         this.setZip(zip);
