@@ -2,6 +2,7 @@ package Persistance;
 
 import Domain.Course;
 import Domain.Employee;
+import Domain.Qualification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -135,6 +136,29 @@ public class DB {
 
         return listOfEmployees;
     }
+
+
+    public static ObservableList<Qualification> getQualifications(Employee employee){
+
+        ObservableList<Qualification> listOfQualifications = FXCollections.observableArrayList();
+
+
+        // TODO Make it possible to get a list of all qualifications for a specific employee. Make sure that we display description and not just ID's.
+
+
+
+
+
+        return listOfQualifications;
+
+    }
+
+
+
+
+
+
+
 
     public static Employee updateEmployee(String name, String cprNumber, String email, String phoneNumber, String company, int employeeID) {
 
