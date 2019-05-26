@@ -41,4 +41,9 @@ public class NewCompanyController implements Openable {
     public Object getController() {
         return null;
     }
+
+    @Override
+    public Stage getStage() {
+        return null;
+    }
 }

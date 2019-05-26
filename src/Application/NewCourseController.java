@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,8 +15,15 @@ import java.io.IOException;
  */
 public class NewCourseController implements Openable{
 
+    // Static because we want to make sure to always have access to the same (and only) stage
+    private static Stage addCourseStage = new Stage();
+    private FXMLLoader fxmlLoader;
 
-    private Stage addCourseStage = new Stage();
+    // TextFields
+    @FXML
+    private TextField amuNoTextField, cvrNoTextField, infoTextField, locationTextField, noOfDaysTextField, additionalInfoTextField;
+
+
 
 
     @Override
@@ -37,15 +45,33 @@ public class NewCourseController implements Openable{
     }
 
 
+    @Override
     public boolean isStageOpen(){
 
         return addCourseStage.isShowing();
     }
 
     @Override
-    public Object getController() {
-        return null;
+    public Stage getStage() {
+        return addCourseStage;
     }
+
+    @Override
+    public Object getController() {
+        return fxmlLoader.getController();
+    }
+
+
+    public void addNewCourse(){
+
+
+        // TODO Add new course to database
+
+    }
+
+
+
+
 
 
 }
