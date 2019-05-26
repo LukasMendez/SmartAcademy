@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.NewCourseController">
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.NewCourseController">
    <children>
       <GridPane prefHeight="218.0" prefWidth="600.0">
          <columnConstraints>
@@ -22,12 +22,12 @@
          <children>
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
+                  <Label text="AMU Number" />
+                  <TextField fx:id="amuNoTextField" prefHeight="23.0" prefWidth="280.0" />
                   <Label text="Information" />
-                  <TextField prefHeight="23.0" prefWidth="280.0" />
-                  <Label text="Provider" />
-                  <TextField prefHeight="23.0" prefWidth="280.0" />
+                  <TextField fx:id="infoTextField" prefHeight="23.0" prefWidth="280.0" />
                   <Label text="Number of days" />
-                  <TextField prefWidth="280.0" />
+                  <TextField fx:id="noOfDaysTextField" prefWidth="280.0" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -39,9 +39,9 @@
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
                <children>
                   <Label text="CVR number" />
-                  <TextField prefWidth="280.0" />
+                  <TextField fx:id="cvrNoTextField" prefWidth="280.0" />
                   <Label text="Location" />
-                  <TextField prefWidth="280.0" />
+                  <TextField fx:id="locationTextField" prefWidth="280.0" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -53,7 +53,8 @@
          </children>
       </GridPane>
       <Label text="Additional information" />
-      <TextField prefHeight="118.0" prefWidth="394.0" />
+      <TextField fx:id="additionalInfoTextField" prefHeight="118.0" prefWidth="394.0" />
+      <Label fx:id="infoLabel" text="Label" />
       <Button mnemonicParsing="false" text="Submit" />
    </children>
 </VBox>
