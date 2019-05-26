@@ -152,11 +152,13 @@ public class DB {
             //add data to observableList
             while (rs.next()) {
                 String name = rs.getString("fldname");
-                String CPRNumber = rs.getString("fldCPRNumber");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
                 String email = rs.getString("fldEmail");
                 String phoneNumber = rs.getString("fldPhoneNumber");
-                String company = rs.getString("fldCompany");
-                listOfEmployees.add(new Employee(name, CPRNumber, email, phoneNumber, company));
+                String CVRNumber = rs.getString("fldCVRNumber");
+
+                listOfCompanies.add(new Company(name, address, zip, email, phoneNumber, CVRNumber));
             }
             /*
             //printing for debugging
@@ -170,7 +172,7 @@ public class DB {
             System.err.println(e.getMessage());
         }
 
-        return listOfEmployees;
+        return listOfCompanies;
     }
 
     public static ObservableList<Qualification> getQualifications(Employee employee){

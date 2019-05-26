@@ -1,5 +1,6 @@
 package Application;
 
+import Domain.Company;
 import Domain.Course;
 import Domain.Employee;
 import Persistance.DB;
@@ -59,17 +60,17 @@ public class MainController {
     private TabPane tabPane;
 
     @FXML
-    private TableView courseTableView, educationMatrixTableView, employeeTableView, companiesTableView, providerTableView;
+    private TableView courseTableView, educationMatrixTableView, employeeTableView, companyTableView, providerTableView;
 
     @FXML
     private TableColumn courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, //Courses
             locationIDColumn, CVRNumberColumn, //Courses
-            employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn; //Employees
-
+            employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn, //Employees
+            companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn; //Companies
 
     private ObservableList<Course> courseList;
     private ObservableList<Employee> employeeList;
-
+    private ObservableList<Company> companyList;
 
     public void initialize() {
 
@@ -83,10 +84,8 @@ public class MainController {
         }
 
         //Courses
-        //constructing data model
-        courseList = DB.getCourseList();
-        //data binding
-        courseTableView.setItems(courseList);
+        //constructing data model + data binding
+        updateCourseTableView();
         //splitting out the data in the model
         courseNumberColumn.setCellValueFactory(new PropertyValueFactory("courseNumber"));
         informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
@@ -98,10 +97,8 @@ public class MainController {
         courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
 
         //Employees
-        //constructing data model
-        employeeList = DB.getEmployeeList();
-        //data binding
-        employeeTableView.setItems(employeeList);
+        //constructing data model + data binding
+        updateEmployeeTableView();
         //splitting out the data in the model
         employeeNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
         employeeCPRColumn.setCellValueFactory(new PropertyValueFactory("CPRNumber"));
@@ -111,6 +108,18 @@ public class MainController {
         //representing the data in the columns
         employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
 
+        //Companies
+        //constructing data model + data binding
+        updateCompanyTableView();
+        //splitting out the data in the model
+        companyNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        companyAddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
+        companyZipColumn.setCellValueFactory(new PropertyValueFactory("zip"));
+        companyEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
+        companyPhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        companyCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        //representing the data in the columns
+        companyTableView.getColumns().setAll(companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn);
     }
 
     //Test method
@@ -290,7 +299,7 @@ public class MainController {
                 public void handle(WindowEvent e) {
                     System.out.println("THE WINDOW WAS CLOSED");
 
-                    updateEmployeeTable();
+                    updateEmployeeTableView();
 
                 }
             });
@@ -299,26 +308,26 @@ public class MainController {
     }
 
 
-    //------REFRESH THE TABLES--------//
+    //------REFRESH THE TABLEVIEWS--------//
+    private void updateCourseTableView(){
+        //constructing data model
+        courseList = DB.getCourseList();
+        //data binding
+        courseTableView.setItems(courseList);
+    }
 
-
-    private void updateEmployeeTable(){
-
+    private void updateEmployeeTableView(){
+        //constructing data model
         employeeList = DB.getEmployeeList();
+        //data binding
         employeeTableView.setItems(employeeList);
-
     }
 
-    private void updateCoursesTable(){
-
-
-        // TODO Make it update the course table
-    }
-
-    private void updateCompanyTable(){
-
-
-        // TODO Make it update the company table
+    private void updateCompanyTableView(){
+        //constructing data model
+        companyList = DB.getCompanyList();
+        //data binding
+        companyTableView.setItems(companyList);
     }
 
 
