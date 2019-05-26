@@ -17,7 +17,6 @@ public class Employee {
     private StringProperty company;
 
     public Employee(int employeeID, String name, String CPRNumber, String email, String phoneNumber, String company){
-
         this.employeeID=employeeID;
         this.setName(name);
         this.setCPRNumber(CPRNumber);

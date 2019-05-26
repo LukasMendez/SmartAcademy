@@ -48,19 +48,15 @@ public class ManageEmployeeController implements Openable {
     //ObservableList
     private ObservableList<Qualification> qualificationsList;
 
-
     // Controller (Window)
     private CourseToEPController courseToEPController = new CourseToEPController();
-
 
     public void initialize() {
 
     }
 
-
     @Override
     public void openWindow() {
-
         try {
             fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -68,37 +64,27 @@ public class ManageEmployeeController implements Openable {
             manageEmployeeStage.setScene(new Scene(root));
             manageEmployeeStage.setResizable(false);
             manageEmployeeStage.show();
-
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
 
     @Override
     public boolean isStageOpen() {
-
-
         System.out.println("manageEmployeeStage showing: " + manageEmployeeStage);
-
         return manageEmployeeStage.isShowing();
-
     }
 
     @Override
     public Stage getStage() {
-
         return manageEmployeeStage;
     }
 
 
     @Override
     public Object getController() {
-
         return fxmlLoader.getController();
-
     }
-
 
     /**
      * Used for retrieving the employee from the Main Controller.
@@ -108,7 +94,6 @@ public class ManageEmployeeController implements Openable {
      * @param employee employee object
      */
     public void setSelectedEmployee(Employee employee) {
-
         selectedEmployee = employee;
 
         nameTextField.setText(selectedEmployee.getName());
@@ -117,13 +102,11 @@ public class ManageEmployeeController implements Openable {
         phoneNumTextField.setText(selectedEmployee.getPhoneNumber());
 
         System.out.println("The record belongs to: " + selectedEmployee.getName() + " and the ID is: " + selectedEmployee.getEmployeeID());
-
     }
 
 
     @FXML
     public void editMode() {
-
         nameTextField.setEditable(true);
         cprTextField.setEditable(true);
         emailTextField.setEditable(true);
@@ -137,17 +120,14 @@ public class ManageEmployeeController implements Openable {
         editInfoButton.setDisable(true);
         applyChangesButton.setDisable(false);
         infoLabel.setVisible(false);
-
     }
 
     @FXML
     public void saveChangesToEmployee() {
-
         // This method will try to update the data in the database and return a new fresh employee object if the action succeeded or null if there was an error
         Employee updatedEmployee = DB.updateEmployee(nameTextField.getText(), cprTextField.getText(), emailTextField.getText(), phoneNumTextField.getText(), selectedEmployee.getCompany(), selectedEmployee.getEmployeeID());
 
         if (updatedEmployee != null) {
-
             editInfoButton.setDisable(false);
             applyChangesButton.setDisable(true);
 
@@ -164,46 +144,28 @@ public class ManageEmployeeController implements Openable {
             emailTextField.setDisable(true);
             phoneNumTextField.setDisable(true);
 
-
-
             System.out.println("Updated record successfully (DEBUGGING)");
-
-
         } else {
-
             infoLabel.setText("Invalid information. Please try again");
             infoLabel.setVisible(true);
-
-
         }
-
     }
 
 
     @FXML
     public void addCourseToEducationPlan() {
-
         if (!courseToEPController.isStageOpen()) {
-
             courseToEPController.openWindow();
-
         } else {
-
             System.out.println("Window is already open");
-
         }
-
     }
-
 
     // QUALIFICATION SECTION
 
     public void displayQualifications(){
-
-
         // TODO MAKE SURE THAT DB.GetQualifications actually have a functioning body
         qualificationsList = DB.getQualifications(selectedEmployee);
-
         qualificationsTableView.setItems(qualificationsList);
 
         typeColumn.setCellValueFactory(new PropertyValueFactory("type"));
@@ -211,15 +173,10 @@ public class ManageEmployeeController implements Openable {
         levelColumn.setCellValueFactory(new PropertyValueFactory("level"));
 
         qualificationsTableView.getColumns().setAll(typeColumn,descriptionColumn,levelColumn);
-
     }
-
-
 
     public void onEditChangedType(TableColumn.CellEditEvent cellEditEvent) {
         Qualification qualification;
-
         //TODO MAKE IT POSSIBLE TO EDIT EXISTING CELLS
-
     }
 }

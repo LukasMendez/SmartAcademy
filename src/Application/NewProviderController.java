@@ -15,7 +15,6 @@ public class NewProviderController implements Openable {
 
     @Override
     public void openWindow() {
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddProviderWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -23,14 +22,9 @@ public class NewProviderController implements Openable {
             newProviderStage.setScene(new Scene(root));
             newProviderStage.setResizable(false);
             newProviderStage.show();
-
-
         } catch (Exception e) {
-
             e.printStackTrace();
         }
-
-
     }
 
     @Override
