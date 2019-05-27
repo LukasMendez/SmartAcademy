@@ -1,5 +1,6 @@
 package Application;
 
+import Domain.EducationPlan;
 import Domain.Employee;
 import Domain.Level;
 import Domain.Qualification;
@@ -22,6 +23,8 @@ import javafx.stage.Stage;
  */
 public class ManageEmployeeController implements Openable {
 
+    private DB db = DB.getInstance();
+
     // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage manageEmployeeStage = new Stage();
     private FXMLLoader fxmlLoader;
@@ -43,19 +46,37 @@ public class ManageEmployeeController implements Openable {
 
     //TableView
     @FXML
-    private TableView qualificationsTableView;
+    private TableView qualificationsTableView, educationPlanTableView;
 
     //TableColumns
     @FXML
-    private TableColumn typeColumn, descriptionColumn, levelColumn;
+    private TableColumn typeColumn, descriptionColumn, levelColumn, //qualification
+            dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn; //educationPlan
 
     //ObservableList
     private ObservableList<Qualification> qualificationsList;
+    private ObservableList<EducationPlan> educationPlansList;
+
 
     // Controller (Window)
     private CourseToEPController courseToEPController = new CourseToEPController();
 
     public void initialize() {
+
+
+        //EducationPlan
+        //constructing data model + data binding
+        updateEducationPlanTableView(true);
+        //splitting out the data in the model
+        dateColumn.setCellValueFactory(new PropertyValueFactory("date"));
+        informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
+        providerColumn.setCellValueFactory(new PropertyValueFactory("provider"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory("location"));
+        priorityColumn.setCellValueFactory(new PropertyValueFactory("priority"));
+        planIDColumn.setCellValueFactory(new PropertyValueFactory("planID"));
+        activeColumn.setCellValueFactory(new PropertyValueFactory("isActive"));
+        //representing the data in the columns
+        educationPlanTableView.getColumns().setAll(dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn);
 
         // Will retrieve an observable list from the database of all possible qualification types and display it in the dropdown menu
         typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationTypes()));
@@ -64,8 +85,15 @@ public class ManageEmployeeController implements Openable {
         // Will retrieve an observable list from the database of all possible qualification levels and display it in the dropdown menu
         levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
 
+
     }
 
+    private void updateEducationPlanTableView(boolean isActive){
+        //constructing data model
+        educationPlansList = db.getEducationPlanList(selectedEmployee.getEmployeeID(), isActive);
+        //data binding
+        educationPlanTableView.setItems(educationPlansList);
+    }
     @Override
     public void openWindow() {
         try {
