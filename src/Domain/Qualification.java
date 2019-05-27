@@ -18,13 +18,18 @@ public class Qualification {
     private StringProperty description;
     private StringProperty level;
     private IntegerProperty employeeID;
+    private IntegerProperty typeID;
+    private IntegerProperty levelID;
 
-    public Qualification(int qualificationID, String type, String description, String level, int employeeID){
+    public Qualification(int qualificationID, String type, String description, String level, int employeeID, int typeID, int levelID){
         this.qualificationID=qualificationID;
         this.setType(type);
         this.setDescription(description);
         this.setLevel(level);
         this.setEmployeeID(employeeID);
+        this.setTypeID(typeID);
+        this.setLevelID(levelID);
+
     }
 
     public void setType(String value) { typeProperty().set(value); }
@@ -54,6 +59,30 @@ public class Qualification {
         if (employeeID == null) employeeID = new SimpleIntegerProperty(this, "employeeID");
         return employeeID;
     }
+
+    public void setTypeID(int value) { typeIDProperty().set(value); }
+    public int getTypeID() { return typeIDProperty().get(); }
+    public IntegerProperty typeIDProperty() {
+        if (typeID == null) typeID = new SimpleIntegerProperty(this, "typeID");
+        return typeID;
+    }
+
+    public void setLevelID(int value) { levelIDProperty().set(value); }
+    public int getLevelID() { return levelIDProperty().get(); }
+    public IntegerProperty levelIDProperty() {
+        if (levelID == null) levelID = new SimpleIntegerProperty(this, "levelID");
+        return levelID;
+    }
+
+
+
+
+
+
+
+
+
+
 
     public int getQualificationID() {
         return qualificationID;

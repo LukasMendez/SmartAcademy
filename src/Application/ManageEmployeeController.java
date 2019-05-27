@@ -1,7 +1,9 @@
 package Application;
 
 import Domain.Employee;
+import Domain.Level;
 import Domain.Qualification;
+import Domain.Type;
 import Persistance.DB;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,7 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 /**
@@ -52,6 +56,13 @@ public class ManageEmployeeController implements Openable {
     private CourseToEPController courseToEPController = new CourseToEPController();
 
     public void initialize() {
+
+        // Will retrieve an observable list from the database of all possible qualification types and display it in the dropdown menu
+        typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationTypes()));
+        // Make the table cells editable
+        descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        // Will retrieve an observable list from the database of all possible qualification levels and display it in the dropdown menu
+        levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
 
     }
 
@@ -163,20 +174,93 @@ public class ManageEmployeeController implements Openable {
 
     // QUALIFICATION SECTION
 
-    public void displayQualifications(){
-        // TODO MAKE SURE THAT DB.GetQualifications actually have a functioning body
+    public void displayQualifications() {
+
         qualificationsList = DB.getQualifications(selectedEmployee);
+
         qualificationsTableView.setItems(qualificationsList);
 
         typeColumn.setCellValueFactory(new PropertyValueFactory("type"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory("description"));
         levelColumn.setCellValueFactory(new PropertyValueFactory("level"));
 
-        qualificationsTableView.getColumns().setAll(typeColumn,descriptionColumn,levelColumn);
+        qualificationsTableView.getColumns().setAll(typeColumn, descriptionColumn, levelColumn);
     }
 
+
+    /**
+     * This method makes you able to update the values of an existing qualification by editing directly from the table cell.
+     *
+     * @param cellEditEvent the new value that is entered
+     */
+
+    @FXML
     public void onEditChangedType(TableColumn.CellEditEvent cellEditEvent) {
-        Qualification qualification;
-        //TODO MAKE IT POSSIBLE TO EDIT EXISTING CELLS
+
+        Qualification qualification = (Qualification) qualificationsTableView.getSelectionModel().getSelectedItem();
+
+        if (cellEditEvent.getTablePosition().getColumn() == 0) {
+
+            System.out.println("Changed info in type");
+
+            Type newType = (Type) cellEditEvent.getNewValue();
+
+            qualification.setType(newType.getType());
+            qualification.setTypeID(newType.getTypeID());
+
+            // Will update the qualification table with the new type selected
+            DB.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
+
+
+        } else if (cellEditEvent.getTablePosition().getColumn() == 1) {
+
+            System.out.println("Changed info in description");
+
+            String newDescription = cellEditEvent.getNewValue().toString();
+
+            qualification.setDescription(newDescription);
+
+            // Will update the qualification table with the new description written
+            DB.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
+
+
+        } else if (cellEditEvent.getTablePosition().getColumn() == 2) {
+
+            System.out.println("Changed info in level");
+
+            Level newLevel = (Level) cellEditEvent.getNewValue();
+
+            qualification.setLevel(newLevel.getLevel());
+            qualification.setLevelID(newLevel.getLevelID());
+
+            // Will update the qualification table with the new type selected
+            DB.updateQualification(qualification.getQualificationID(), qualification.getType(), qualification.getDescription(), newLevel.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), newLevel.getLevelID());
+
+        }
+
     }
+
+    @FXML
+    public void addNewQualification() {
+
+
+        DB.insertQualification(selectedEmployee);
+
+        displayQualifications();
+
+    }
+
+    @FXML
+    public void deleteQualification() {
+
+        Qualification qualification = (Qualification) qualificationsTableView.getSelectionModel().getSelectedItem();
+
+        System.out.println("You selected: " + qualification.getQualificationID());
+
+        DB.deleteQualification(qualification);
+
+        displayQualifications();
+    }
+
+
 }
