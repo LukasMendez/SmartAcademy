@@ -202,40 +202,31 @@ public class ManageEmployeeController implements Openable {
         if (cellEditEvent.getTablePosition().getColumn() == 0) {
 
             System.out.println("Changed info in type");
-
             Type newType = (Type) cellEditEvent.getNewValue();
-
+            // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setType(newType.getType());
             qualification.setTypeID(newType.getTypeID());
-
             // Will update the qualification table with the new type selected
             DB.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
-
 
         } else if (cellEditEvent.getTablePosition().getColumn() == 1) {
 
             System.out.println("Changed info in description");
-
             String newDescription = cellEditEvent.getNewValue().toString();
-
+            // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setDescription(newDescription);
-
             // Will update the qualification table with the new description written
             DB.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
-
 
         } else if (cellEditEvent.getTablePosition().getColumn() == 2) {
 
             System.out.println("Changed info in level");
-
             Level newLevel = (Level) cellEditEvent.getNewValue();
-
+            // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setLevel(newLevel.getLevel());
             qualification.setLevelID(newLevel.getLevelID());
-
             // Will update the qualification table with the new type selected
             DB.updateQualification(qualification.getQualificationID(), qualification.getType(), qualification.getDescription(), newLevel.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), newLevel.getLevelID());
-
         }
 
     }

@@ -40,10 +40,11 @@ public class MainController {
     private NewProviderController newProviderController = new NewProviderController();
 
     // Tab indexes
-    private int coursesIndex = 0;
-    private int educationMatrixIndex = 1;
-    private int employeeIndex = 2;
-    private int calenderIndex = 3;
+
+    private int educationMatrixIndex = 0;
+    private int employeeIndex = 1;
+    private int calenderIndex = 2;
+    private int coursesIndex = 3;
     private int companiesIndex = 4;
     private int providerIndex = 5;
 
@@ -136,7 +137,7 @@ public class MainController {
     //Test method
     @FXML
     public void testAddCourse() {
-        courseList.add(new Course("156", "bloop", "bleep", 8, "locName", "providerName"));
+        courseList.add(new Course(1,"156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
     //---------------------------- OPEN NEW WINDOWS---------------------------------//
@@ -145,6 +146,14 @@ public class MainController {
 
     @FXML
     public void leftBottomButtonAction() {
+
+        if (tabPane.getSelectionModel().getSelectedIndex()== coursesIndex){
+
+            deleteSelectedCourse();
+
+        }
+
+
         // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
     }
 
@@ -171,6 +180,10 @@ public class MainController {
     public void openAddCourseWindow() {
         if (!newCourseController.isStageOpen()) {
             newCourseController.openWindow();
+            newCourseController = (NewCourseController) newCourseController.getController();
+            closeStageHandler(newCourseController.getStage());
+
+
         } else {
             System.out.println("Window already open");
         }
@@ -262,10 +275,47 @@ public class MainController {
             @Override
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
-                updateEmployeeTableView(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+
+
+                updateCourseTableView(); // TODO Only testing! Please remove afterwards!
+
+
+                if (!newCourseController.getStage().isShowing()) {
+
+                    System.out.println("Updated course table view");
+                    updateCourseTableView();
+
+                }
+
+                if (!manageEmployeeController.getStage().isShowing()) {
+
+                    System.out.println("Updated employee table view");
+                    updateEmployeeTableView(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+                }
+
+
+
+
             }
         });
     }
+
+    //------DELETE ELEMENT FROM TABLEVIEW----/(
+
+    public void deleteSelectedCourse() {
+
+
+        Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteCourse(course);
+
+        updateCourseTableView();
+
+    }
+
+
+
+
 
     //------REFRESH THE TABLEVIEWS--------//
     private void updateCourseTableView() {

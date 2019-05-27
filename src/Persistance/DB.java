@@ -82,13 +82,15 @@ public class DB {
 
             //add data to observableList
             while (rs.next()) {
-                String courseNumber = rs.getString("fldAMUNumber");
+                int courseID = rs.getInt("fldCourseID");
+                String amuNumber = rs.getString("fldAMUNumber");
                 String information = rs.getString("fldInformation");
                 String additionalInformation = rs.getString("fldAdditionalInformation");
                 int numberOfDays = rs.getInt("fldNumberOfDays");
                 String location = rs.getString("fldLocation");
                 String provider = rs.getString("fldProvider");
-                listOfCourses.add(new Course(courseNumber, information, additionalInformation, numberOfDays, location, provider));
+
+                listOfCourses.add(new Course(courseID, amuNumber, information, additionalInformation, numberOfDays, location, provider));
             }
             /*
             //printing for debugging
@@ -173,6 +175,48 @@ public class DB {
         return listOfCompanies;
     }
 
+
+    public static ObservableList<Location> getLocationList(){
+
+        ObservableList<Location> listOfLocations = FXCollections.observableArrayList();
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllLocations}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+
+                int locationID = rs.getInt("fldLocationID");
+                String name = rs.getString("fldName");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
+
+                listOfLocations.add(new Location(locationID,name,address,zip));
+
+
+            }
+
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfLocations;
+
+
+
+    }
+
+
+    @SuppressWarnings("Duplicates") //TODO ONLY TEMPORARY SOLUTION. PLEASE SOLVE THIS
     public static ObservableList<Provider> getProviderList() {
         ObservableList<Provider> listOfProviders = FXCollections.observableArrayList();
         try {
@@ -195,12 +239,7 @@ public class DB {
 
                 listOfProviders.add(new Provider(name, address, zip, email, phoneNumber, CVRNumber));
             }
-            /*
-            //printing for debugging
-            for (int i = 0; i < listOfCourses.size(); i++) {
-                System.out.println(listOfCourses.get(i).toString());
-            }*/
-            //close
+
             close();
 
         } catch (Exception e) {
@@ -410,6 +449,62 @@ public class DB {
 
     // ADD/INSERT
 
+    public static void insertCourse(int amuNumber, String information, String additionalInfo, int numberOfDays, int locationID, String cvrNo){
+
+
+        int rowsAffected = 0;
+
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addCourse(?, ?, ?, ?, ?, ?)}");
+
+            cs.setInt(1, amuNumber);
+            cs.setString(2,information);
+            cs.setString(3,additionalInfo);
+            cs.setInt(4,numberOfDays);
+            cs.setInt(5, locationID);
+            cs.setString(6,cvrNo);
+
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static void insertQualification(Employee employee){
 
         int rowsAffected = 0;
@@ -449,7 +544,6 @@ public class DB {
         if (rowsAffected > 0) {
 
             System.out.println("Added " + rowsAffected + " new record");
-         //   qualification = new Qualification()
 
         }
 
@@ -461,8 +555,6 @@ public class DB {
     public static void deleteQualification(Qualification qualification){
 
         int rowsAffected = 0;
-
-      //  Qualification qualification = null;
 
         try {
 
@@ -488,7 +580,39 @@ public class DB {
 
             System.out.println("Removed " + rowsAffected + " new record");
 
-            //   qualification = new Qualification()
+
+        }
+
+    }
+
+    public static void deleteCourse(Course course){
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteCourse (?)}");
+
+            cs.setInt(1,course.getCourseID());
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
 
         }
 
