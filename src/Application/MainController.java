@@ -40,10 +40,11 @@ public class MainController {
     private NewProviderController newProviderController = new NewProviderController();
 
     // Tab indexes
-    private int coursesIndex = 0;
-    private int educationMatrixIndex = 1;
-    private int employeeIndex = 2;
-    private int calenderIndex = 3;
+
+    private int educationMatrixIndex = 0;
+    private int employeeIndex = 1;
+    private int calenderIndex = 2;
+    private int coursesIndex = 3;
     private int companiesIndex = 4;
     private int providerIndex = 5;
 
@@ -136,7 +137,7 @@ public class MainController {
     //Test method
     @FXML
     public void testAddCourse() {
-        courseList.add(new Course("156", "bloop", "bleep", 8, "locName", "providerName"));
+        courseList.add(new Course(1,"156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
     //---------------------------- OPEN NEW WINDOWS---------------------------------//
@@ -145,6 +146,14 @@ public class MainController {
 
     @FXML
     public void leftBottomButtonAction() {
+
+        if (tabPane.getSelectionModel().getSelectedIndex()== coursesIndex){
+
+            deleteSelectedCourse();
+
+        }
+
+
         // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
     }
 
@@ -171,6 +180,10 @@ public class MainController {
     public void openAddCourseWindow() {
         if (!newCourseController.isStageOpen()) {
             newCourseController.openWindow();
+            newCourseController = (NewCourseController) newCourseController.getController();
+            closeStageHandler(newCourseController.getStage());
+
+
         } else {
             System.out.println("Window already open");
         }
@@ -213,6 +226,29 @@ public class MainController {
         }
     }
 
+
+    /**
+     * This method will configure everything needed for the ManageEmployeeWindow
+     */
+    private void configureManageEmployee() {
+
+        // Will get the employee object that the user selects from the table view
+        Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
+        // 1) Open the window
+        manageEmployeeController.openWindow();
+        // 2) Get the right controller instance
+        manageEmployeeController = (ManageEmployeeController) manageEmployeeController.getController();
+        // Will hand in the employee object to the next controller
+        manageEmployeeController.setSelectedEmployee(employee);
+
+        // Will display the qualifications when the window is opened
+        manageEmployeeController.displayQualifications();
+
+        // Will activate the eventHandler to check if the stage is closed
+        closeStageHandler(manageEmployeeController.getStage());
+
+    }
+
     //---------------------Event handlers--------------------------//
 
     private void mouseClickEmployeeHandler() {
@@ -220,18 +256,11 @@ public class MainController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem()!=null) {
+                    if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem() != null) {
                         if (!manageEmployeeController.isStageOpen()) {
-                            // Will get the employee object that the user selects from the table view
-                            Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
-                            // 1) Open the window
-                            manageEmployeeController.openWindow();
-                            // 2) Get the right controller instance
-                            manageEmployeeController = (ManageEmployeeController)manageEmployeeController.getController();
-                            // Will hand in the employee object to the next controller
-                            manageEmployeeController.setSelectedEmployee(employee);
-                            // Will activate the eventHandler to check if the stage is closed
-                            closeStageHandler(manageEmployeeController.getStage());
+
+                            configureManageEmployee();
+
                         } else {
                             System.out.println("Please close the first window before opening a new one");
                         }
@@ -241,39 +270,76 @@ public class MainController {
         });
     }
 
-    public void closeStageHandler(Stage stage){
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+    public void closeStageHandler(Stage stage) {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
-                updateEmployeeTableView(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+
+
+                updateCourseTableView(); // TODO Only testing! Please remove afterwards!
+
+
+                if (!newCourseController.getStage().isShowing()) {
+
+                    System.out.println("Updated course table view");
+                    updateCourseTableView();
+
                 }
-            });
+
+                if (!manageEmployeeController.getStage().isShowing()) {
+
+                    System.out.println("Updated employee table view");
+                    updateEmployeeTableView(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+                }
+
+
+
+
+            }
+        });
     }
 
+    //------DELETE ELEMENT FROM TABLEVIEW----/(
+
+    public void deleteSelectedCourse() {
+
+
+        Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteCourse(course);
+
+        updateCourseTableView();
+
+    }
+
+
+
+
+
     //------REFRESH THE TABLEVIEWS--------//
-    private void updateCourseTableView(){
+    private void updateCourseTableView() {
         //constructing data model
         courseList = DB.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
     }
 
-    private void updateEmployeeTableView(){
+    private void updateEmployeeTableView() {
         //constructing data model
         employeeList = DB.getEmployeeList();
         //data binding
         employeeTableView.setItems(employeeList);
     }
 
-    private void updateCompanyTableView(){
+    private void updateCompanyTableView() {
         //constructing data model
         companyList = DB.getCompanyList();
         //data binding
         companyTableView.setItems(companyList);
     }
 
-    private void updateProviderTableView(){
+    private void updateProviderTableView() {
         //constructing data model
         providerList = DB.getProviderList();
         //data binding
