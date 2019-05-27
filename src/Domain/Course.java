@@ -11,6 +11,8 @@ import javafx.beans.property.StringProperty;
  */
 public class Course {
 
+    // TODO MAKE COURSE ID AS WELL
+    private IntegerProperty courseID;
     private StringProperty courseNumber;
     private StringProperty information;
     private StringProperty additionalInformation;
@@ -18,7 +20,17 @@ public class Course {
     private StringProperty location;
     private StringProperty CVRNumber;
 
-    public Course(String courseNumber, String information, String additionalInformation, int numberOfDays, String location, String CVRNumber){
+//    public Course(String courseNumber, String information, String additionalInformation, int numberOfDays, String location, String CVRNumber){
+//        this.setCourseNumber(courseNumber);
+//        this.setInformation(information);
+//        this.setAdditionalInformation(additionalInformation);
+//        this.setNumberOfDays(numberOfDays);
+//        this.setLocation(location);
+//        this.setCVRNumber(CVRNumber);
+//    }
+
+    public Course(int courseID, String courseNumber, String information, String additionalInformation, int numberOfDays, String location, String CVRNumber){
+        this.setCourseID(courseID);
         this.setCourseNumber(courseNumber);
         this.setInformation(information);
         this.setAdditionalInformation(additionalInformation);
@@ -26,6 +38,14 @@ public class Course {
         this.setLocation(location);
         this.setCVRNumber(CVRNumber);
     }
+
+    public void setCourseID(int value) { courseIDProperty().set(value); }
+    public int getCourseID() { return courseIDProperty().get(); }
+    public IntegerProperty courseIDProperty() {
+        if (courseID == null) courseID = new SimpleIntegerProperty(this, "courseID");
+        return courseID;
+    }
+
 
     public void setCourseNumber(String value) { courseNumberProperty().set(value); }
     public String getCourseNumber() { return courseNumberProperty().get(); }

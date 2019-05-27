@@ -63,6 +63,7 @@ public class DB {
     public static void close() {
         try {
             con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,13 +83,15 @@ public class DB {
 
             //add data to observableList
             while (rs.next()) {
-                String courseNumber = rs.getString("fldAMUNumber");
+                int courseID = rs.getInt("fldCourseID");
+                String amuNumber = rs.getString("fldAMUNumber");
                 String information = rs.getString("fldInformation");
                 String additionalInformation = rs.getString("fldAdditionalInformation");
                 int numberOfDays = rs.getInt("fldNumberOfDays");
                 String location = rs.getString("fldLocation");
                 String provider = rs.getString("fldProvider");
-                listOfCourses.add(new Course(courseNumber, information, additionalInformation, numberOfDays, location, provider));
+
+                listOfCourses.add(new Course(courseID, amuNumber, information, additionalInformation, numberOfDays, location, provider));
             }
             /*
             //printing for debugging
@@ -136,7 +139,7 @@ public class DB {
         return listOfEmployees;
     }
 
-    public static ObservableList<Company> getCompanyList(){
+    public static ObservableList<Company> getCompanyList() {
         ObservableList<Company> listOfCompanies = FXCollections.observableArrayList();
         try {
             //connect
@@ -166,14 +169,56 @@ public class DB {
             //close
             close();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
         return listOfCompanies;
     }
 
-    public static ObservableList<Provider> getProviderList(){
+
+    public static ObservableList<Location> getLocationList(){
+
+        ObservableList<Location> listOfLocations = FXCollections.observableArrayList();
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllLocations}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //add data to observableList
+            while (rs.next()) {
+
+                int locationID = rs.getInt("fldLocationID");
+                String name = rs.getString("fldName");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
+
+                listOfLocations.add(new Location(locationID,name,address,zip));
+
+
+            }
+
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfLocations;
+
+
+
+    }
+
+
+    @SuppressWarnings("Duplicates") //TODO ONLY TEMPORARY SOLUTION. PLEASE SOLVE THIS
+    public static ObservableList<Provider> getProviderList() {
         ObservableList<Provider> listOfProviders = FXCollections.observableArrayList();
         try {
             //connect
@@ -195,15 +240,10 @@ public class DB {
 
                 listOfProviders.add(new Provider(name, address, zip, email, phoneNumber, CVRNumber));
             }
-            /*
-            //printing for debugging
-            for (int i = 0; i < listOfCourses.size(); i++) {
-                System.out.println(listOfCourses.get(i).toString());
-            }*/
-            //close
+
             close();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
@@ -254,26 +294,160 @@ public class DB {
         return listOfEducationPlans;
     }
 
-    public static ObservableList<Qualification> getQualifications(Employee employee){
+
+    public static ObservableList<Qualification> getQualifications(Employee employee) {
 
         ObservableList<Qualification> listOfQualifications = FXCollections.observableArrayList();
 
+        try {
+            //connect
+            connect();
 
-        // TODO Make it possible to get a list of all qualifications for a specific employee. Make sure that we display description and not just ID's.
+            // TODO MAKE IT UPDATE BASED ON THE ID THAT THE USER SELECTED
 
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.listSpecificEmployeeQualifications (?)}");
 
+            // Let the stored procedure know which employee to load the list from
+            cs.setInt(1, employee.getEmployeeID());
 
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData();
 
+            //add data to observableList
+            while (rs.next()) {
+                int qualificationID = rs.getInt("fldQualificationID");
+                String typeName = rs.getString("fldTypeName");
+                String description = rs.getString("fldDescription");
+                String levelName = rs.getString("fldLevelName");
+                int employeeID = rs.getInt("fldEmployeeID");
+                int typeID = rs.getInt("fldTypeID");
+                int levelID = rs.getInt("fldLevelID");
+
+                listOfQualifications.add(new Qualification(qualificationID, typeName, description, levelName, employeeID, typeID, levelID));
+
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         return listOfQualifications;
 
     }
 
 
+    public static ObservableList<Type> getQualificationTypes() {
+
+        ObservableList<Type> listOfQualificationTypes = FXCollections.observableArrayList();
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllTypes}");
+            ResultSet rs = cs.executeQuery();
 
 
+            while (rs.next()) {
+
+                int typeID = rs.getInt("fldTypeID");
+                String type = rs.getString("fldTypeName");
+
+                listOfQualificationTypes.add(new Type(typeID, type));
+
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfQualificationTypes;
 
 
+    }
+
+    public static ObservableList<Level> getQualificationLevel() {
+
+        ObservableList<Level> listOfLevels = FXCollections.observableArrayList();
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllLevels}");
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+
+                int levelID = rs.getInt("fldLevelID");
+                String level = rs.getString("fldLevelName");
+
+                listOfLevels.add(new Level(levelID, level));
+
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfLevels;
+
+
+    }
+
+
+    // UPDATE METHODS:
+
+
+    public static Qualification updateQualification(int qualificationID, String type, String description, String level, int employeeID, int typeID, int levelID) {
+
+        int rowsAffected = 0;
+
+        Qualification qualification = null;
+
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.updateQualification (?, ?, ?, ?, ?)}");
+
+            cs.setInt(1, typeID);
+            cs.setString(2, description);
+            cs.setInt(3, levelID);
+            cs.setInt(4, employeeID);
+            cs.setInt(5, qualificationID);
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+           // close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println(rowsAffected + " rows was affected!");
+            qualification = new Qualification(qualificationID, type, description, level, employeeID, typeID, levelID);
+
+        }
+
+        return qualification;
+
+
+    }
 
 
     public static Employee updateEmployee(String name, String cprNumber, String email, String phoneNumber, String company, int employeeID) {
@@ -287,6 +461,7 @@ public class DB {
             //connect
             connect();
 
+
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.updateEmployee(?,?,?,?,?)}");
 
@@ -297,6 +472,9 @@ public class DB {
             cs.setInt(5, employeeID);
 
             rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
 
 
         } catch (Exception e) {
@@ -313,5 +491,179 @@ public class DB {
 
 
     }
+
+
+    // ADD/INSERT
+
+    public static void insertCourse(int amuNumber, String information, String additionalInfo, int numberOfDays, int locationID, String cvrNo){
+
+
+        int rowsAffected = 0;
+
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addCourse(?, ?, ?, ?, ?, ?)}");
+
+            cs.setInt(1, amuNumber);
+            cs.setString(2,information);
+            cs.setString(3,additionalInfo);
+            cs.setInt(4,numberOfDays);
+            cs.setInt(5, locationID);
+            cs.setString(6,cvrNo);
+
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static void insertQualification(Employee employee){
+
+        int rowsAffected = 0;
+
+        Qualification qualification = null;
+
+        try {
+
+            //connect
+            connect();
+
+            //default values
+            int typeID = 1;
+            String description = "Unspecified";
+            int levelID = 1;
+
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addQualification(?,?,?,?)}");
+
+            cs.setInt(1,typeID);
+            cs.setString(2,description);
+            cs.setInt(3,levelID);
+            cs.setInt(4,employee.getEmployeeID());
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+    }
+
+
+    // REMOVE/DELETE
+
+    public static void deleteQualification(Qualification qualification){
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteQualification (?)}");
+
+            cs.setInt(1,qualification.getQualificationID());
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+    }
+
+    public static void deleteCourse(Course course){
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteCourse (?)}");
+
+            cs.setInt(1,course.getCourseID());
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+    }
+
+
 
 }
