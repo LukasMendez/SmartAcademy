@@ -3,6 +3,7 @@ package Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -11,16 +12,18 @@ import javafx.stage.Stage;
  */
 public class NewCompanyController implements Openable {
 
-    private Stage newCompanyStage = new Stage();
+    private static Stage newCompanyStage = new Stage();
+    private FXMLLoader fxmlLoader;
 
     @Override
     public void openWindow() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCompanyWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCompanyWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newCompanyStage.setTitle("Add New Company");
             newCompanyStage.setScene(new Scene(root));
             newCompanyStage.setResizable(false);
+            newCompanyStage.initModality(Modality.APPLICATION_MODAL);
             newCompanyStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,11 +37,16 @@ public class NewCompanyController implements Openable {
 
     @Override
     public Object getController() {
-        return null;
+        return fxmlLoader.getController();
     }
 
     @Override
     public Stage getStage() {
-        return null;
+        return newCompanyStage;
     }
+
+
+
+
+
 }

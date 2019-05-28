@@ -181,7 +181,7 @@ public class MainController {
         if (!newCourseController.isStageOpen()) {
             newCourseController.openWindow();
             newCourseController = (NewCourseController) newCourseController.getController();
-            closeStageHandler(newCourseController.getStage());
+            closeStageHandler(newCourseController.getStage(), newCourseController);
 
 
         } else {
@@ -191,11 +191,19 @@ public class MainController {
 
     @FXML
     public void openAddDatesToCourseWindow() {
-        /// TODO CHECK IF YOU SELECTED A RECORD ON THE TABLE FIRST
-        if (!datesToCourseController.isStageOpen()) {
+
+        if (!datesToCourseController.isStageOpen() && courseTableView.getSelectionModel().getSelectedItem() != null) {
             datesToCourseController.openWindow();
+            datesToCourseController = (DatesToCourseController) datesToCourseController.getController();
+
+            // Will cast the object as Course
+            Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
+
+            // Will give the Course object to the controller so that it can display the corresponding periodID's
+            datesToCourseController.setSelectedCourse(course);
+
         } else {
-            System.out.println("Window already open");
+            System.out.println("Window already open or nothing is selected");
         }
     }
 
@@ -245,7 +253,7 @@ public class MainController {
         manageEmployeeController.displayQualifications();
 
         // Will activate the eventHandler to check if the stage is closed
-        closeStageHandler(manageEmployeeController.getStage());
+        closeStageHandler(manageEmployeeController.getStage(), manageEmployeeController);
 
     }
 
@@ -270,30 +278,26 @@ public class MainController {
         });
     }
 
-    public void closeStageHandler(Stage stage) {
+    public void closeStageHandler(Stage stage, Object controller) {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
 
 
-                updateCourseTableView(); // TODO Only testing! Please remove afterwards!
-
-
-                if (!newCourseController.getStage().isShowing()) {
+                if (controller instanceof NewCourseController){
 
                     System.out.println("Updated course table view");
                     updateCourseTableView();
-
                 }
-
-                if (!manageEmployeeController.getStage().isShowing()) {
+                if (controller instanceof ManageEmployeeController) {
 
                     System.out.println("Updated employee table view");
-                    updateEmployeeTableView(); //TODO THIS SHOULD NOT BE FOR ALL CLOSED WINDOWS
+                    updateEmployeeTableView();
                 }
 
 
+                // TODO CONTINUE
 
 
             }
@@ -387,4 +391,13 @@ public class MainController {
             // TODO REFACTOR CODE
         });
     }
+
+
+
+
+
+
 }
+
+
+

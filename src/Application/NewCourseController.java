@@ -8,8 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +35,10 @@ public class NewCourseController implements Openable{
     @FXML
     private ComboBox locationDropDown;
 
+    // Label
+    @FXML
+    private Label infoLabel;
+
     public void initialize(){
 
         ObservableList<Location> locations = DB.getLocationList();
@@ -52,6 +58,7 @@ public class NewCourseController implements Openable{
             Parent root = (Parent) fxmlLoader.load();
             addCourseStage.setTitle("ABC");
             addCourseStage.setScene(new Scene(root));
+            addCourseStage.initModality(Modality.APPLICATION_MODAL);
             addCourseStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,10 +86,17 @@ public class NewCourseController implements Openable{
 
         Location location = (Location) locationDropDown.getSelectionModel().getSelectedItem();
 
-        DB.insertCourse(Integer.parseInt(amuNoTextField.getText()),infoTextField.getText(),additionalInfoTextField.getText(),Integer.parseInt(noOfDaysTextField.getText()), location.getLocationID(),cvrNoTextField.getText());
+        try{
+            DB.insertCourse(Integer.parseInt(amuNoTextField.getText()),infoTextField.getText(),additionalInfoTextField.getText(),Integer.parseInt(noOfDaysTextField.getText()), location.getLocationID(),cvrNoTextField.getText());
+            infoLabel.setVisible(true);
+            infoLabel.setText("Data saved successfully!");
 
+        }catch (NumberFormatException e){
 
-        // TODO MAYBE SOME INPUT VALIDATION
+            infoLabel.setVisible(true);
+            infoLabel.setText("Error! Invalid input! Please try again");
+        }
+
 
 
     }

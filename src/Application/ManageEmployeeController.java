@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -74,6 +75,7 @@ public class ManageEmployeeController implements Openable {
             manageEmployeeStage.setTitle("Manage Selected Employee");
             manageEmployeeStage.setScene(new Scene(root));
             manageEmployeeStage.setResizable(false);
+            manageEmployeeStage.initModality(Modality.APPLICATION_MODAL);
             manageEmployeeStage.show();
         } catch (Exception e) {
             e.printStackTrace();
