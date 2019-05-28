@@ -276,8 +276,9 @@ public class DB {
                 String location = rs.getString("fldLocationName");
                 int priority = rs.getInt("fldPriority");
                 int planID = rs.getInt("fldPlanID");
+                int isCompleted = rs.getInt("fldIsCompleted");
 
-                listOfEducationPlans.add(new EducationPlan(dateID, date, information, provider, location, priority, planID, isActiveBit));
+                listOfEducationPlans.add(new EducationPlan(dateID, date, information, provider, location, priority, planID, isActiveBit, isCompleted));
             }
             /*
             //printing for debugging

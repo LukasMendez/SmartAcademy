@@ -111,7 +111,7 @@
             </Label>
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="506.0" prefWidth="460.0" style="-fx-background-color: lightgrey;">
                <children>
-                  <ScrollPane prefHeight="394.0" prefWidth="436.0">
+                  <ScrollPane hvalue="1.0" prefHeight="394.0" prefWidth="436.0">
                      <content>
                         <TableView fx:id="educationPlanTableView" prefHeight="388.0">
                           <columns>
@@ -121,7 +121,8 @@
                               <TableColumn fx:id="locationColumn" prefWidth="102.0" text="Location" />
                               <TableColumn fx:id="priorityColumn" prefWidth="63.0" text="Priority" />
                               <TableColumn fx:id="planIDColumn" prefWidth="63.0" text="PlanID" />
-                              <TableColumn fx:id="activeColumn" prefWidth="63.0" text="Active" />
+                              <TableColumn fx:id="activeColumn" prefWidth="68.0" text="Active" />
+                              <TableColumn fx:id="completedColumn" prefWidth="70.0" text="Completed" />
                           </columns>
                         </TableView>
                      </content>
@@ -133,7 +134,7 @@
                         <Button mnemonicParsing="false" onAction="#addCourseToEducationPlan" text="Add course" />
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" prefHeight="22.0" prefWidth="95.0" text="Show history" />
+                  <Button fx:id="toggleHistoryButton" mnemonicParsing="false" onAction="#toggleHistory" prefHeight="22.0" prefWidth="95.0" text="Show History" />
                </children>
                <VBox.margin>
                   <Insets />

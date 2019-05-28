@@ -18,8 +18,9 @@ public class EducationPlan {
     private IntegerProperty priority;
     private IntegerProperty planID;
     private IntegerProperty isActive;
+    private IntegerProperty isCompleted;
 
-    public EducationPlan(int dateID, String date, String information, String provider, String location, int priority, int planID, int isActive){
+    public EducationPlan(int dateID, String date, String information, String provider, String location, int priority, int planID, int isActive, int isCompleted){
         this.setDateID(dateID);
         this.setDate(date);
         this.setInformation(information);
@@ -28,6 +29,7 @@ public class EducationPlan {
         this.setPriority(priority);
         this.setPlanID(planID);
         this.setIsActive(isActive);
+        this.setIsCompleted(isCompleted);
     }
 
     public void setDateID(int value) { dateIDProperty().set(value); }
@@ -84,5 +86,12 @@ public class EducationPlan {
     public IntegerProperty isActiveProperty() {
         if (isActive == null) isActive = new SimpleIntegerProperty(this, "isActive");
         return isActive;
+    }
+
+    public void setIsCompleted(int value) { isCompletedProperty().set(value); }
+    public int getIsCompleted() { return isCompletedProperty().get(); }
+    public IntegerProperty isCompletedProperty() {
+        if (isCompleted == null) isCompleted = new SimpleIntegerProperty(this, "isCompleted");
+        return isCompleted;
     }
 }
