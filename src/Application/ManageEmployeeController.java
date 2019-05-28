@@ -7,6 +7,7 @@ import Domain.Qualification;
 import Domain.Type;
 import Persistance.DB;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -24,6 +26,8 @@ import javafx.stage.Stage;
 public class ManageEmployeeController implements Openable {
 
     private DB db = DB.getInstance();
+
+    private boolean history;
 
     // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage manageEmployeeStage = new Stage();
@@ -38,7 +42,7 @@ public class ManageEmployeeController implements Openable {
 
     //Buttons
     @FXML
-    private Button editInfoButton, applyChangesButton;
+    private Button editInfoButton, applyChangesButton, toggleHistoryButton;
 
     //Labels
     @FXML
@@ -51,7 +55,7 @@ public class ManageEmployeeController implements Openable {
     //TableColumns
     @FXML
     private TableColumn typeColumn, descriptionColumn, levelColumn, //qualification
-            dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn; //educationPlan
+            dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn, completedColumn; //educationPlan
 
     //ObservableList
     private ObservableList<Qualification> qualificationsList;
@@ -63,6 +67,10 @@ public class ManageEmployeeController implements Openable {
 
     public void initialize() {
 
+    }
+
+    public void start(){
+        history = false;
 
         //EducationPlan
         //constructing data model + data binding
@@ -75,8 +83,9 @@ public class ManageEmployeeController implements Openable {
         priorityColumn.setCellValueFactory(new PropertyValueFactory("priority"));
         planIDColumn.setCellValueFactory(new PropertyValueFactory("planID"));
         activeColumn.setCellValueFactory(new PropertyValueFactory("isActive"));
+        completedColumn.setCellValueFactory(new PropertyValueFactory("isCompleted"));
         //representing the data in the columns
-        educationPlanTableView.getColumns().setAll(dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn);
+        educationPlanTableView.getColumns().setAll(dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn, completedColumn);
 
         // Will retrieve an observable list from the database of all possible qualification types and display it in the dropdown menu
         typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationTypes()));
@@ -84,8 +93,6 @@ public class ManageEmployeeController implements Openable {
         descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         // Will retrieve an observable list from the database of all possible qualification levels and display it in the dropdown menu
         levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
-
-
     }
 
     private void updateEducationPlanTableView(boolean isActive){
@@ -94,6 +101,20 @@ public class ManageEmployeeController implements Openable {
         //data binding
         educationPlanTableView.setItems(educationPlansList);
     }
+
+    @FXML
+    private void toggleHistory(){
+        if(history == false){
+            updateEducationPlanTableView(false);
+            toggleHistoryButton.setText("Show Active");
+            history = true;
+        }else{
+            updateEducationPlanTableView(true);
+            toggleHistoryButton.setText("Show History");
+            history = false;
+        }
+    }
+
     @Override
     public void openWindow() {
         try {
