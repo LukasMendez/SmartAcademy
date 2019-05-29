@@ -35,6 +35,9 @@ public class DatesToCourseController implements Openable {
     private static Stage addDatesToCourseStage = new Stage();
     private FXMLLoader fxmlLoader;
 
+    // Used to check if the stage has been initialized before. Used for setting Modality
+    private static boolean isInitialized = false;
+
     private DatePicker datePicker = new DatePicker(LocalDate.now());
     private Node popupContent;
     private DatePickerSkin datePickerSkin;
@@ -86,10 +89,21 @@ public class DatesToCourseController implements Openable {
             addDatesToCourseStage.setTitle("Add dates to selected source");
             addDatesToCourseStage.setScene(new Scene(root));
             addDatesToCourseStage.setResizable(false);
-            addDatesToCourseStage.initModality(Modality.APPLICATION_MODAL);
+
+            // You may only run .initModality once. Therefore we need to check if the window has been opened before
+            setupModality();
+
             addDatesToCourseStage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setupModality(){
+        if (!isInitialized){
+            addDatesToCourseStage.initModality(Modality.APPLICATION_MODAL);
+            isInitialized=true;
         }
     }
 
@@ -227,11 +241,16 @@ public class DatesToCourseController implements Openable {
 
             // System.out.println("User clicked on: " + newItem);
 
-            selectedPeriodID = (int) periodDropDown.getSelectionModel().getSelectedItem();
+            if (periodDropDown.getSelectionModel().getSelectedItem()!=null){
 
-            System.out.println("You just casted the object as an int, and the output is: " + selectedPeriodID);
+                selectedPeriodID = (int) periodDropDown.getSelectionModel().getSelectedItem();
 
-            updateListView(selectedPeriodID);
+                System.out.println("You just casted the object as an int, and the output is: " + selectedPeriodID);
+
+                updateListView(selectedPeriodID);
+
+            }
+
 
         });
 

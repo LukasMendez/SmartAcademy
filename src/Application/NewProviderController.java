@@ -3,6 +3,7 @@ package Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -11,7 +12,10 @@ import javafx.stage.Stage;
  */
 public class NewProviderController implements Openable {
 
-    private Stage newProviderStage = new Stage();
+    private static Stage newProviderStage = new Stage();
+
+    // Used to check if the stage has been initialized before. Used for setting Modality
+    private static boolean isInitialized = false;
 
     @Override
     public void openWindow() {
@@ -21,9 +25,21 @@ public class NewProviderController implements Openable {
             newProviderStage.setTitle("Add New Provider");
             newProviderStage.setScene(new Scene(root));
             newProviderStage.setResizable(false);
+
+            // You may only run .initModality once. Therefore we need to check if the window has been opened before
+            setupModality();
+
             newProviderStage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setupModality() {
+        if (!isInitialized) {
+            newProviderStage.initModality(Modality.APPLICATION_MODAL);
+            isInitialized = true;
         }
     }
 

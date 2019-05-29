@@ -27,6 +27,9 @@ public class NewCourseController implements Openable{
     private static Stage addCourseStage = new Stage();
     private FXMLLoader fxmlLoader;
 
+    // Used to check if the stage has been initialized before. Used for setting Modality
+    private static boolean isInitialized = false;
+
     // TextFields
     @FXML
     private TextField amuNoTextField, cvrNoTextField, infoTextField, noOfDaysTextField, additionalInfoTextField;
@@ -58,10 +61,21 @@ public class NewCourseController implements Openable{
             Parent root = (Parent) fxmlLoader.load();
             addCourseStage.setTitle("ABC");
             addCourseStage.setScene(new Scene(root));
-            addCourseStage.initModality(Modality.APPLICATION_MODAL);
+
+            // You may only run .initModality once. Therefore we need to check if the window has been opened before
+            setupModality();
+
             addCourseStage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setupModality(){
+        if (!isInitialized){
+            addCourseStage.initModality(Modality.APPLICATION_MODAL);
+            isInitialized=true;
         }
     }
 

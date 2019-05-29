@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -267,6 +268,7 @@ public class MainController {
                     if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem() != null) {
                         if (!manageEmployeeController.isStageOpen()) {
 
+
                             configureManageEmployee();
 
                         } else {
@@ -289,6 +291,8 @@ public class MainController {
 
                     System.out.println("Updated course table view");
                     updateCourseTableView();
+
+
                 }
                 if (controller instanceof ManageEmployeeController) {
 

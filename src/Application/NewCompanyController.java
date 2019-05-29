@@ -15,6 +15,9 @@ public class NewCompanyController implements Openable {
     private static Stage newCompanyStage = new Stage();
     private FXMLLoader fxmlLoader;
 
+    // Used to check if the stage has been initialized before. Used for setting Modality
+    private static boolean isInitialized = false;
+
     @Override
     public void openWindow() {
         try {
@@ -23,12 +26,25 @@ public class NewCompanyController implements Openable {
             newCompanyStage.setTitle("Add New Company");
             newCompanyStage.setScene(new Scene(root));
             newCompanyStage.setResizable(false);
-            newCompanyStage.initModality(Modality.APPLICATION_MODAL);
+
+            // You may only run .initModality once. Therefore we need to check if the window has been opened before
+            setupModality();
+
             newCompanyStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void setupModality(){
+        if (!isInitialized){
+            newCompanyStage.initModality(Modality.APPLICATION_MODAL);
+            isInitialized=true;
+        }
+    }
+
+
 
     @Override
     public boolean isStageOpen() {
