@@ -327,6 +327,52 @@ public class DB {
         return listOfProviders;
     }
 
+    public ObservableList<EducationPlan> getEducationPlanList(int employeeID, boolean isActive){
+        ObservableList<EducationPlan> listOfEducationPlans = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.getEmployeeEducationPlan(?,?)}");
+            //set values
+            cs.setInt(1, employeeID);
+            //converting parameter boolean to bit for sql use
+            int isActiveBit;
+            if(isActive){isActiveBit = 1;}
+            else{isActiveBit = 0;}
+            cs.setInt(2, isActiveBit);
+            //Create ResultSet
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+                int dateID = rs.getInt("fldDateID");
+                String date = rs.getString("fldDate");
+                String information = rs.getString("fldInformation");
+                String provider = rs.getString("fldProviderName");
+                String location = rs.getString("fldLocationName");
+                int priority = rs.getInt("fldPriority");
+                int planID = rs.getInt("fldPlanID");
+                int isCompleted = rs.getInt("fldIsCompleted");
+
+                listOfEducationPlans.add(new EducationPlan(dateID, date, information, provider, location, priority, planID, isActiveBit, isCompleted));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
+
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+
+        return listOfEducationPlans;
+    }
+
+
     public static ObservableList<Qualification> getQualifications(Employee employee) {
 
         ObservableList<Qualification> listOfQualifications = FXCollections.observableArrayList();
