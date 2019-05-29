@@ -270,7 +270,7 @@ public class DB {
             //add data to observableList
             while (rs.next()) {
                 int dateID = rs.getInt("fldDateID");
-                String date = rs.getString("fldDateTime");
+                String date = rs.getString("fldDate");
                 String information = rs.getString("fldInformation");
                 String provider = rs.getString("fldProviderName");
                 String location = rs.getString("fldLocationName");
