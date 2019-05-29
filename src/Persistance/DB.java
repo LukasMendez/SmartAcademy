@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.io.FileReader;
 import java.sql.*;
+import java.time.Period;
 import java.util.Properties;
 
 /**
@@ -177,7 +178,7 @@ public class DB {
     }
 
 
-    public static ObservableList<Location> getLocationList(){
+    public static ObservableList<Location> getLocationList() {
 
         ObservableList<Location> listOfLocations = FXCollections.observableArrayList();
 
@@ -198,7 +199,7 @@ public class DB {
                 String address = rs.getString("fldAddress");
                 int zip = rs.getInt("fldZip");
 
-                listOfLocations.add(new Location(locationID,name,address,zip));
+                listOfLocations.add(new Location(locationID, name, address, zip));
 
 
             }
@@ -212,6 +213,82 @@ public class DB {
 
         return listOfLocations;
 
+
+    }
+
+
+    public static ObservableList<Integer> getPeriodList(int courseID) {
+
+        ObservableList<Integer> listOfPeriods = FXCollections.observableArrayList();
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllPeriods (?)}");
+
+            //insert the courseID
+            cs.setInt(1, courseID);
+
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+
+                int locationID = rs.getInt("fldPeriodID");
+
+                listOfPeriods.add(new Integer(locationID));
+
+
+            }
+
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfPeriods;
+
+
+    }
+
+    public static ObservableList<Date> getDatesList(int periodID) {
+
+        ObservableList<Date> listOfDates = FXCollections.observableArrayList();
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getDates (?)}");
+
+            //insert the courseID
+            cs.setInt(1, periodID);
+
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+
+                System.out.println("Found a record!");
+
+                int dateID = rs.getInt("fldDateID");
+                String date = rs.getString("fldDate");
+
+                listOfDates.add(new Date(date,dateID));
+
+            }
+
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfDates;
 
 
     }
@@ -432,7 +509,7 @@ public class DB {
             rowsAffected = cs.executeUpdate();
 
             cs.close();
-           // close();
+            // close();
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -496,7 +573,7 @@ public class DB {
 
     // ADD/INSERT
 
-    public static void insertCourse(int amuNumber, String information, String additionalInfo, int numberOfDays, int locationID, String cvrNo){
+    public static void insertCourse(int amuNumber, String information, String additionalInfo, int numberOfDays, int locationID, String cvrNo) {
 
 
         int rowsAffected = 0;
@@ -511,11 +588,11 @@ public class DB {
             CallableStatement cs = con.prepareCall("{call dbo.addCourse(?, ?, ?, ?, ?, ?)}");
 
             cs.setInt(1, amuNumber);
-            cs.setString(2,information);
-            cs.setString(3,additionalInfo);
-            cs.setInt(4,numberOfDays);
+            cs.setString(2, information);
+            cs.setString(3, additionalInfo);
+            cs.setInt(4, numberOfDays);
             cs.setInt(5, locationID);
-            cs.setString(6,cvrNo);
+            cs.setString(6, cvrNo);
 
 
             rowsAffected = cs.executeUpdate();
@@ -526,7 +603,9 @@ public class DB {
 
 
         } catch (Exception e) {
+
             System.err.println(e.getMessage());
+
         }
 
         if (rowsAffected > 0) {
@@ -539,20 +618,7 @@ public class DB {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static void insertQualification(Employee employee){
+    public static void insertQualification(Employee employee) {
 
         int rowsAffected = 0;
 
@@ -572,10 +638,10 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.addQualification(?,?,?,?)}");
 
-            cs.setInt(1,typeID);
-            cs.setString(2,description);
-            cs.setInt(3,levelID);
-            cs.setInt(4,employee.getEmployeeID());
+            cs.setInt(1, typeID);
+            cs.setString(2, description);
+            cs.setInt(3, levelID);
+            cs.setInt(4, employee.getEmployeeID());
 
             rowsAffected = cs.executeUpdate();
 
@@ -596,10 +662,84 @@ public class DB {
 
     }
 
+    public static void insertDate(String newDate, int periodID) {
+
+
+        int rowsAffected = 0;
+
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addDate(?,?)}");
+
+            cs.setString(1, newDate);
+            cs.setInt(2, periodID);
+
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+
+    }
+
+
+    public static void insertPeriod(int courseID) {
+
+
+        int rowsAffected = 0;
+
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addPeriod(?)}");
+
+            cs.setInt(1, courseID);
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+
+    }
+
 
     // REMOVE/DELETE
 
-    public static void deleteQualification(Qualification qualification){
+    public static void deleteQualification(Qualification qualification) {
 
         int rowsAffected = 0;
 
@@ -611,7 +751,7 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.deleteQualification (?)}");
 
-            cs.setInt(1,qualification.getQualificationID());
+            cs.setInt(1, qualification.getQualificationID());
 
             rowsAffected = cs.executeUpdate();
 
@@ -632,7 +772,7 @@ public class DB {
 
     }
 
-    public static void deleteCourse(Course course){
+    public static void deleteCourse(Course course) {
 
         int rowsAffected = 0;
 
@@ -644,7 +784,7 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.deleteCourse (?)}");
 
-            cs.setInt(1,course.getCourseID());
+            cs.setInt(1, course.getCourseID());
 
             rowsAffected = cs.executeUpdate();
 
@@ -665,6 +805,42 @@ public class DB {
 
     }
 
+    public static void deleteDate(int dateID){
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteDate (?)}");
+
+            cs.setInt(1, dateID);
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+
+
+
+
+    }
 
 
 }

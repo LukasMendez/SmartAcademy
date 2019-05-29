@@ -7,9 +7,31 @@ import java.time.format.DateTimeFormatter;
  * 21-05-2019.
  */
 public class Date {
-    String date;
 
-    public Date(String date){
+
+    private String date;
+    private int dateID;
+
+    public Date(String date, int dateID) {
         this.date = date;
+        this.dateID = dateID;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public int getDateID() {
+        return dateID;
+    }
+
+    @Override
+    public String toString(){
+
+        return date;
+    }
+
+
+
+
 }

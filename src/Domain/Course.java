@@ -20,14 +20,6 @@ public class Course {
     private StringProperty location;
     private StringProperty CVRNumber;
 
-//    public Course(String courseNumber, String information, String additionalInformation, int numberOfDays, String location, String CVRNumber){
-//        this.setCourseNumber(courseNumber);
-//        this.setInformation(information);
-//        this.setAdditionalInformation(additionalInformation);
-//        this.setNumberOfDays(numberOfDays);
-//        this.setLocation(location);
-//        this.setCVRNumber(CVRNumber);
-//    }
 
     public Course(int courseID, String courseNumber, String information, String additionalInformation, int numberOfDays, String location, String CVRNumber){
         this.setCourseID(courseID);

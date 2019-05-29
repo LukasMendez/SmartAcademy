@@ -8,8 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +27,9 @@ public class NewCourseController implements Openable{
     private static Stage addCourseStage = new Stage();
     private FXMLLoader fxmlLoader;
 
+    // Used to check if the stage has been initialized before. Used for setting Modality
+    private static boolean isInitialized = false;
+
     // TextFields
     @FXML
     private TextField amuNoTextField, cvrNoTextField, infoTextField, noOfDaysTextField, additionalInfoTextField;
@@ -32,6 +37,10 @@ public class NewCourseController implements Openable{
     // ComboBox
     @FXML
     private ComboBox locationDropDown;
+
+    // Label
+    @FXML
+    private Label infoLabel;
 
     public void initialize(){
 
@@ -52,9 +61,21 @@ public class NewCourseController implements Openable{
             Parent root = (Parent) fxmlLoader.load();
             addCourseStage.setTitle("ABC");
             addCourseStage.setScene(new Scene(root));
+
+            // You may only run .initModality once. Therefore we need to check if the window has been opened before
+            setupModality();
+
             addCourseStage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setupModality(){
+        if (!isInitialized){
+            addCourseStage.initModality(Modality.APPLICATION_MODAL);
+            isInitialized=true;
         }
     }
 
@@ -79,10 +100,17 @@ public class NewCourseController implements Openable{
 
         Location location = (Location) locationDropDown.getSelectionModel().getSelectedItem();
 
-        DB.insertCourse(Integer.parseInt(amuNoTextField.getText()),infoTextField.getText(),additionalInfoTextField.getText(),Integer.parseInt(noOfDaysTextField.getText()), location.getLocationID(),cvrNoTextField.getText());
+        try{
+            DB.insertCourse(Integer.parseInt(amuNoTextField.getText()),infoTextField.getText(),additionalInfoTextField.getText(),Integer.parseInt(noOfDaysTextField.getText()), location.getLocationID(),cvrNoTextField.getText());
+            infoLabel.setVisible(true);
+            infoLabel.setText("Data saved successfully!");
 
+        }catch (NumberFormatException e){
 
-        // TODO MAYBE SOME INPUT VALIDATION
+            infoLabel.setVisible(true);
+            infoLabel.setText("Error! Invalid input! Please try again");
+        }
+
 
 
     }

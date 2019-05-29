@@ -16,7 +16,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+
+import javafx.stage.Modality;
+
 import javafx.scene.input.MouseEvent;
+
 import javafx.stage.Stage;
 
 /**
@@ -32,6 +36,9 @@ public class ManageEmployeeController implements Openable {
     // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage manageEmployeeStage = new Stage();
     private FXMLLoader fxmlLoader;
+
+    // Used to check if the stage has been initialized before. Used for setting Modality
+    private static boolean isInitialized = false;
 
     // The employee which is sent from the Main Controller
     private Employee selectedEmployee;
@@ -102,6 +109,10 @@ public class ManageEmployeeController implements Openable {
         educationPlanTableView.setItems(educationPlansList);
     }
 
+
+      //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
+
+
     @FXML
     private void toggleHistory(){
         if(history == false){
@@ -113,7 +124,9 @@ public class ManageEmployeeController implements Openable {
             toggleHistoryButton.setText("Show History");
             history = false;
         }
+
     }
+
 
     @Override
     public void openWindow() {
@@ -123,11 +136,25 @@ public class ManageEmployeeController implements Openable {
             manageEmployeeStage.setTitle("Manage Selected Employee");
             manageEmployeeStage.setScene(new Scene(root));
             manageEmployeeStage.setResizable(false);
+
+            // You may only run .initModality once. Therefore we need to check if the window has been opened before
+            setupModality();
+
             manageEmployeeStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void setupModality(){
+        if (!isInitialized){
+            manageEmployeeStage.initModality(Modality.APPLICATION_MODAL);
+            isInitialized=true;
+        }
+    }
+
+
 
     @Override
     public boolean isStageOpen() {
