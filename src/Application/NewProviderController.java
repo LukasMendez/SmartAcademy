@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-// nigga
 
 /**
  * Created by Lukas
