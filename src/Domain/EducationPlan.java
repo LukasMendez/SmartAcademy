@@ -19,6 +19,8 @@ public class EducationPlan {
     private IntegerProperty planID;
     private IntegerProperty isActive;
     private IntegerProperty isCompleted;
+    private StringProperty isActiveWrapper;
+    private StringProperty isCompletedWrapper;
 
     public EducationPlan(int dateID, String date, String information, String provider, String location, int priority, int planID, int isActive, int isCompleted){
         this.setDateID(dateID);
@@ -30,6 +32,8 @@ public class EducationPlan {
         this.setPlanID(planID);
         this.setIsActive(isActive);
         this.setIsCompleted(isCompleted);
+        this.setIsActiveWrapper((this.getIsActive()));
+        this.setIsCompletedWrapper((this.getIsCompleted()));
     }
 
     public void setDateID(int value) { dateIDProperty().set(value); }
@@ -94,4 +98,31 @@ public class EducationPlan {
         if (isCompleted == null) isCompleted = new SimpleIntegerProperty(this, "isCompleted");
         return isCompleted;
     }
+
+    public void setIsActiveWrapper(int value) {
+        if(value == 1){
+            isActiveWrapperProperty().set("Yes");
+        }else{
+            isActiveWrapperProperty().set("No");
+        }
+    }
+    public String getIsActiveWrapper() { return isActiveWrapperProperty().get(); }
+    public StringProperty isActiveWrapperProperty() {
+        if (isActiveWrapper == null) isActiveWrapper = new SimpleStringProperty(this, "isActiveWrapper");
+        return isActiveWrapper;
+    }
+
+    public void setIsCompletedWrapper(int value) {
+        if(value == 1){
+            isCompletedWrapperProperty().set("Yes");
+        }else{
+            isCompletedWrapperProperty().set("No");
+        }
+    }
+    public String getIsCompletedWrapper() { return isActiveWrapperProperty().get(); }
+    public StringProperty isCompletedWrapperProperty() {
+        if (isCompletedWrapper == null) isCompletedWrapper = new SimpleStringProperty(this, "isCompletedWrapper");
+        return isCompletedWrapper;
+    }
+
 }
