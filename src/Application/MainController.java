@@ -290,9 +290,13 @@ public class MainController {
 
         // Will display the qualifications when the window is opened
         manageEmployeeController.displayQualifications();
-
         // Will activate the eventHandler to check if the stage is closed
+
         closeStageHandler(manageEmployeeController.getStage(), manageEmployeeController);
+
+        //Start method to use as entry point
+        manageEmployeeController.start();
+
 
     }
 
