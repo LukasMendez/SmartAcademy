@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 
 import java.io.FileReader;
 import java.sql.*;
-import java.time.Period;
 import java.util.Properties;
 
 /**
@@ -109,13 +108,44 @@ public class DB {
         return listOfCourses;
     }
 
+    public static ObservableList<CourseByPeriod> getCoursesByPeriod() {
+        ObservableList<CourseByPeriod> listOfCoursesByPeriod = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getCoursesByPeriod}");
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+                String information = rs.getString("fldInformation");
+                String provider = rs.getString("fldProvider");
+                String location = rs.getString("fldLocation");
+                String period = rs.getString("fldPeriod");
+                int periodID = rs.getInt("fldPeriodID");
+                listOfCoursesByPeriod.add(new CourseByPeriod(information, provider, location, period, periodID));
+            }
+
+            //printing for debugging
+            System.out.println();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfCoursesByPeriod;
+    }
+
     public static ObservableList<Employee> getEmployeeList() {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         try {
             //connect
             connect();
             //create Statement + ResultSet
-            CallableStatement cs = con.prepareCall("{call dbo.getAllEmployees}");
+            CallableStatement cs = con.prepareCall("{call dbo.getAllEmployees(?)}");
+            cs.setString(1,"16789045"); //temp hardcode while lukas is working on this
             ResultSet rs = cs.executeQuery();
             //create ResultSetMetaData
             ResultSetMetaData rsmd = rs.getMetaData(); //TODO Will you use this or not??

@@ -241,6 +241,9 @@ public class ManageEmployeeController implements Openable {
     public void addCourseToEducationPlan() {
         if (!courseToEPController.isStageOpen()) {
             courseToEPController.openWindow();
+            courseToEPController = (CourseToEPController) courseToEPController.getController();
+            courseToEPController.start();
+
         } else {
             System.out.println("Window is already open");
         }
