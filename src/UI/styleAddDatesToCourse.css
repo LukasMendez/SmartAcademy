@@ -1,0 +1,52 @@
+/* ############## */
+/* The Main Background-Color */
+/* ############## */
+.root {
+    -fx-font-size: 14px;
+    -fx-font-family: sans-serif;
+    -fx-background-color: #1d1d1f;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-shadow-highlight-color: transparent;
+    -fx-faint-color: transparent;
+}
+
+/* Changing Color Text Labels */
+.label {
+    -fx-text-fill: BLACK;
+}
+#label-heading{
+    -fx-text-fill: WHITE;
+}
+#label-text{
+    -fx-text-fill: WHITE;
+}
+/* COLOR OF THE BOX IN THE MIDDLE OF THE WINDOW */
+VBox {
+    -fx-background-color: #1d1d1f;
+}
+
+/* Changing all Buttons */
+.button{
+    -fx-background-color: BLACK;
+    -fx-text-fill: WHITE;
+    -fx-background-radius: 25;
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+    -fx-border-color: WHITE;
+    -fx-border-radius: 25px;
+    -fx-border-width: 1px;
+}
+/* BUTTON COLOR ON HOVER */
+.button:hover{
+    -fx-background-color: #555555;
+    -fx-text-fill: WHITE;
+    -fx-background-radius: 50;
+}
+
+
+
+
+
+
+

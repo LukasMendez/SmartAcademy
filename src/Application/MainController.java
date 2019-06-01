@@ -49,6 +49,14 @@ public class MainController {
     private int companiesIndex = 4;
     private int providerIndex = 5;
 
+    // Company selected
+    private Company selectedCompany;
+
+    // ComboBox
+    @FXML
+    private ComboBox companyDropDown;
+
+
     // Buttons
     @FXML
     private Button buttonLeft, buttonMiddle, buttonRight;
@@ -76,6 +84,12 @@ public class MainController {
 
     public void initialize() {
 
+        companyDropDown.setItems(DB.getCompanyList());
+        companyDropDown.getSelectionModel().selectFirst();
+        selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
+
+
+        selectedCompanyHandler();
         mouseClickEmployeeHandler();
         tabHandler();
 
@@ -152,14 +166,17 @@ public class MainController {
 
             deleteSelectedCourse();
 
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex){
+
+            deleteSelectedCompany();
+
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
+
+            deleteSelectedProvider();
+
         }
 
 
-        // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
-    }
-
-    @FXML
-    public void middleBottomButtonAction() {
         // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
     }
 
@@ -211,7 +228,19 @@ public class MainController {
     @FXML
     public void openNewEmployeeWindow() {
         if (!newEmployeeController.isStageOpen()) {
-            newEmployeeController.openWindow();
+
+            if (companyDropDown.getSelectionModel().getSelectedItem()!=null){
+
+                newEmployeeController.openWindow();
+                newEmployeeController = (NewEmployeeController) newEmployeeController.getController();
+                newEmployeeController.setSelectedCompany(selectedCompany);
+
+                closeStageHandler(newEmployeeController.getStage(),newEmployeeController);
+
+            }
+
+
+
         } else {
             System.out.println("Window is already open");
         }
@@ -221,6 +250,10 @@ public class MainController {
     public void openNewCompanyWindow() {
         if (!newCompanyController.isStageOpen()) {
             newCompanyController.openWindow();
+            newCompanyController = (NewCompanyController) newCompanyController.getController();
+
+            closeStageHandler(newCompanyController.getStage(),newCompanyController);
+
         } else {
             System.out.println("Window is already open");
         }
@@ -230,6 +263,11 @@ public class MainController {
     public void openNewProviderWindow() {
         if (!newProviderController.isStageOpen()) {
             newProviderController.openWindow();
+            newProviderController = (NewProviderController) newProviderController.getController();
+
+            closeStageHandler(newProviderController.getStage(),newProviderController);
+
+
         } else {
             System.out.println("Window is already open");
         }
@@ -292,16 +330,26 @@ public class MainController {
 
 
                 if (controller instanceof NewCourseController){
-
                     System.out.println("Updated course table view");
                     updateCourseTableView();
-
-
                 }
                 if (controller instanceof ManageEmployeeController) {
-
                     System.out.println("Updated employee table view");
                     updateEmployeeTableView();
+                }
+                if (controller instanceof NewCompanyController) {
+                    System.out.println("Updated company table view");
+                    updateCompanyTableView();
+                }
+                if (controller instanceof NewProviderController){
+                    System.out.println("Updated provider table view");
+                    updateProviderTableView();
+                }
+                if (controller instanceof NewEmployeeController) {
+
+                    System.out.println("Update employee table view");
+                    updateEmployeeTableView();
+
                 }
 
 
@@ -311,6 +359,35 @@ public class MainController {
             }
         });
     }
+
+    private void selectedCompanyHandler(){
+
+        companyDropDown.valueProperty().addListener((obs, oldItem, newItem) -> {
+
+            // System.out.println("User clicked on: " + newItem);
+
+            if (companyDropDown.getSelectionModel().getSelectedItem()!=null){
+
+                selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
+
+                System.out.println("You just casted the object as a Company, and the output is: " + selectedCompany.getName());
+
+                updateProviderTableView();
+                updateCompanyTableView();
+                updateCourseTableView();
+
+                // TODO UPDATE WITH NEW CVR NO
+                updateEmployeeTableView();
+
+            }
+
+
+        });
+
+    }
+
+
+
 
     //------DELETE ELEMENT FROM TABLEVIEW----/(
 
@@ -325,6 +402,26 @@ public class MainController {
 
     }
 
+    public void deleteSelectedCompany() {
+
+        Company company = (Company) companyTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteCompany(company);
+
+        updateCompanyTableView();
+
+    }
+
+    public void deleteSelectedProvider() {
+
+        Provider provider = (Provider) providerTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteProvider(provider);
+
+        updateProviderTableView();
+
+
+    }
 
 
 
@@ -335,13 +432,15 @@ public class MainController {
         courseList = DB.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
+        System.out.println("Updated Course TableView");
     }
 
     private void updateEmployeeTableView() {
         //constructing data model
-        employeeList = DB.getEmployeeList();
+        employeeList = DB.getEmployeeList(selectedCompany.getCVRNumber());
         //data binding
         employeeTableView.setItems(employeeList);
+        System.out.println("Updated Employee TableView");
     }
 
     private void updateCompanyTableView() {
@@ -349,6 +448,8 @@ public class MainController {
         companyList = DB.getCompanyList();
         //data binding
         companyTableView.setItems(companyList);
+        System.out.println("Updated Company TableView");
+
     }
 
     private void updateProviderTableView() {
@@ -356,6 +457,8 @@ public class MainController {
         providerList = DB.getProviderList();
         //data binding
         providerTableView.setItems(providerList);
+        System.out.println("Updated Provider TableView");
+
     }
 
     private void tabHandler() {

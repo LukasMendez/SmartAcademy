@@ -108,6 +108,7 @@ public class ManageEmployeeController implements Openable {
     }
 
 
+
       //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
 
 
@@ -122,7 +123,6 @@ public class ManageEmployeeController implements Openable {
             toggleHistoryButton.setText("Show History");
             history = false;
         }
-
     }
 
 

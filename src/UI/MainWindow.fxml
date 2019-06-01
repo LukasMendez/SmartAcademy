@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@/UI/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.MainController">
     <center>
         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
@@ -28,9 +28,9 @@
                     <tabs>
                         <Tab text="Education Matrix">
                             <content>
-                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0">
+                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleScrollPane.css">
                                     <content>
-                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0">
+                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/styleTableViewWhite.css">
                                             <columns>
                                                 <TableColumn editable="false" prefWidth="132.5" text="Employee Number" />
                                                 <TableColumn editable="false" minWidth="0.0" prefWidth="148.5" text="Education Title" />
@@ -44,7 +44,7 @@
                         </Tab>
                         <Tab fx:id="companiesTab" text="Employee">
                             <content>
-                                <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0">
+                                <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="employeeNameColumn" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="employeeCPRColumn" prefWidth="75.0" text="CPR-number" />
@@ -72,7 +72,7 @@
                         </Tab>
                         <Tab text="Courses">
                             <content>
-                                <TableView fx:id="courseTableView" prefHeight="665.0">
+                                <TableView fx:id="courseTableView" prefHeight="665.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="courseNumberColumn" prefWidth="120.5" text="Course Number" />
                                         <TableColumn fx:id="informationColumn" prefWidth="135.0" text="Information" />
@@ -89,7 +89,7 @@
                         </Tab>
                         <Tab text="Companies">
                             <content>
-                                <TableView fx:id="companyTableView" prefHeight="200.0" prefWidth="200.0">
+                                <TableView fx:id="companyTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="companyNameColumn" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="companyAddressColumn" prefWidth="75.0" text="Address" />
@@ -109,7 +109,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                             </content>
                             <content>
-                                <TableView fx:id="providerTableView" prefHeight="200.0" prefWidth="200.0">
+                                <TableView fx:id="providerTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="providerNameColumn" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="providerAddressColumn" prefWidth="75.0" text="Address" />
@@ -143,7 +143,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;">
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Button fx:id="buttonLeft" mnemonicParsing="false" onAction="#leftBottomButtonAction" text="Delete Course" visible="false" />
                     </children>
@@ -151,7 +151,7 @@
                         <Insets left="20.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;" GridPane.columnIndex="2">
+                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                     <children>
                         <Button fx:id="buttonRight" mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Add New Course" visible="false" />
                     </children>
@@ -162,7 +162,7 @@
                         <Insets right="20.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: grey;" GridPane.columnIndex="1">
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                     <children>
                         <Button fx:id="buttonMiddle" mnemonicParsing="false" onAction="#openAddDatesToCourseWindow" text="Add dates to selected course" visible="false" />
                     </children>
@@ -182,7 +182,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <ChoiceBox prefWidth="150.0" />
+                  <ComboBox fx:id="companyDropDown" prefWidth="150.0" />
                     </children>
                     <padding>
                         <Insets left="20.0" />
