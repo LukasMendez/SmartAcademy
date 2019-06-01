@@ -68,8 +68,6 @@ public class ManageEmployeeController implements Openable {
         // Will retrieve an observable list from the database of all possible qualification levels and display it in the dropdown menu
         levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
 
-      //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
-
     }
 
 

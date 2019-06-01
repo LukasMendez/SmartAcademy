@@ -1,0 +1,97 @@
+/* The fill color of the header / headline bar */
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color: #1d1d1f;
+    -fx-border-color: #000000;
+    -fx-border-width : 0 1;
+}
+
+/* Text settings for the header / headline bar */
+.table-view .column-header .label{
+    -fx-text-fill: #FFFF;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Main/General CSS Class for the table view */
+.table-view {
+    -fx-table-cell-border-color: #FFFF;
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 0;
+}
+
+/* Settings only being applied to the cells
+.table-view .cell{
+    -fx-cell-size: 35;
+    -fx-alignment: center-left;
+    -fx-background-color: #ffffff;
+    -fx-border-color: rgb(255, 255, 255);
+    -fx-text-fill: lightgray;
+    -fx-alignment: CENTER_LEFT;
+
+}
+*/
+
+/* Cell for even numbers */
+/*.table-view .table-cell:even { */
+.table-row-cell:even{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #1d1d1d;
+}
+
+/* Cell for odd numbers */
+/*.table-view .table-cell:odd { */
+.table-row-cell:odd{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #1d1d1d;
+}
+/* Generel text color of/in table cells */
+.table-view .table-cell{
+    -fx-text-fill: #000000;
+}
+
+/* Color of cell that is focused/selected by the user */
+.table-row-cell:selected {
+    -fx-background-color: rgba(228, 82, 91, 0.85);
+    /*-fx-text-background-color:  #2e0002; */
+    -fx-table-cell-border-color: transparent;
+}
+/* Color of cell that the user currently is hovering over with the mouse*/
+.table-view:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: rgba(228, 82, 91, 0.85);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-table-cell-border-color: transparent;
+    -fx-text-fill: -fx-text-inner-color;
+}
+
+/* The main scrollbar CSS class of ListView */
+.table-view .scroll-bar:horizontal ,
+.table-view  .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+/* The increment and decrement button of scrollbar */
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:derive(gray,0%);
+}
+
+/*The main scrollbar **track** CSS class  */
+/*
+.list-view .scroll-bar:horizontal .track ,
+.list-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive(gray,0%);
+    -fx-background-radius: 0em;
+}
+*/
+
+/* The main scrollbar **thumb** which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
+}
+
