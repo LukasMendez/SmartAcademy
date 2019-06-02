@@ -75,15 +75,12 @@
                                 <TableView fx:id="courseTableView" prefHeight="665.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="courseNumberColumn" prefWidth="120.5" text="Course Number" />
-                                        <TableColumn fx:id="informationColumn" prefWidth="135.0" text="Information" />
-                                        <TableColumn fx:id="additionalInformationColumn" prefWidth="360.0" text="Additional Information" />
-                                        <TableColumn fx:id="numberOfDaysColumn" prefWidth="140.0" text="Number of Days" />
-                                        <TableColumn fx:id="locationIDColumn" prefWidth="140.0" text="Location" />
-                                        <TableColumn fx:id="CVRNumberColumn" prefWidth="140.0" text="Provider" />
+                                        <TableColumn fx:id="informationColumn" prefWidth="180.0" text="Information" />
+                                        <TableColumn fx:id="additionalInformationColumn" prefWidth="312.0" text="Additional Information" />
+                                        <TableColumn fx:id="numberOfDaysColumn" prefWidth="117.0" text="Number of Days" />
+                                        <TableColumn fx:id="locationIDColumn" prefWidth="142.5" text="Location" />
+                                        <TableColumn fx:id="CVRNumberColumn" prefWidth="129.5" text="Provider" />
                                     </columns>
-                                    <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                    </columnResizePolicy>
                                 </TableView>
                             </content>
                         </Tab>
@@ -192,7 +189,7 @@
                     <children>
                         <Label text="Smart Academy Manager">
                             <font>
-                                <Font name="Arial" size="31.0" />
+                                <Font name="Yu Gothic Medium" size="31.0" />
                             </font>
                         </Label>
                     </children>

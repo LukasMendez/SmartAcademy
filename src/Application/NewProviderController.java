@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -39,6 +40,7 @@ public class NewProviderController implements Openable {
             fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddProviderWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newProviderStage.setTitle("Add New Provider");
+            newProviderStage.getIcons().add(new Image("UI/Images/building.png"));
             newProviderStage.setScene(new Scene(root));
             newProviderStage.setResizable(false);
 
