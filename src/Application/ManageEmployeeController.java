@@ -7,6 +7,7 @@ import Domain.Qualification;
 import Domain.Type;
 import Persistance.DB;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +26,10 @@ import javafx.stage.WindowEvent;
  * 21-05-2019.
  */
 public class ManageEmployeeController implements Openable {
+
+    private DB db = DB.getInstance();
+
+    private boolean history;
 
     // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage manageEmployeeStage = new Stage();
@@ -50,11 +55,12 @@ public class ManageEmployeeController implements Openable {
 
     //TableView
     @FXML
-    private TableView qualificationsTableView;
+    private TableView qualificationsTableView, educationPlanTableView;
 
     //TableColumns
     @FXML
-    private TableColumn typeColumn, descriptionColumn, levelColumn;
+    private TableColumn typeColumn, descriptionColumn, levelColumn, //qualification
+            dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn, completedColumn; //educationPlan
 
     //ObservableList
     private ObservableList<Qualification> qualificationsList;
@@ -66,7 +72,6 @@ public class ManageEmployeeController implements Openable {
     private CourseToEPController courseToEPController = new CourseToEPController();
 
     public void initialize() {
-
         // Will retrieve an observable list from the database of all possible qualification types and display it in the dropdown menu
         typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationTypes()));
         // Make the table cells editable
