@@ -27,9 +27,7 @@
       </TableView>
       <HBox alignment="CENTER" prefHeight="69.0" prefWidth="548.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="56.0" text="Reset" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="127.0" text="Add selected course" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="82.0" text="Done" />
+            <Button mnemonicParsing="false" onAction="#setSelectedCourse" prefHeight="35.0" prefWidth="127.0" text="Add" />
          </children>
       </HBox>
    </children>

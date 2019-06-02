@@ -2,6 +2,7 @@ package Application;
 
 import Domain.CourseByPeriod;
 import Persistance.DB;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +33,7 @@ public class CourseToEPController implements Openable {
     private static boolean isInitialized = false;
 
     private ObservableList<CourseByPeriod> coursesByPeriodList;
+    private CourseByPeriod selectedCourse;
 
     // Instance of itself. Used for regaining access to the instance from the MainController.
     private CourseToEPController courseToEPController;
@@ -45,11 +47,13 @@ public class CourseToEPController implements Openable {
             courseToEducationPlanStage.setScene(new Scene(root));
             courseToEducationPlanStage.setResizable(false);
 
+
+
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();
 
-
             courseToEducationPlanStage.show();
+
 
 
         } catch (Exception e) {
@@ -85,6 +89,21 @@ public class CourseToEPController implements Openable {
         addCourseToEPTableView.setItems(coursesByPeriodList);
     }
 
+    @FXML
+    private void setSelectedCourse(){
+        //storing the selected course
+        if(addCourseToEPTableView.getSelectionModel().getSelectedItem() != null){
+            selectedCourse = (CourseByPeriod)addCourseToEPTableView.getSelectionModel().getSelectedItem();
+            //closing the window through a detour because javaFX
+            Stage stage = getStage();
+            stage.close();
+        }
+    }
+
+    public CourseByPeriod getSelectedCourse(){
+        return selectedCourse;
+    }
+
     @Override
     public boolean isStageOpen() {
         return courseToEducationPlanStage.isShowing();
@@ -97,6 +116,6 @@ public class CourseToEPController implements Openable {
 
     @Override
     public Stage getStage() {
-        return null;
+        return (Stage)addCourseToEPTableView.getScene().getWindow();
     }
 }

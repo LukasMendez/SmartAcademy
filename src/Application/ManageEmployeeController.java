@@ -1,10 +1,6 @@
 package Application;
 
-import Domain.EducationPlan;
-import Domain.Employee;
-import Domain.Level;
-import Domain.Qualification;
-import Domain.Type;
+import Domain.*;
 import Persistance.DB;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -22,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.scene.input.MouseEvent;
 
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Created by Lukas
@@ -241,12 +238,36 @@ public class ManageEmployeeController implements Openable {
     public void addCourseToEducationPlan() {
         if (!courseToEPController.isStageOpen()) {
             courseToEPController.openWindow();
-            courseToEPController = (CourseToEPController) courseToEPController.getController();
+            courseToEPController = (CourseToEPController)courseToEPController.getController();
+            closeStageHandler(courseToEPController.getStage(), courseToEPController);
             courseToEPController.start();
 
         } else {
             System.out.println("Window is already open");
         }
+    }
+
+    public void closeStageHandler(Stage stage, Object controller) {
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                System.out.println("THE WINDOW WAS CLOSED");
+                addCourseToEP(courseToEPController.getSelectedCourse());
+            }
+        });
+    }
+
+    private void addCourseToEP(CourseByPeriod selectedCourse){
+        System.out.println(selectedCourse);
+        //add new coursePlan record to DB using periodID from selectedCourse
+        EducationPlan activePlan = null;
+        for (int i = 0; i < educationPlansList.size(); i++) {
+            if(educationPlansList.get(i).getIsActive() == 1){
+                activePlan = educationPlansList.get(i);
+            }
+        }
+        db.addCoursePlan(activePlan, selectedCourse);
+        updateEducationPlanTableView(true); //updating tableView
     }
 
     // QUALIFICATION SECTION

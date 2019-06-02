@@ -138,6 +138,30 @@ public class DB {
         return listOfCoursesByPeriod;
     }
 
+    public static void addCoursePlan(EducationPlan coursePlan, CourseByPeriod coursePeriod) {
+        int rowsAffected = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.addCoursePlan(?,?,?,?)}");
+            cs.setInt(1, coursePlan.getPriority());
+            cs.setInt(2, coursePlan.getIsCompleted());
+            cs.setInt(3, coursePlan.getPlanID());
+            cs.setInt(4, coursePeriod.getPeriodID());
+            rowsAffected = cs.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println(rowsAffected + " rows was affected!");
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public static ObservableList<Employee> getEmployeeList() {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         try {
@@ -871,6 +895,8 @@ public class DB {
 
 
     }
+
+
 
 
 }
