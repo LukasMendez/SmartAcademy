@@ -1,5 +1,6 @@
 package Application;
 
+import Domain.*;
 import Domain.Employee;
 import Domain.Level;
 import Domain.Qualification;
@@ -17,6 +18,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Created by Lukas
@@ -40,7 +42,7 @@ public class ManageEmployeeController implements Openable {
 
     //Buttons
     @FXML
-    private Button editInfoButton, applyChangesButton;
+    private Button editInfoButton, applyChangesButton, toggleHistoryButton, deleteButton, completedButton, addButton;
 
     //Labels
     @FXML
@@ -56,6 +58,9 @@ public class ManageEmployeeController implements Openable {
 
     //ObservableList
     private ObservableList<Qualification> qualificationsList;
+    private ObservableList<EducationPlan> educationPlansList;
+
+    EducationPlan activePlan;
 
     // Controller (Window)
     private CourseToEPController courseToEPController = new CourseToEPController();
@@ -68,7 +73,55 @@ public class ManageEmployeeController implements Openable {
         descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         // Will retrieve an observable list from the database of all possible qualification levels and display it in the dropdown menu
         levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
+    }
 
+    public void start(){
+        history = false;
+
+        //EducationPlan
+        //constructing data model + data binding
+        updateEducationPlanTableView(true);
+        //splitting out the data in the model
+        dateColumn.setCellValueFactory(new PropertyValueFactory("date"));
+        informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
+        providerColumn.setCellValueFactory(new PropertyValueFactory("provider"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory("location"));
+        priorityColumn.setCellValueFactory(new PropertyValueFactory("priority"));
+        planIDColumn.setCellValueFactory(new PropertyValueFactory("planID"));
+        activeColumn.setCellValueFactory(new PropertyValueFactory("isActiveWrapper"));
+        completedColumn.setCellValueFactory(new PropertyValueFactory("isCompletedWrapper"));
+        //representing the data in the columns
+        educationPlanTableView.getColumns().setAll(dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn, completedColumn);
+    }
+
+    private void updateEducationPlanTableView(boolean isActive){
+        //constructing data model
+        educationPlansList = db.getEducationPlanList(selectedEmployee.getEmployeeID(), isActive);
+        //data binding
+        educationPlanTableView.setItems(educationPlansList);
+    }
+
+
+      //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
+
+
+    @FXML
+    private void toggleHistory(){
+        if(history == false){
+            updateEducationPlanTableView(false);
+            toggleHistoryButton.setText("Show Active");
+            deleteButton.setVisible(false);
+            completedButton.setVisible(false);
+            addButton.setVisible(false);
+            history = true;
+        }else{
+            updateEducationPlanTableView(true);
+            toggleHistoryButton.setText("Show History");
+            deleteButton.setVisible(true);
+            completedButton.setVisible(true);
+            addButton.setVisible(true);
+            history = false;
+        }
     }
 
 
@@ -188,9 +241,61 @@ public class ManageEmployeeController implements Openable {
     public void addCourseToEducationPlan() {
         if (!courseToEPController.isStageOpen()) {
             courseToEPController.openWindow();
+            courseToEPController = (CourseToEPController)courseToEPController.getController();
+            closeStageHandler(courseToEPController.getStage(), courseToEPController);
+            courseToEPController.start();
+
         } else {
             System.out.println("Window is already open");
         }
+    }
+
+    public void closeStageHandler(Stage stage, Object controller) {
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                //doing stuff when the window was closed
+                System.out.println("THE WINDOW WAS CLOSED");
+                addCourseToEP(courseToEPController.getSelectedCourse());
+            }
+        });
+    }
+
+    private void addCourseToEP(CourseByPeriod selectedCourse){
+        System.out.println(selectedCourse);
+        //add new coursePlan record to DB using periodID from selectedCourse
+        for (int i = 0; i < educationPlansList.size(); i++) {
+            if(educationPlansList.get(i).getIsActive() == 1){
+                activePlan = educationPlansList.get(i);
+            }
+        }
+        db.addCoursePlan(activePlan, selectedCourse);
+        updateEducationPlanTableView(true); //updating tableView
+    }
+
+    @FXML
+    private void removeCourseFromEp(){
+        //get coursePlanID
+        int coursePlanID = getCoursePlanID();
+        //remove course plan from db
+        db.removeCoursePlan(coursePlanID);
+        //update tableView
+        updateEducationPlanTableView(true);
+    }
+
+    @FXML
+    private void setCoursePlanAsCompleted(){
+        //get coursePlanID
+        int coursePlanID = getCoursePlanID();
+        //update completed field in db
+        db.toggleCoursePlanCompletion(coursePlanID);
+        //update tableView
+        updateEducationPlanTableView(true);
+    }
+
+    private int getCoursePlanID(){
+        activePlan = (EducationPlan)educationPlanTableView.getSelectionModel().getSelectedItem();
+        return db.getCoursePlanID(activePlan.getDateID(), activePlan.getPlanID());
     }
 
     // QUALIFICATION SECTION

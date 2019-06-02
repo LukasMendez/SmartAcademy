@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 
 import java.io.FileReader;
 import java.sql.*;
-import java.time.Period;
 import java.util.Properties;
 
 /**
@@ -148,6 +147,125 @@ public class DB {
         return listOfCourses;
     }
 
+    public static ObservableList<CourseByPeriod> getCoursesByPeriod() {
+        ObservableList<CourseByPeriod> listOfCoursesByPeriod = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getCoursesByPeriod}");
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+                String information = rs.getString("fldInformation");
+                String provider = rs.getString("fldProvider");
+                String location = rs.getString("fldLocation");
+                String period = rs.getString("fldPeriod");
+                int periodID = rs.getInt("fldPeriodID");
+                listOfCoursesByPeriod.add(new CourseByPeriod(information, provider, location, period, periodID));
+            }
+
+            //printing for debugging
+            System.out.println();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfCoursesByPeriod;
+    }
+
+    public static void addCoursePlan(EducationPlan coursePlan, CourseByPeriod coursePeriod) {
+        int rowsAffected = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.addCoursePlan(?,?,?,?)}");
+            cs.setInt(1, coursePlan.getPriority());
+            cs.setInt(2, coursePlan.getIsCompleted());
+            cs.setInt(3, coursePlan.getPlanID());
+            cs.setInt(4, coursePeriod.getPeriodID());
+            rowsAffected = cs.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println(rowsAffected + " rows was affected!");
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static int getCoursePlanID(int dateID, int planID) {
+        int coursePlanID = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("SELECT dbo.getCoursePlanID(?,?)");
+            cs.setInt(1, dateID);
+            cs.setInt(2, planID);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                coursePlanID = rs.getInt(1);
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return coursePlanID;
+    }
+
+    public static void toggleCoursePlanCompletion(int coursePlanID) {
+        int rowsAffected = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.setCoursePlanAsCompleted(?)}");
+            cs.setInt(1, coursePlanID);
+            rowsAffected = cs.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println(rowsAffected + " rows was affected!");
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static void removeCoursePlan(int coursePlanID) {
+        int rowsAffected = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.deleteCoursePlan(?)}");
+            cs.setInt(1, coursePlanID);
+            rowsAffected = cs.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println(rowsAffected + " rows was affected!");
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public static ObservableList<Employee> getEmployeeList(String cvrNo) {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         try {
@@ -155,9 +273,7 @@ public class DB {
             connect();
             //create Statement + ResultSet
             CallableStatement cs = con.prepareCall("{call dbo.getAllEmployeesCVR (?)}");
-
             cs.setString(1,cvrNo);
-
             ResultSet rs = cs.executeQuery();
 
             //add data to observableList
@@ -1095,6 +1211,8 @@ public class DB {
 
 
     }
+
+
 
 
 }

@@ -8,19 +8,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="550.0" spacing="10.0" stylesheets="@/UI/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.CourseToEPController">
    <padding>
       <Insets top="10.0" />
    </padding>
    <children>
       <TextField prefHeight="33.0" prefWidth="252.0" promptText="Search for course" style="-fx-background-radius: 30;" />
-      <TableView prefHeight="482.0" prefWidth="550.0" stylesheets="@/UI/styleTableViewWhite.css">
+      <TableView fx:id="addCourseToEPTableView" prefHeight="482.0" prefWidth="550.0" stylesheets="@/UI/styleTableViewWhite.css">
         <columns>
-          <TableColumn prefWidth="75.0" text="Information" />
-          <TableColumn prefWidth="75.0" text="Provider" />
-            <TableColumn prefWidth="75.0" text="Location" />
-            <TableColumn prefWidth="75.0" text="Period" />
+          <TableColumn fx:id="informationColumn" prefWidth="75.0" text="Information" />
+          <TableColumn fx:id="providerColumn" prefWidth="75.0" text="Provider" />
+            <TableColumn fx:id="locationColumn" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="periodColumn" prefWidth="75.0" text="Period" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -28,9 +27,7 @@
       </TableView>
       <HBox alignment="CENTER" prefHeight="69.0" prefWidth="548.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="56.0" text="Reset" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="127.0" text="Add selected course" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="82.0" text="Done" />
+            <Button mnemonicParsing="false" onAction="#setSelectedCourse" prefHeight="35.0" prefWidth="127.0" text="Add" />
          </children>
       </HBox>
    </children>
