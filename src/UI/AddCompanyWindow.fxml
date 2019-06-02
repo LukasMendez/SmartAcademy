@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="500.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.NewEmployeeController">
+<VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="500.0" spacing="10.0" stylesheets="@/UI/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.NewCompanyController">
    <children>
       <GridPane prefHeight="204.0" prefWidth="500.0">
         <columnConstraints>
@@ -23,11 +24,11 @@
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <Label text="Name" />
-                  <TextField prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="nameTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Address" />
-                  <TextField prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="addressTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Phone number" />
-                  <TextField prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="phoneNoTextField" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -39,11 +40,11 @@
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
                <children>
                   <Label text="CVR number" />
-                  <TextField prefWidth="170.0" />
+                  <TextField fx:id="cvrNoTextField" prefWidth="170.0" />
                   <Label text="E-mail" />
-                  <TextField prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="emailTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Zip code" />
-                  <TextField prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="zipTextField" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -54,6 +55,11 @@
             </VBox>
          </children>
       </GridPane>
-      <Button mnemonicParsing="false" text="Confirm" />
+      <Label fx:id="infoLabel" alignment="CENTER" prefHeight="17.0" prefWidth="115.0" text="Error" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#confirmChanges" text="Confirm" />
    </children>
 </VBox>

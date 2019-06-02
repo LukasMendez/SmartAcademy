@@ -1,0 +1,112 @@
+/* ############## */
+/* The Main Background-Color */
+/* ############## */
+.root {
+    -fx-font-size: 14px;
+    -fx-font-family: sans-serif;
+    -fx-background-color: #1d1d1f;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-shadow-highlight-color: transparent;
+    -fx-faint-color: transparent;
+}
+
+/* Changing Color of all Text Labels */
+.label {
+    -fx-text-fill: WHITE;
+}
+
+/* THE BOX for the TAB PANE "Boxes"/TABS */
+VBox {
+-fx-background-color: #2d2d30;
+}
+
+/* ######### */
+/* TAB PANE */
+/* ######### */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+
+/* TAB BACKGROUND COLOR ALL */
+.tab-pane .tab
+{
+    -fx-background-color: rgba(61, 61, 64, 0.77);
+}
+
+/* Special TABS COLOR */
+#tab-pane-special-tabs
+{
+    -fx-background-color: rgba(29, 29, 31, 0.73);
+}
+/* Special TABS Selected COLOR */
+#tab-pane-special-tabs:selected
+{
+    -fx-background-color: rgba(83, 0, 6, 0.73);
+}
+
+/* CURRENT SELECTED TAB */
+.tab-pane .tab:selected
+{
+    -fx-background-color: #530006;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* TAB TEXT COLOR */
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: WHITE;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Selected TAB */
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: WHITE;
+}
+
+
+/* Changing all Buttons */
+.button{
+    -fx-background-color: BLACK;
+    -fx-text-fill: WHITE;
+    -fx-font-size: 12px;
+    -fx-background-radius: 25;
+    /* -fx-pref-height: 30px;
+    -fx-pref-width: 130px; */
+    -fx-min-width: 130px;
+    -fx-padding: 8px;
+    -fx-wrap-text: true;
+    -fx-border-color: WHITE;
+    -fx-border-radius: 25px;
+    -fx-border-width: 1px;
+ }
+/* BUTTON COLOR ON HOVER */
+.button:hover{
+    -fx-background-color: #555555;
+    -fx-text-fill: WHITE;
+    -fx-background-radius: 25;
+}
+
+/* Only for the Employee Information Box: ManageEmployeeWindows.fxml */
+#employee-information-box-headings{
+    -fx-text-fill: BLACK;
+}
+
+
+
+
+
+
+

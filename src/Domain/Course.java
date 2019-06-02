@@ -11,7 +11,6 @@ import javafx.beans.property.StringProperty;
  */
 public class Course {
 
-    // TODO MAKE COURSE ID AS WELL
     private IntegerProperty courseID;
     private StringProperty courseNumber;
     private StringProperty information;

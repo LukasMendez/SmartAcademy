@@ -68,4 +68,12 @@ public class Company {
         if (CVRNumber == null) CVRNumber = new SimpleStringProperty(this, "CVRNumber");
         return CVRNumber;
     }
+
+    @Override
+    public String toString(){
+
+        return getName();
+    }
+
+
 }

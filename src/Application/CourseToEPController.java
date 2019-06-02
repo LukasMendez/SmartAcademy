@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -44,6 +45,7 @@ public class CourseToEPController implements Openable {
             fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseToEPWindow.fxml"));
             Parent root = fxmlLoader.load();
             courseToEducationPlanStage.setTitle("Add Course To Education Plan");
+            courseToEducationPlanStage.getIcons().add(new Image("UI/Images/clipboard.png"));
             courseToEducationPlanStage.setScene(new Scene(root));
             courseToEducationPlanStage.setResizable(false);
 

@@ -40,9 +40,9 @@
                         <Insets top="10.0" />
                      </padding>
                      <children>
-                        <Label id="employee-information-box-headings" text="Name" />
+                        <Label text="Name" />
                         <TextField fx:id="nameTextField" disable="true" editable="false" focusTraversable="false" />
-                        <Label id="employee-information-box-headings" text="E-mail" />
+                        <Label text="E-mail" />
                         <TextField fx:id="emailTextField" disable="true" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
@@ -51,21 +51,21 @@
                         <Insets top="10.0" />
                      </padding>
                      <children>
-                        <Label id="employee-information-box-headings" text="CPR number" />
+                        <Label text="CPR number" />
                         <TextField fx:id="cprTextField" disable="true" editable="false" focusTraversable="false" />
-                        <Label id="employee-information-box-headings" text="Phone Number" />
+                        <Label text="Phone Number" />
                         <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
                </children>
             </GridPane>
-            <VBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="400.0" style="-fx-background-color: lightgrey;">
+            <VBox alignment="TOP_CENTER" prefHeight="55.0" prefWidth="400.0" style="-fx-background-color: lightgrey;">
                <VBox.margin>
                   <Insets top="-20.0" />
                </VBox.margin>
                <children>
-                  <Label id="employee-information-box-headings" fx:id="infoLabel" text="Some text" visible="false" />
-                  <HBox alignment="CENTER" prefHeight="55.0" prefWidth="400.0" spacing="20.0" style="-fx-background-color: lightgrey;">
+                  <Label fx:id="infoLabel" text="Some text" visible="false" />
+                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="400.0" spacing="20.0" style="-fx-background-color: lightgrey;">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -110,26 +110,23 @@
             </Label>
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="506.0" prefWidth="460.0" style="-fx-background-color: lightgrey;">
                <children>
-                  <TableView fx:id="educationPlanTableView" prefHeight="393.0" prefWidth="460.0" stylesheets="@/UI/styleTableViewWhite.css">
+                  <TableView prefHeight="388.0" prefWidth="440.0">
                     <columns>
-                        <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
-                      <TableColumn fx:id="informationColumn" prefWidth="121.0" text="Information" />
-                      <TableColumn fx:id="providerColumn" minWidth="0.0" prefWidth="88.0" text="Provider" />
-                        <TableColumn fx:id="locationColumn" prefWidth="102.0" text="Location" />
-                        <TableColumn fx:id="priorityColumn" prefWidth="63.0" text="Priority" />
-                        <TableColumn fx:id="planIDColumn" prefWidth="63.0" text="PlanID" />
-                        <TableColumn fx:id="activeColumn" prefWidth="68.0" text="Active" />
-                        <TableColumn fx:id="completedColumn" prefWidth="70.0" text="Completed" />
+                      <TableColumn prefWidth="121.0" text="Information" />
+                      <TableColumn minWidth="0.0" prefWidth="88.0" text="Provider" />
+                        <TableColumn prefWidth="102.0" text="Location" />
+                        <TableColumn prefWidth="65.0" text="Date" />
+                        <TableColumn prefWidth="63.0" text="Priority" />
                     </columns>
                   </TableView>
                   <HBox alignment="CENTER" prefHeight="63.0" prefWidth="508.0" spacing="20.0">
                      <children>
-                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#removeCourseFromEp" text="Delete course" />
-                        <Button fx:id="completedButton" mnemonicParsing="false" onAction="#setCoursePlanAsCompleted" text="Mark as completed" />
-                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addCourseToEducationPlan" text="Add course" />
+                        <Button mnemonicParsing="false" text="Delete course" />
+                        <Button mnemonicParsing="false" text="Mark as completed" />
+                        <Button mnemonicParsing="false" onAction="#addCourseToEducationPlan" text="Add course" />
                      </children>
                   </HBox>
-                  <Button fx:id="toggleHistoryButton" mnemonicParsing="false" onAction="#toggleHistory" prefHeight="22.0" prefWidth="95.0" text="Show History" />
+                  <Button mnemonicParsing="false" prefHeight="22.0" prefWidth="95.0" text="Show history" />
                </children>
                <VBox.margin>
                   <Insets />

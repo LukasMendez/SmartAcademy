@@ -69,6 +69,45 @@ public class DB {
         }
     }
 
+    // TODO CAN WE AGREE TO USE THIS SOLUTION?
+    // TODO TEST THIS WITH NO COMPANIES
+    @SuppressWarnings("Duplicates")
+    public static Company getFirstCompany() {
+        Company company = null;
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getFirstCompany}");
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+                String name = rs.getString("fldname");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
+                String email = rs.getString("fldEmail");
+                String phoneNumber = rs.getString("fldPhoneNumber");
+                String CVRNumber = rs.getString("fldCVRNumber");
+
+                company = new Company(name,address,zip,email,phoneNumber,CVRNumber);
+            }
+
+            //close
+            close();
+
+            System.out.println("First company selected: " + company.getName());
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return company;
+    }
+
+
+
 
     public static ObservableList<Course> getCourseList() {
         ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
@@ -227,17 +266,15 @@ public class DB {
         }
     }
 
-    public static ObservableList<Employee> getEmployeeList() {
+    public static ObservableList<Employee> getEmployeeList(String cvrNo) {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         try {
             //connect
             connect();
             //create Statement + ResultSet
-            CallableStatement cs = con.prepareCall("{call dbo.getAllEmployees(?)}");
-            cs.setString(1,"16789045"); //temp hardcode while lukas is working on this
+            CallableStatement cs = con.prepareCall("{call dbo.getAllEmployeesCVR (?)}");
+            cs.setString(1,cvrNo);
             ResultSet rs = cs.executeQuery();
-            //create ResultSetMetaData
-            ResultSetMetaData rsmd = rs.getMetaData(); //TODO Will you use this or not??
 
             //add data to observableList
             while (rs.next()) {
@@ -259,6 +296,7 @@ public class DB {
         return listOfEmployees;
     }
 
+    @SuppressWarnings("Duplicates")
     public static ObservableList<Company> getCompanyList() {
         ObservableList<Company> listOfCompanies = FXCollections.observableArrayList();
         try {
@@ -281,12 +319,7 @@ public class DB {
 
                 listOfCompanies.add(new Company(name, address, zip, email, phoneNumber, CVRNumber));
             }
-            /*
-            //printing for debugging
-            for (int i = 0; i < listOfCourses.size(); i++) {
-                System.out.println(listOfCourses.get(i).toString());
-            }*/
-            //close
+
             close();
 
         } catch (Exception e) {
@@ -396,7 +429,7 @@ public class DB {
                 int dateID = rs.getInt("fldDateID");
                 String date = rs.getString("fldDate");
 
-                listOfDates.add(new Date(date,dateID));
+                listOfDates.add(new Date(date, dateID));
 
             }
 
@@ -856,6 +889,126 @@ public class DB {
     }
 
 
+    @SuppressWarnings("Duplicates")
+    public static int insertCompany(String cvrNo, String address, String name, String mail, String phoneNo, int zip) {
+
+        int rowsAffected = 0;
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addCompany(?, ?, ?, ?, ?, ?)}");
+
+            cs.setString(1, cvrNo);
+            cs.setString(2, address);
+            cs.setString(3, name);
+            cs.setString(4, mail);
+            cs.setString(5, phoneNo);
+            cs.setInt(6, zip);
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+        }
+        return rowsAffected;
+
+    }
+
+
+    @SuppressWarnings("Duplicates")
+    public static int insertProvider(String cvrNo, String name, String address, String mail, String phoneNo, int zip) {
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.addProvider(?, ?, ?, ?, ?, ?)}");
+
+            cs.setString(1, cvrNo);
+            cs.setString(2, name);
+            cs.setString(3, address);
+            cs.setString(4, mail);
+            cs.setString(5, phoneNo);
+            cs.setInt(6, zip);
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+        return rowsAffected;
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static int insertEmployee(String cprNo, String name, String mail, String phoneNo, String cvrNo) {
+
+        int rowsAffected = 0;
+
+
+        try {
+
+            //connect
+            connect();
+
+            //create statement
+            CallableStatement cs = con.prepareCall("{call dbo.addEmployee(?, ?, ?, ?, ?)}");
+
+            cs.setString(1, cprNo);
+            cs.setString(2, name);
+            cs.setString(3, mail);
+            cs.setString(4, phoneNo);
+            cs.setString(5, cvrNo);
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+
+        } catch (Exception e) {
+
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Added " + rowsAffected + " new record");
+
+        }
+
+        return rowsAffected;
+
+    }
+
+
     // REMOVE/DELETE
 
     public static void deleteQualification(Qualification qualification) {
@@ -924,7 +1077,108 @@ public class DB {
 
     }
 
-    public static void deleteDate(int dateID){
+
+    public static void deleteCompany(Company company) {
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteCompany (?)}");
+
+            cs.setString(1, company.getCVRNumber());
+
+            rowsAffected = cs.executeUpdate();
+
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+    }
+
+    public static void deleteProvider(Provider provider) {
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteProvider (?)}");
+
+            cs.setString(1, provider.getCVRNumber());
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    public static void deleteEmployee(Employee employee) {
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteEmployee (?)}");
+
+            cs.setInt(1, employee.getEmployeeID());
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+    }
+
+
+
+    public static void deleteDate(int dateID) {
 
         int rowsAffected = 0;
 
@@ -954,9 +1208,6 @@ public class DB {
 
 
         }
-
-
-
 
 
     }

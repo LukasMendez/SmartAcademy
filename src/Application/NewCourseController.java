@@ -11,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -59,7 +60,8 @@ public class NewCourseController implements Openable{
         try {
             fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
-            addCourseStage.setTitle("ABC");
+            addCourseStage.setTitle("Add New Course");
+            addCourseStage.getIcons().add(new Image("UI/Images/diploma.png"));
             addCourseStage.setScene(new Scene(root));
 
             // You may only run .initModality once. Therefore we need to check if the window has been opened before

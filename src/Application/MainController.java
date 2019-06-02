@@ -6,23 +6,15 @@ import Domain.Employee;
 import Domain.Provider;
 import Persistance.DB;
 
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.io.IOException;
 
 public class MainController {
 
@@ -48,6 +40,17 @@ public class MainController {
     private int coursesIndex = 3;
     private int companiesIndex = 4;
     private int providerIndex = 5;
+
+    // Company selected
+    private Company selectedCompany;
+
+    // Company deleted (Used for comparison)
+    private Company deletedCompany;
+
+    // ComboBox
+    @FXML
+    private ComboBox companyDropDown;
+
 
     // Buttons
     @FXML
@@ -76,6 +79,13 @@ public class MainController {
 
     public void initialize() {
 
+        companyDropDown.setItems(DB.getCompanyList());
+        companyDropDown.getSelectionModel().selectFirst();
+        selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
+
+
+
+        selectedCompanyHandler();
         mouseClickEmployeeHandler();
         tabHandler();
 
@@ -138,31 +148,46 @@ public class MainController {
     //Test method
     @FXML
     public void testAddCourse() {
-        courseList.add(new Course(1,"156", "bloop", "bleep", 8, "locName", "providerName"));
+        courseList.add(new Course(1, "156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
     //---------------------------- OPEN NEW WINDOWS---------------------------------//
 
     // BUTTON EVENT HANDLERS
 
+
+    /**
+     * In this method we handle the button actions differently depending on which tab is selected. We do that by
+     * comparing the selected index numbers with each other.
+     */
     @FXML
     public void leftBottomButtonAction() {
 
-        if (tabPane.getSelectionModel().getSelectedIndex()== coursesIndex){
+        if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
 
             deleteSelectedCourse();
 
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
+
+            deleteSelectedCompany();
+
+            companyDropDown.setItems(DB.getCompanyList());
+
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
+
+            deleteSelectedProvider();
+
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == employeeIndex) {
+
+            deleteSelectedEmployee();
         }
 
-
-        // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
     }
 
-    @FXML
-    public void middleBottomButtonAction() {
-        // TODO IMPLEMENT METHODS THAT HANDLE THE BUTTONS ACTION BASED ON WHAT TAB YOU ARE LOOKING AT
-    }
-
+    /**
+     * In this method we handle the button actions differently depending on which tab is selected. We do that by
+     * comparing the selected index numbers with each other.
+     */
     @FXML
     public void rightBottomButtonAction() {
         if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
@@ -178,6 +203,12 @@ public class MainController {
 
     // FUNCTIONS
 
+    /**
+     * In this method we check if the stage is already initialized and open. This way we can prevent the program from
+     * opening more than one window at a time. Since the FXMLLoader automatically creates a new controller we use .getController() to
+     * regain control over the window. A closeStage EventHandler is also applied, so that the table concerned is updated automatically
+     * when the user closes the window.
+     */
     public void openAddCourseWindow() {
         if (!newCourseController.isStageOpen()) {
             newCourseController.openWindow();
@@ -190,6 +221,15 @@ public class MainController {
         }
     }
 
+
+    /**
+     * In this method we check if the stage is already initialized and open. This way we can prevent the program from
+     * opening more than one window at a time. Since the FXMLLoader automatically creates a new controller we use .getController() to
+     * regain control over the window.
+     * We pass the object of type Course to the new Window. In this way we can assure, that the dates are added to the right course.
+     * A closeStage EventHandler is also applied, so that the table concerned is updated automatically
+     * when the user closes the window.
+     */
     @FXML
     public void openAddDatesToCourseWindow() {
 
@@ -208,28 +248,64 @@ public class MainController {
         }
     }
 
+
+    /**
+     * In this method we check if the stage is already initialized and open. This way we can prevent the program from
+     * opening more than one window at a time. Since the FXMLLoader automatically creates a new controller we use .getController() to
+     * regain control over the window.
+     * We pass the object of type Company to the new Window. In this way we can assure, that the employee is attached to the right company.
+     * The company that we add it to will be the one that the user selected from the ComboBox.
+     * A closeStage EventHandler is also applied, so that the table concerned is updated automatically
+     * when the user closes the window.
+     */
     @FXML
     public void openNewEmployeeWindow() {
-        if (!newEmployeeController.isStageOpen()) {
-            newEmployeeController.openWindow();
+        if (!newEmployeeController.isStageOpen() && selectedCompany!=null) {
+
+            if (companyDropDown.getSelectionModel().getSelectedItem() != null) {
+                newEmployeeController.openWindow();
+                newEmployeeController = (NewEmployeeController) newEmployeeController.getController();
+                newEmployeeController.setSelectedCompany(selectedCompany);
+                closeStageHandler(newEmployeeController.getStage(), newEmployeeController);
+
+            }
         } else {
             System.out.println("Window is already open");
         }
     }
 
+    /**
+     * In this method we check if the stage is already initialized and open. This way we can prevent the program from
+     * opening more than one window at a time. Since the FXMLLoader automatically creates a new controller we use .getController() to
+     * regain control over the window. A closeStage EventHandler is also applied, so that the table concerned is updated automatically
+     * when the user closes the window.
+     */
     @FXML
     public void openNewCompanyWindow() {
         if (!newCompanyController.isStageOpen()) {
             newCompanyController.openWindow();
+            newCompanyController = (NewCompanyController) newCompanyController.getController();
+
+            closeStageHandler(newCompanyController.getStage(), newCompanyController);
+
         } else {
             System.out.println("Window is already open");
         }
     }
 
+    /**
+     * In this method we check if the stage is already initialized and open. This way we can prevent the program from
+     * opening more than one window at a time. Since the FXMLLoader automatically creates a new controller we use .getController() to
+     * regain control over the window. A closeStage EventHandler is also applied, so that the table concerned is updated automatically
+     * when the user closes the window.
+     */
     @FXML
     public void openNewProviderWindow() {
         if (!newProviderController.isStageOpen()) {
             newProviderController.openWindow();
+            newProviderController = (NewProviderController) newProviderController.getController();
+            closeStageHandler(newProviderController.getStage(), newProviderController);
+
         } else {
             System.out.println("Window is already open");
         }
@@ -237,7 +313,9 @@ public class MainController {
 
 
     /**
-     * This method will configure everything needed for the ManageEmployeeWindow
+     * This method will configure everything needed for the ManageEmployeeWindow. This includes opening of the ManageEmployeeWindow as well
+     * as regaining control over the controller class, passing the employee object to the controller, displaying the qualifications based on
+     * the employee ID and applying the closeEventHandler that refreshes the Employee table when the window is closed.
      */
     private void configureManageEmployee() {
 
@@ -256,14 +334,58 @@ public class MainController {
 
         closeStageHandler(manageEmployeeController.getStage(), manageEmployeeController);
 
-        //Start method to use as entry point
-        manageEmployeeController.start();
+    }
+
+
+    /**
+     * This helper-method refreshes the combobox and retains the selected company when a new company has been added
+     * to the database.
+     */
+    private void newCompanyRefresher() {
+
+
+        companyDropDown.setItems(DB.getCompanyList());
+
+        //will make sure to reselect the item you were already looking at
+        companyDropDown.getSelectionModel().select(selectedCompany);
+
+        System.out.println("Executed: newCompanyRefresher()");
 
 
     }
 
+    /**
+     * The company selected should under no circumstances stay selected if it has just been removed. This helper-method
+     * makes sure to handle situations like that, as well as it makes sure to refresh the combobox and keep the company selected if another company
+     * was been removed.
+     */
+    private void removalOfCompanyRefresher() {
+
+        System.out.println("Selected company CVR: " + selectedCompany.getCVRNumber());
+        System.out.println("Deleted company CVR: " + deletedCompany.getCVRNumber());
+
+        if ((selectedCompany.getCVRNumber().equals(deletedCompany.getCVRNumber()))){
+            selectedCompany = null;
+            companyDropDown.setItems(DB.getCompanyList());
+            companyDropDown.getSelectionModel().select(selectedCompany);
+
+            System.out.println("Company deleted was the same as selected");
+        } else {
+            System.out.println("Company selected and deleted company was not the same");
+            companyDropDown.setItems(DB.getCompanyList());
+            companyDropDown.getSelectionModel().select(selectedCompany);
+
+        }
+    }
+
+
+
     //---------------------Event handlers--------------------------//
 
+    /**
+     * This event handler is dedicated to the configureManageEmployee method. It makes the user able to double-click on a
+     * particular employee record and manage his profile.
+     */
     private void mouseClickEmployeeHandler() {
         employeeTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -271,7 +393,6 @@ public class MainController {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem() != null) {
                         if (!manageEmployeeController.isStageOpen()) {
-
 
                             configureManageEmployee();
 
@@ -290,18 +411,27 @@ public class MainController {
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
 
-
-                if (controller instanceof NewCourseController){
-
+                if (controller instanceof NewCourseController) {
                     System.out.println("Updated course table view");
                     updateCourseTableView();
-
-
                 }
                 if (controller instanceof ManageEmployeeController) {
-
                     System.out.println("Updated employee table view");
                     updateEmployeeTableView();
+                }
+                if (controller instanceof NewCompanyController) {
+                    System.out.println("Updated company table view");
+                    updateCompanyTableView();
+                    newCompanyRefresher();
+                }
+                if (controller instanceof NewProviderController) {
+                    System.out.println("Updated provider table view");
+                    updateProviderTableView();
+                }
+                if (controller instanceof NewEmployeeController) {
+                    System.out.println("Update employee table view");
+                    updateEmployeeTableView();
+
                 }
 
 
@@ -312,9 +442,35 @@ public class MainController {
         });
     }
 
+    private void selectedCompanyHandler() {
+
+        companyDropDown.valueProperty().addListener((obs, oldItem, newItem) -> {
+
+            // System.out.println("User clicked on: " + newItem);
+
+            if (companyDropDown.getSelectionModel().getSelectedItem() != null) {
+
+                selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
+
+                System.out.println("You just casted the object as a Company, and the output is: " + selectedCompany.getName());
+
+                updateProviderTableView();
+                updateCompanyTableView();
+                updateCourseTableView();
+
+                updateEmployeeTableView();
+
+            }
+
+
+        });
+
+    }
+
+
     //------DELETE ELEMENT FROM TABLEVIEW----/(
 
-    public void deleteSelectedCourse() {
+    private void deleteSelectedCourse() {
 
 
         Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
@@ -323,10 +479,48 @@ public class MainController {
 
         updateCourseTableView();
 
+
     }
 
 
+    private void deleteSelectedCompany() {
 
+        Company company = (Company) companyTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteCompany(company);
+
+        updateCompanyTableView();
+
+        deletedCompany = company;
+
+        removalOfCompanyRefresher();
+
+
+
+    }
+
+    private void deleteSelectedProvider() {
+
+        Provider provider = (Provider) providerTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteProvider(provider);
+
+        updateProviderTableView();
+        updateCourseTableView();
+
+
+    }
+
+    private void deleteSelectedEmployee() {
+
+        Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
+
+        DB.deleteEmployee(employee);
+
+        updateEmployeeTableView();
+
+
+    }
 
 
     //------REFRESH THE TABLEVIEWS--------//
@@ -335,13 +529,15 @@ public class MainController {
         courseList = DB.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
+        System.out.println("Updated Course TableView");
     }
 
     private void updateEmployeeTableView() {
         //constructing data model
-        employeeList = DB.getEmployeeList();
+        employeeList = DB.getEmployeeList(selectedCompany.getCVRNumber());
         //data binding
         employeeTableView.setItems(employeeList);
+        System.out.println("Updated Employee TableView");
     }
 
     private void updateCompanyTableView() {
@@ -349,6 +545,10 @@ public class MainController {
         companyList = DB.getCompanyList();
         //data binding
         companyTableView.setItems(companyList);
+        System.out.println("Updated Company TableView");
+
+       // companyDropDown.getSelectionModel().selectFirst();
+
     }
 
     private void updateProviderTableView() {
@@ -356,6 +556,8 @@ public class MainController {
         providerList = DB.getProviderList();
         //data binding
         providerTableView.setItems(providerList);
+        System.out.println("Updated Provider TableView");
+
     }
 
     private void tabHandler() {
@@ -399,10 +601,6 @@ public class MainController {
             // TODO REFACTOR CODE
         });
     }
-
-
-
-
 
 
 }
