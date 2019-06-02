@@ -46,7 +46,7 @@ public class ManageEmployeeController implements Openable {
 
     //Buttons
     @FXML
-    private Button editInfoButton, applyChangesButton, toggleHistoryButton;
+    private Button editInfoButton, applyChangesButton, toggleHistoryButton, deleteButton, completedButton, addButton;
 
     //Labels
     @FXML
@@ -64,6 +64,8 @@ public class ManageEmployeeController implements Openable {
     //ObservableList
     private ObservableList<Qualification> qualificationsList;
     private ObservableList<EducationPlan> educationPlansList;
+
+    EducationPlan activePlan;
 
 
     // Controller (Window)
@@ -113,10 +115,16 @@ public class ManageEmployeeController implements Openable {
         if(history == false){
             updateEducationPlanTableView(false);
             toggleHistoryButton.setText("Show Active");
+            deleteButton.setVisible(false);
+            completedButton.setVisible(false);
+            addButton.setVisible(false);
             history = true;
         }else{
             updateEducationPlanTableView(true);
             toggleHistoryButton.setText("Show History");
+            deleteButton.setVisible(true);
+            completedButton.setVisible(true);
+            addButton.setVisible(true);
             history = false;
         }
 
@@ -251,6 +259,7 @@ public class ManageEmployeeController implements Openable {
         stage.setOnHiding(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
+                //doing stuff when the window was closed
                 System.out.println("THE WINDOW WAS CLOSED");
                 addCourseToEP(courseToEPController.getSelectedCourse());
             }
@@ -260,7 +269,6 @@ public class ManageEmployeeController implements Openable {
     private void addCourseToEP(CourseByPeriod selectedCourse){
         System.out.println(selectedCourse);
         //add new coursePlan record to DB using periodID from selectedCourse
-        EducationPlan activePlan = null;
         for (int i = 0; i < educationPlansList.size(); i++) {
             if(educationPlansList.get(i).getIsActive() == 1){
                 activePlan = educationPlansList.get(i);
@@ -268,6 +276,17 @@ public class ManageEmployeeController implements Openable {
         }
         db.addCoursePlan(activePlan, selectedCourse);
         updateEducationPlanTableView(true); //updating tableView
+    }
+
+    @FXML
+    private void removeCourseFromEp(){
+        //get coursePlanID
+        activePlan = (EducationPlan)educationPlanTableView.getSelectionModel().getSelectedItem();
+        int coursePlanID = db.getCoursePlanID(activePlan.getDateID(), activePlan.getPlanID());
+        //remove course plan from db
+        db.removeCoursePlan(coursePlanID);
+        //update tableView
+        updateEducationPlanTableView(true);
     }
 
     // QUALIFICATION SECTION

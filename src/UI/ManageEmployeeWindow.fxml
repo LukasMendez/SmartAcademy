@@ -124,9 +124,9 @@
                   </TableView>
                   <HBox alignment="CENTER" prefHeight="63.0" prefWidth="508.0" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Delete course" />
-                        <Button mnemonicParsing="false" text="Mark as completed" />
-                        <Button mnemonicParsing="false" onAction="#addCourseToEducationPlan" text="Add course" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#removeCourseFromEp" text="Delete course" />
+                        <Button fx:id="completedButton" mnemonicParsing="false" text="Mark as completed" />
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addCourseToEducationPlan" text="Add course" />
                      </children>
                   </HBox>
                   <Button fx:id="toggleHistoryButton" mnemonicParsing="false" onAction="#toggleHistory" prefHeight="22.0" prefWidth="95.0" text="Show History" />

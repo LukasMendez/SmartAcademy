@@ -162,6 +162,50 @@ public class DB {
         }
     }
 
+    public static int getCoursePlanID(int dateID, int planID) {
+        int coursePlanID = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("SELECT dbo.getCoursePlanID(?,?)");
+            cs.setInt(1, dateID);
+            cs.setInt(2, planID);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                coursePlanID = rs.getInt(1);
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return coursePlanID;
+    }
+
+    public static void removeCoursePlan(int coursePlanID) {
+        int rowsAffected = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.deleteCoursePlan(?)}");
+            cs.setInt(1, coursePlanID);
+            rowsAffected = cs.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println(rowsAffected + " rows was affected!");
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public static ObservableList<Employee> getEmployeeList() {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         try {
