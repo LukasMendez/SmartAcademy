@@ -268,12 +268,13 @@ public class ManageEmployeeController implements Openable {
 
     private void addCourseToEP(CourseByPeriod selectedCourse){
         System.out.println(selectedCourse);
-        //add new coursePlan record to DB using periodID from selectedCourse
+        //add new coursePlan record to DB
         for (int i = 0; i < educationPlansList.size(); i++) {
-            if(educationPlansList.get(i).getIsActive() == 1){
+            if(educationPlansList.get(i).getIsActive() == 1 && educationPlansList.get(i).getEmployeeID() == selectedEmployee.getEmployeeID()){
                 activePlan = educationPlansList.get(i);
             }
         }
+        System.out.println("selected planID is" + activePlan.getPlanID());
         db.addCoursePlan(activePlan, selectedCourse);
         updateEducationPlanTableView(true); //updating tableView
     }

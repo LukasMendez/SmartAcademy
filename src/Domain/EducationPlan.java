@@ -21,8 +21,9 @@ public class EducationPlan {
     private IntegerProperty isCompleted;
     private StringProperty isActiveWrapper;
     private StringProperty isCompletedWrapper;
+    private int employeeID;
 
-    public EducationPlan(int dateID, String date, String information, String provider, String location, int priority, int planID, int isActive, int isCompleted){
+    public EducationPlan(int dateID, String date, String information, String provider, String location, int priority, int planID, int isActive, int isCompleted, int employeeID){
         this.setDateID(dateID);
         this.setDate(date);
         this.setInformation(information);
@@ -34,6 +35,7 @@ public class EducationPlan {
         this.setIsCompleted(isCompleted);
         this.setIsActiveWrapper((this.getIsActive()));
         this.setIsCompletedWrapper((this.getIsCompleted()));
+        this.employeeID = employeeID;
     }
 
     public void setDateID(int value) { dateIDProperty().set(value); }
@@ -123,6 +125,13 @@ public class EducationPlan {
     public StringProperty isCompletedWrapperProperty() {
         if (isCompletedWrapper == null) isCompletedWrapper = new SimpleStringProperty(this, "isCompletedWrapper");
         return isCompletedWrapper;
+    }
+
+    public int getEmployeeID() {
+        return employeeID;
+    }
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
     }
 
 }

@@ -507,7 +507,7 @@ public class DB {
                 int planID = rs.getInt("fldPlanID");
                 int isCompleted = rs.getInt("fldIsCompleted");
 
-                listOfEducationPlans.add(new EducationPlan(dateID, date, information, provider, location, priority, planID, isActiveBit, isCompleted));
+                listOfEducationPlans.add(new EducationPlan(dateID, date, information, provider, location, priority, planID, isActiveBit, isCompleted, employeeID));
             }
             /*
             //printing for debugging
