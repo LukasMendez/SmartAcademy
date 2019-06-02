@@ -334,10 +334,6 @@ public class MainController {
 
         closeStageHandler(manageEmployeeController.getStage(), manageEmployeeController);
 
-        //Start method to use as entry point
-        manageEmployeeController.start();
-
-
     }
 
 
