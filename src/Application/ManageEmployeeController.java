@@ -281,12 +281,26 @@ public class ManageEmployeeController implements Openable {
     @FXML
     private void removeCourseFromEp(){
         //get coursePlanID
-        activePlan = (EducationPlan)educationPlanTableView.getSelectionModel().getSelectedItem();
-        int coursePlanID = db.getCoursePlanID(activePlan.getDateID(), activePlan.getPlanID());
+        int coursePlanID = getCoursePlanID();
         //remove course plan from db
         db.removeCoursePlan(coursePlanID);
         //update tableView
         updateEducationPlanTableView(true);
+    }
+
+    @FXML
+    private void setCoursePlanAsCompleted(){
+        //get coursePlanID
+        int coursePlanID = getCoursePlanID();
+        //update completed field in db
+        db.toggleCoursePlanCompletion(coursePlanID);
+        //update tableView
+        updateEducationPlanTableView(true);
+    }
+
+    private int getCoursePlanID(){
+        activePlan = (EducationPlan)educationPlanTableView.getSelectionModel().getSelectedItem();
+        return db.getCoursePlanID(activePlan.getDateID(), activePlan.getPlanID());
     }
 
     // QUALIFICATION SECTION
