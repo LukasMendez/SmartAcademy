@@ -1027,6 +1027,40 @@ public class DB {
 
     }
 
+    @SuppressWarnings("Duplicates")
+    public static void deleteEmployee(Employee employee) {
+
+        int rowsAffected = 0;
+
+        try {
+
+            //connect
+            connect();
+
+            //create Statement
+            CallableStatement cs = con.prepareCall("{call dbo.deleteEmployee (?)}");
+
+            cs.setInt(1, employee.getEmployeeID());
+
+            rowsAffected = cs.executeUpdate();
+
+            cs.close();
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (rowsAffected > 0) {
+
+            System.out.println("Removed " + rowsAffected + " new record");
+
+
+        }
+
+    }
+
+
 
     public static void deleteDate(int dateID) {
 

@@ -15,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -89,6 +90,7 @@ public class DatesToCourseController implements Openable {
             addDatesToCourseStage.setTitle("Add dates to selected source");
             addDatesToCourseStage.setScene(new Scene(root));
             addDatesToCourseStage.setResizable(false);
+            addDatesToCourseStage.getIcons().add(new Image("UI/Images/calendar.png"));
 
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();

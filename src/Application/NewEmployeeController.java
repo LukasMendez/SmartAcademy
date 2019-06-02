@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,6 +42,7 @@ public class NewEmployeeController implements Openable {
             fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddEmployeeWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newEmployeeStage.setTitle("Add New Employee");
+            newEmployeeStage.getIcons().add(new Image("UI/Images/users.png"));
             newEmployeeStage.setScene(new Scene(root));
             newEmployeeStage.setResizable(false);
 

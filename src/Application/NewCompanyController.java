@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -36,6 +37,7 @@ public class NewCompanyController implements Openable {
             fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCompanyWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newCompanyStage.setTitle("Add New Company");
+            newCompanyStage.getIcons().add(new Image("UI/Images/factory.png"));
             newCompanyStage.setScene(new Scene(root));
             newCompanyStage.setResizable(false);
 

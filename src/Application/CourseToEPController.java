@@ -3,6 +3,7 @@ package Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,6 +28,7 @@ public class CourseToEPController implements Openable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseToEPWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             courseToEducationPlanStage.setTitle("Add Course To Education Plan");
+            courseToEducationPlanStage.getIcons().add(new Image("UI/Images/clipboard.png"));
             courseToEducationPlanStage.setScene(new Scene(root));
             courseToEducationPlanStage.setResizable(false);
 
