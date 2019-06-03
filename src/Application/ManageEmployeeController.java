@@ -395,7 +395,7 @@ public class ManageEmployeeController implements Openable {
             }
         });
     }
-//WORK
+
 
     @FXML
     public void redFieldPHoneNumber(KeyEvent event) { // Allows you write only numbers !
