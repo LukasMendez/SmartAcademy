@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -106,6 +107,58 @@ public class NewProviderController implements Openable {
         }
 
     }
+
+
+    @FXML
+    @SuppressWarnings("Duplicate")
+    public void redFieldName (KeyEvent event){
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\sa-zA-Z*")) {
+                nameTextField.setText(newValue.replaceAll("[^\\sa-zA-Z]", "")); // Allows only wirte a letters!
+            }
+        });
+    }
+
+
+    @FXML
+    @SuppressWarnings("Duplicate")
+    public void redFieldPHoneNumber(KeyEvent event) { // Allows you write only numbers !
+
+        char asciiTableNumber = 43;
+        char firstLetterCheck = 0;
+
+        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
+
+            event.consume();
+            phoneNoTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
+
+        } else {
+            phoneNoTextField.setStyle("-fx-text-box-border:#fff5fa;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
+
+        }
+
+    }
+
+
+    @FXML
+    public void redFieldZipCode(KeyEvent event) { // Allows you write only numbers !
+
+        char asciiTableNumber = 9;
+        char firstLetterCheck = 0;
+
+        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
+
+            event.consume();
+            zipTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
+
+        } else {
+            zipTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:#fbffff;");
+
+        }
+
+    }
+
+
 
 
 

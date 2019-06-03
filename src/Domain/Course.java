@@ -59,6 +59,10 @@ public class Course {
         return additionalInformation;
     }
 
+
+
+
+
     public void setNumberOfDays(int value) { numberOfDaysProperty().set(value); }
     public int getNumberOfDays() { return numberOfDaysProperty().get(); }
     public IntegerProperty numberOfDaysProperty() {
@@ -83,4 +87,8 @@ public class Course {
     public String toString(){
         return "" + courseNumber + " " + information + " " + additionalInformation + " " + numberOfDays + " " + locationID + " " + CVRNumber;
     }*/
+
+
+
+
 }
