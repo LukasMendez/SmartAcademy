@@ -103,7 +103,9 @@ public class ManageEmployeeController implements Openable {
         //constructing data model
         educationPlansList = db.getEducationPlanList(selectedEmployee.getEmployeeID(), isActive);
         //data binding
-        educationPlanTableView.setItems(educationPlansList);
+        if(educationPlansList != null){
+            educationPlanTableView.setItems(educationPlansList);
+        }
     }
 
 
@@ -269,11 +271,26 @@ public class ManageEmployeeController implements Openable {
     private void addCourseToEP(CourseByPeriod selectedCourse){
         System.out.println(selectedCourse);
         //add new coursePlan record to DB
+        //if getPlanID db method returns sentinel value(is null)
+        if(db.getActivePlanID(selectedEmployee.getEmployeeID(),1) == 0){ //TODO fix consultantID so its not hardcoded
+            //create new active education plan
+            db.createNewEducationPlan(selectedEmployee.getEmployeeID(), 1); //TODO also fix consultantID here
+        }
+        //set activePlan to the current active plan
+        updateEducationPlanTableView(true); //updating the list
         for (int i = 0; i < educationPlansList.size(); i++) {
+            //will only get a hit if the list is not empty
             if(educationPlansList.get(i).getIsActive() == 1 && educationPlansList.get(i).getEmployeeID() == selectedEmployee.getEmployeeID()){
                 activePlan = educationPlansList.get(i);
             }
         }
+        //set placeholder education plan if activePlan is null (prevents error if adding course and plan list is empty)
+        if(activePlan == null){
+            activePlan = new EducationPlan(0,null, null, null, null, 0,
+                    db.getActivePlanID(selectedEmployee.getEmployeeID(), 1),1,0,
+                    selectedEmployee.getEmployeeID());
+        }
+
         System.out.println("selected planID is" + activePlan.getPlanID());
         db.addCoursePlan(activePlan, selectedCourse);
         updateEducationPlanTableView(true); //updating tableView

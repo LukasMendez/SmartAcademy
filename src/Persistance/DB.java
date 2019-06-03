@@ -224,6 +224,51 @@ public class DB {
         return coursePlanID;
     }
 
+    public static void createNewEducationPlan(int employeeID, int consultantID) {
+        int rowsAffected = 0;
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.createNewEducationPlan(?,?)}");
+            cs.setInt(1, employeeID);
+            cs.setInt(2, consultantID);
+            rowsAffected = cs.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println(rowsAffected + " rows was affected!");
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static int getActivePlanID(int employeeID, int consultantID) {
+        int activePlanID = 0; //sentinel value
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("SELECT dbo.getActivePlanID(?,?)");
+            cs.setInt(1, employeeID);
+            cs.setInt(2, consultantID);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                activePlanID = rs.getInt(1);
+            }
+
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return activePlanID;
+    }
+
     public static void toggleCoursePlanCompletion(int coursePlanID) {
         int rowsAffected = 0;
         try {
