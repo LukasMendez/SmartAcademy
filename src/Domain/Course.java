@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Cursor;
 
 /**
  * Created by Lukas
@@ -59,6 +60,17 @@ public class Course {
         return additionalInformation;
     }
 
+
+    Cursor cursor[] = {Cursor.TEXT};
+
+    private void test(){
+
+
+
+    }
+
+
+
     public void setNumberOfDays(int value) { numberOfDaysProperty().set(value); }
     public int getNumberOfDays() { return numberOfDaysProperty().get(); }
     public IntegerProperty numberOfDaysProperty() {
@@ -83,4 +95,8 @@ public class Course {
     public String toString(){
         return "" + courseNumber + " " + information + " " + additionalInformation + " " + numberOfDays + " " + locationID + " " + CVRNumber;
     }*/
+
+
+
+
 }
