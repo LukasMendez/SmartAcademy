@@ -16,7 +16,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="47.0" prefWidth="600.0" spacing="10.0">
          <children>
-            <Label text="ID:">
+            <Label id="label-text" text="ID:">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
@@ -28,7 +28,7 @@
             <Button fx:id="addPeriodButton" mnemonicParsing="false" onAction="#addNewPeriod" text="Add new period" />
          </children>
       </HBox>
-      <Label fx:id="headerLabel" text="Add dates to COURSENAME">
+      <Label id="label-text" fx:id="headerLabel" text="Add dates to COURSENAME">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
@@ -47,7 +47,7 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="252.0" prefWidth="300.0" GridPane.columnIndex="1">
                <children>
-                  <Label prefHeight="25.0" prefWidth="86.0" text="Currently added">
+                  <Label id="label-heading" prefHeight="25.0" prefWidth="86.0" text="Currently added">
                      <font>
                         <Font name="Arial Bold" size="11.0" />
                      </font></Label>
@@ -62,7 +62,7 @@
             </VBox>
             <VBox fx:id="calenderVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="25.0" prefWidth="90.0" text="Selectable dates">
+                  <Label id="label-heading" prefHeight="25.0" prefWidth="90.0" text="Selectable dates">
                      <font>
                         <Font name="Arial Bold" size="11.0" />
                      </font>

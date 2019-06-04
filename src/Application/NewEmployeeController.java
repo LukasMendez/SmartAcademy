@@ -23,6 +23,8 @@ public class NewEmployeeController implements Openable {
 
     private static Stage newEmployeeStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
+
 
     // The company which is sent from the Main Controller
     private Company selectedCompany;
@@ -99,7 +101,7 @@ public class NewEmployeeController implements Openable {
         String phoneNo = phoneNoTextField.getText();
 
 
-        int rowsAffected = DB.insertEmployee(cprNo,name,mail,phoneNo,selectedCompany.getCVRNumber());
+        int rowsAffected = db.insertEmployee(cprNo,name,mail,phoneNo,selectedCompany.getCVRNumber());
 
         if (rowsAffected == 1) {
 

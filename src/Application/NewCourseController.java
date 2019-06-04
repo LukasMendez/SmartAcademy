@@ -27,6 +27,7 @@ public class NewCourseController implements Openable{
     // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage addCourseStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
 
     // Used to check if the stage has been initialized before. Used for setting Modality
     private static boolean isInitialized = false;
@@ -45,7 +46,7 @@ public class NewCourseController implements Openable{
 
     public void initialize(){
 
-        ObservableList<Location> locations = DB.getLocationList();
+        ObservableList<Location> locations = db.getLocationList();
 
         // Will make sure to sort the data in the drop down menu by zip code
         Comparator<Location> comparator = Comparator.comparingInt(Location::getZip);
@@ -103,7 +104,7 @@ public class NewCourseController implements Openable{
         Location location = (Location) locationDropDown.getSelectionModel().getSelectedItem();
 
         try{
-            DB.insertCourse(Integer.parseInt(amuNoTextField.getText()),infoTextField.getText(),additionalInfoTextField.getText(),Integer.parseInt(noOfDaysTextField.getText()), location.getLocationID(),cvrNoTextField.getText());
+            db.insertCourse(Integer.parseInt(amuNoTextField.getText()),infoTextField.getText(),additionalInfoTextField.getText(),Integer.parseInt(noOfDaysTextField.getText()), location.getLocationID(),cvrNoTextField.getText());
             infoLabel.setVisible(true);
             infoLabel.setText("Data saved successfully!");
 

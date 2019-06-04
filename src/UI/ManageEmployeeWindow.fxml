@@ -54,7 +54,7 @@
                         <Label id="employee-information-box-headings" text="CPR number" />
                         <TextField fx:id="cprTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" />
                         <Label id="employee-information-box-headings" text="Phone Number" />
-                        <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" />
+                        <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" />ster
                      </children>
                   </VBox>
                </children>

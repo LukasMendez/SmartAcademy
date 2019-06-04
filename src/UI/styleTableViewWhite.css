@@ -66,13 +66,14 @@
 }
 
 /* The main scrollbar CSS class of ListView */
-.table-view .scroll-bar:horizontal ,
+.table-view .scroll-bar:horizontal,
 .table-view  .scroll-bar:vertical{
     -fx-background-color:transparent;
 }
 
 /* The increment and decrement button of scrollbar */
-.table-view .increment-button ,.table-view .decrement-button {
+.table-view .increment-button ,
+.table-view .decrement-button {
     -fx-background-color:transparent;
     -fx-border-color:derive(gray,0%);
 }

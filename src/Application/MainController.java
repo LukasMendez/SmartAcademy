@@ -79,7 +79,7 @@ public class MainController {
 
     public void initialize() {
 
-        companyDropDown.setItems(DB.getCompanyList());
+        companyDropDown.setItems(db.getCompanyList());
         companyDropDown.getSelectionModel().selectFirst();
         selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
 
@@ -171,7 +171,7 @@ public class MainController {
 
             deleteSelectedCompany();
 
-            companyDropDown.setItems(DB.getCompanyList());
+            companyDropDown.setItems(db.getCompanyList());
 
         } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
 
@@ -346,7 +346,7 @@ public class MainController {
     private void newCompanyRefresher() {
 
 
-        companyDropDown.setItems(DB.getCompanyList());
+        companyDropDown.setItems(db.getCompanyList());
 
         //will make sure to reselect the item you were already looking at
         companyDropDown.getSelectionModel().select(selectedCompany);
@@ -368,13 +368,13 @@ public class MainController {
 
         if ((selectedCompany.getCVRNumber().equals(deletedCompany.getCVRNumber()))){
             selectedCompany = null;
-            companyDropDown.setItems(DB.getCompanyList());
+            companyDropDown.setItems(db.getCompanyList());
             companyDropDown.getSelectionModel().select(selectedCompany);
 
             System.out.println("Company deleted was the same as selected");
         } else {
             System.out.println("Company selected and deleted company was not the same");
-            companyDropDown.setItems(DB.getCompanyList());
+            companyDropDown.setItems(db.getCompanyList());
             companyDropDown.getSelectionModel().select(selectedCompany);
 
         }
@@ -477,7 +477,7 @@ public class MainController {
 
         Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
 
-        DB.deleteCourse(course);
+        db.deleteCourse(course);
 
         updateCourseTableView();
 
@@ -489,7 +489,7 @@ public class MainController {
 
         Company company = (Company) companyTableView.getSelectionModel().getSelectedItem();
 
-        DB.deleteCompany(company);
+        db.deleteCompany(company);
 
         updateCompanyTableView();
 
@@ -505,7 +505,7 @@ public class MainController {
 
         Provider provider = (Provider) providerTableView.getSelectionModel().getSelectedItem();
 
-        DB.deleteProvider(provider);
+        db.deleteProvider(provider);
 
         updateProviderTableView();
         updateCourseTableView();
@@ -517,7 +517,7 @@ public class MainController {
 
         Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
 
-        DB.deleteEmployee(employee);
+        db.deleteEmployee(employee);
 
         updateEmployeeTableView();
 
@@ -528,7 +528,7 @@ public class MainController {
     //------REFRESH THE TABLEVIEWS--------//
     private void updateCourseTableView() {
         //constructing data model
-        courseList = DB.getCourseList();
+        courseList = db.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
         System.out.println("Updated Course TableView");
@@ -536,7 +536,7 @@ public class MainController {
 
     private void updateEmployeeTableView() {
         //constructing data model
-        employeeList = DB.getEmployeeList(selectedCompany.getCVRNumber());
+        employeeList = db.getEmployeeList(selectedCompany.getCVRNumber());
         //data binding
         employeeTableView.setItems(employeeList);
         System.out.println("Updated Employee TableView");
@@ -544,7 +544,7 @@ public class MainController {
 
     private void updateCompanyTableView() {
         //constructing data model
-        companyList = DB.getCompanyList();
+        companyList = db.getCompanyList();
         //data binding
         companyTableView.setItems(companyList);
         System.out.println("Updated Company TableView");
@@ -555,7 +555,7 @@ public class MainController {
 
     private void updateProviderTableView() {
         //constructing data model
-        providerList = DB.getProviderList();
+        providerList = db.getProviderList();
         //data binding
         providerTableView.setItems(providerList);
         System.out.println("Updated Provider TableView");
