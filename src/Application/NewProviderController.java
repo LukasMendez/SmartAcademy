@@ -1,5 +1,6 @@
 package Application;
 
+import BusinessServices.InputValidation;
 import Persistance.DB;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -156,6 +157,17 @@ public class NewProviderController implements Openable {
             zipTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:#fbffff;");
 
         }
+
+    }
+
+
+    @FXML
+    public void inputValidator(KeyEvent event) {
+
+        InputValidation inputValidation = new InputValidation();
+
+        inputValidation.checkInputCompany(phoneNoTextField,zipTextField,event);
+
 
     }
 
