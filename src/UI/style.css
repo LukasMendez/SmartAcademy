@@ -91,6 +91,7 @@ VBox {
     -fx-border-color: WHITE;
     -fx-border-radius: 25px;
     -fx-border-width: 1px;
+    -fx-background-insets: 0, 0 0 1 0;
  }
 /* BUTTON COLOR ON HOVER */
 .button:hover{
@@ -104,7 +105,77 @@ VBox {
     -fx-text-fill: BLACK;
 }
 
+/* ######## */
+/* COMBOBOX */
+/* ######## */
 
+/* The color of the dropdown label & it's text */
+.combo-box, .list-cell{
+    -fx-background-color: #2d2d30;
+    -fx-text-fill: WHITE;
+}
+
+/* The color of the dropdown arrow */
+.combo-box .arrow{
+    -fx-background-color: WHITE;
+}
+
+/* The color of the dropdown/combo-box found in the AddCourseWindow */
+#combo-box-add-course-location,
+#combo-box-add-course-location > .list-cell {
+
+    -fx-background-color: WHITE;
+    -fx-text-fill: BLACK;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3px;
+}
+
+/* The color of the dropdown arrow found in the AddCourseWindow */
+#combo-box-add-course-location .arrow{
+    -fx-background-color: BLACK;
+}
+
+/* The color of the dropdown menu that drops down after clicking on it */
+.combo-box .combo-box-popup .list-view,
+.combo-box .combo-box-popup .list-cell {
+    -fx-background-color: #2d2d30 ;
+    -fx-text-fill: WHITE ;
+    /* -fx-font-family: "Calibri" ; */
+}
+
+/* The color of the cell you are hovering over */
+.combo-box .combo-box-popup .list-cell:hover {
+    -fx-text-fill: WHITE;
+    -fx-background-color: rgba(228, 82, 91, 0.85) ;
+}
+
+/* The color of the cell currently selected so it gets highlighted */
+.combo-box .combo-box-popup .list-cell:selected{
+    -fx-text-fill: WHITE ;
+    -fx-background-color: rgba(228, 82, 91, 0.85) ;
+}
+
+/* The main scrollbar CSS class of ListView */
+.combo-box .scroll-bar:horizontal ,
+.combo-box .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+/* The increment and decrement button of scrollbar */
+.combo-box .increment-button ,
+.combo-box .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:derive(gray,0%);
+}
+
+
+/* The main scrollbar **thumb** which we drag every time (movable) */
+.combo-box .scroll-bar:horizontal .thumb,
+.combo-box .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
+}
 
 
 

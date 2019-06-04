@@ -21,6 +21,7 @@ public class NewProviderController implements Openable {
 
     private static Stage newProviderStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
 
     // Labels
     @FXML
@@ -88,7 +89,7 @@ public class NewProviderController implements Openable {
         String phoneNo = phoneNoTextField.getText();
         int zipCode = Integer.parseInt(zipTextField.getText());
 
-        int rowsAffected = DB.insertProvider(cvrNo,name,address,mail,phoneNo,zipCode);
+        int rowsAffected = db.insertProvider(cvrNo,name,address,mail,phoneNo,zipCode);
 
         if (rowsAffected==1){
 

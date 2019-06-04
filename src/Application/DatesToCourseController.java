@@ -35,6 +35,7 @@ public class DatesToCourseController implements Openable {
 
     private static Stage addDatesToCourseStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
 
     // Used to check if the stage has been initialized before. Used for setting Modality
     private static boolean isInitialized = false;
@@ -130,7 +131,7 @@ public class DatesToCourseController implements Openable {
         // Will set the course
         selectedCourse=course;
         // and update the drop down list with the corresponding period id's
-        periodDropDown.setItems(DB.getPeriodList(selectedCourse.getCourseID()));
+        periodDropDown.setItems(db.getPeriodList(selectedCourse.getCourseID()));
 
 
         System.out.println(course.getCourseID() + " and " + course.getInformation() + " and " + course.getCourseNumber());
@@ -148,9 +149,9 @@ public class DatesToCourseController implements Openable {
     public void addNewPeriod(){
 
         // Will create a new periodID
-        DB.insertPeriod(selectedCourse.getCourseID());
+        db.insertPeriod(selectedCourse.getCourseID());
         // Will update the drop down menu with the latest data from the database
-        periodDropDown.setItems(DB.getPeriodList(selectedCourse.getCourseID()));
+        periodDropDown.setItems(db.getPeriodList(selectedCourse.getCourseID()));
 
 
     }
@@ -162,7 +163,7 @@ public class DatesToCourseController implements Openable {
 
         System.out.println("User wants to delete dateID: " + selectedDate.getDateID());
 
-        DB.deleteDate(selectedDate.getDateID());
+        db.deleteDate(selectedDate.getDateID());
 
         updateListView(selectedPeriodID);
 
@@ -187,7 +188,7 @@ public class DatesToCourseController implements Openable {
     public void updateListView(int selectedPeriodID){
 
 
-        dateListView.setItems(DB.getDatesList(selectedPeriodID));
+        dateListView.setItems(db.getDatesList(selectedPeriodID));
 
 
     }
@@ -216,7 +217,7 @@ public class DatesToCourseController implements Openable {
                             System.out.println("The value selected was: " + datePicker.getValue());
 
 
-                            DB.insertDate(newDate, selectedPeriodID);
+                            db.insertDate(newDate, selectedPeriodID);
 
                             updateListView(selectedPeriodID);
 

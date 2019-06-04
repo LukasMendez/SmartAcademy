@@ -26,7 +26,6 @@ public class DB {
 
     /**
      * Singleton DB object (note private constructor)
-     *
      * @return
      */
     public static synchronized DB getInstance() {
@@ -132,12 +131,7 @@ public class DB {
 
                 listOfCourses.add(new Course(courseID, amuNumber, information, additionalInformation, numberOfDays, location, provider));
             }
-            /*
-            //printing for debugging
-            for (int i = 0; i < listOfCourses.size(); i++) {
-                System.out.println(listOfCourses.get(i).toString());
-            }*/
-            //close
+
             close();
 
         } catch (Exception e) {

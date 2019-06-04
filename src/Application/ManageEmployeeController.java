@@ -74,11 +74,11 @@ public class ManageEmployeeController implements Openable {
 
     public void initialize() {
         // Will retrieve an observable list from the database of all possible qualification types and display it in the dropdown menu
-        typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationTypes()));
+        typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn(db.getQualificationTypes()));
         // Make the table cells editable
         descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         // Will retrieve an observable list from the database of all possible qualification levels and display it in the dropdown menu
-        levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
+        levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(db.getQualificationLevel()));
     }
 
     public void start(){
@@ -218,7 +218,7 @@ public class ManageEmployeeController implements Openable {
     @FXML
     public void saveChangesToEmployee() {
         // This method will try to update the data in the database and return a new fresh employee object if the action succeeded or null if there was an error
-        Employee updatedEmployee = DB.updateEmployee(nameTextField.getText(), cprTextField.getText(), emailTextField.getText(), phoneNumTextField.getText(), selectedEmployee.getCompany(), selectedEmployee.getEmployeeID());
+        Employee updatedEmployee = db.updateEmployee(nameTextField.getText(), cprTextField.getText(), emailTextField.getText(), phoneNumTextField.getText(), selectedEmployee.getCompany(), selectedEmployee.getEmployeeID());
 
         if (updatedEmployee != null) {
             editInfoButton.setDisable(false);
@@ -326,7 +326,7 @@ public class ManageEmployeeController implements Openable {
 
     public void displayQualifications() {
 
-        qualificationsList = DB.getQualifications(selectedEmployee);
+        qualificationsList = db.getQualifications(selectedEmployee);
 
         qualificationsTableView.setItems(qualificationsList);
 
@@ -357,7 +357,7 @@ public class ManageEmployeeController implements Openable {
             qualification.setType(newType.getType());
             qualification.setTypeID(newType.getTypeID());
             // Will update the qualification table with the new type selected
-            DB.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
+            db.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
 
         } else if (cellEditEvent.getTablePosition().getColumn() == 1) {
 
@@ -366,7 +366,7 @@ public class ManageEmployeeController implements Openable {
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setDescription(newDescription);
             // Will update the qualification table with the new description written
-            DB.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
+            db.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
 
         } else if (cellEditEvent.getTablePosition().getColumn() == 2) {
 
@@ -376,7 +376,7 @@ public class ManageEmployeeController implements Openable {
             qualification.setLevel(newLevel.getLevel());
             qualification.setLevelID(newLevel.getLevelID());
             // Will update the qualification table with the new type selected
-            DB.updateQualification(qualification.getQualificationID(), qualification.getType(), qualification.getDescription(), newLevel.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), newLevel.getLevelID());
+            db.updateQualification(qualification.getQualificationID(), qualification.getType(), qualification.getDescription(), newLevel.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), newLevel.getLevelID());
         }
 
     }
@@ -385,7 +385,7 @@ public class ManageEmployeeController implements Openable {
     public void addNewQualification() {
 
 
-        DB.insertQualification(selectedEmployee);
+        db.insertQualification(selectedEmployee);
 
         displayQualifications();
 
@@ -398,7 +398,7 @@ public class ManageEmployeeController implements Openable {
 
         System.out.println("You selected: " + qualification.getQualificationID());
 
-        DB.deleteQualification(qualification);
+        db.deleteQualification(qualification);
 
         displayQualifications();
     }
@@ -412,6 +412,9 @@ public class ManageEmployeeController implements Openable {
             }
         });
     }
+
+
+    // TODO MAY HAVE TO REMOVE THE FOLLOWING PART, AS IT WILL BE IMPLEMENTED AS A WHOLE CLASS
 
 
     @FXML

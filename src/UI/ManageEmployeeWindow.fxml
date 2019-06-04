@@ -41,7 +41,7 @@
                      </padding>
                      <children>
                         <Label id="employee-information-box-headings" text="Name" />
-                        <TextField fx:id="nameTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#redFieldName" />
+                        <TextField fx:id="nameTextField" disable="true" editable="false" focusTraversable="false" />
                         <Label id="employee-information-box-headings" text="E-mail" />
                         <TextField fx:id="emailTextField" disable="true" editable="false" focusTraversable="false" />
                      </children>
@@ -52,9 +52,9 @@
                      </padding>
                      <children>
                         <Label id="employee-information-box-headings" text="CPR number" />
-                        <TextField fx:id="cprTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#redFieldCPR" />
+                        <TextField fx:id="cprTextField" disable="true" editable="false" focusTraversable="false" />
                         <Label id="employee-information-box-headings" text="Phone Number" />
-                        <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#redFieldPHoneNumber" />
+                        <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
                </children>

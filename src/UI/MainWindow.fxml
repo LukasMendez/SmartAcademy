@@ -70,7 +70,7 @@
                                     </children></AnchorPane>
                             </content>
                         </Tab>
-                        <Tab text="Courses">
+                        <Tab id="tab-pane-special-tabs" text="Courses">
                             <content>
                                 <TableView fx:id="courseTableView" prefHeight="665.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
@@ -84,7 +84,7 @@
                                 </TableView>
                             </content>
                         </Tab>
-                        <Tab text="Companies">
+                        <Tab id="tab-pane-special-tabs" text="Companies">
                             <content>
                                 <TableView fx:id="companyTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
@@ -101,7 +101,7 @@
                                 </TableView>
                             </content>
                         </Tab>
-                        <Tab text="Provider">
+                        <Tab id="tab-pane-special-tabs" text="Provider">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                             </content>

@@ -19,6 +19,7 @@ public class NewCompanyController implements Openable {
 
     private static Stage newCompanyStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
 
     // Labels
     @FXML
@@ -86,7 +87,7 @@ public class NewCompanyController implements Openable {
         String phoneNo = phoneNoTextField.getText();
         int zipCode = Integer.parseInt(zipTextField.getText());
 
-        int rowsAffected = DB.insertCompany(cvrNo,address,name,mail,phoneNo,zipCode);
+        int rowsAffected = db.insertCompany(cvrNo,address,name,mail,phoneNo,zipCode);
 
         if (rowsAffected==1){
 
