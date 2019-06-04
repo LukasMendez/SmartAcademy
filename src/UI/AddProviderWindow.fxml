@@ -23,11 +23,11 @@
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <Label text="Name" />
-                  <TextField fx:id="nameTextField" onKeyTyped="#redFieldName" prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="nameTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Address" />
                   <TextField fx:id="addressTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Phone number" />
-                  <TextField fx:id="phoneNoTextField" onKeyTyped="#redFieldPHoneNumber" prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="phoneNoTextField" onKeyTyped="#inputValidator" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -43,7 +43,7 @@
                   <Label text="E-mail" />
                   <TextField fx:id="emailTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Zip code" />
-                  <TextField fx:id="zipTextField" onKeyTyped="#redFieldZipCode" prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="zipTextField" onKeyTyped="#inputValidator" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />
