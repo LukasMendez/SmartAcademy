@@ -1,5 +1,6 @@
 package Application;
 
+import BusinessServices.InputValidation;
 import Domain.*;
 import Domain.Employee;
 import Domain.Level;
@@ -405,64 +406,15 @@ public class ManageEmployeeController implements Openable {
 
 
     @FXML
-    public void redFieldName (KeyEvent event){
-        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\sa-zA-Z*")) {
-                nameTextField.setText(newValue.replaceAll("[^\\sa-zA-Z]", "")); // Allows only wirte a letters!
-            }
-        });
-    }
+    public void inputValidator(KeyEvent event) {
 
+        InputValidation inputValidation = new InputValidation();
 
-    @FXML
-    public void redFieldPHoneNumber(KeyEvent event) { // Allows you write only numbers !
-
-        char asciiTableNumber = 43;
-        char firstLetterCheck = 0;
-
-        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
-
-            event.consume();
-            phoneNumTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
-
-        } else {
-            phoneNumTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
-
-        }
-
-    }
-
-
-    @FXML
-    public void redFieldCPR(KeyEvent event) { // Allows you write only numbers !
-
-        char cPRNumberLenght = 9;
-        char firstLetterCheck = 0;
-
-
-        if (cprTextField.getLength() <= cPRNumberLenght) {
-
-            if (((int) event.getCharacter().charAt(firstLetterCheck)) != cPRNumberLenght && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
-
-                event.consume();
-
-                cprTextField.setStyle("-fx-text-box-border:red;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
-            } else {
-                cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
-            }
-
-
-        } else if (cprTextField.getLength() > cPRNumberLenght) {
-
-
-            event.consume();
-
-            cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
-
-        }
+        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, event);
 
 
     }
+
 
 
 }

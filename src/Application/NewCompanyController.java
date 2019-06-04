@@ -1,5 +1,6 @@
 package Application;
 
+import BusinessServices.InputValidation;
 import Persistance.DB;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -103,6 +105,16 @@ public class NewCompanyController implements Openable {
 
             infoLabel.setText("Invalid info! Please check your entered data again!");
         }
+
+    }
+
+    @FXML
+    public void inputValidator(KeyEvent event) {
+
+        InputValidation inputValidation = new InputValidation();
+
+        inputValidation.checkInputCompany(phoneNoTextField, zipTextField, event);
+
 
     }
 

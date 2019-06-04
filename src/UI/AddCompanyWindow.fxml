@@ -28,7 +28,7 @@
                   <Label text="Address" />
                   <TextField fx:id="addressTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Phone number" />
-                  <TextField fx:id="phoneNoTextField" prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="phoneNoTextField" onKeyTyped="#inputValidator" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -44,7 +44,7 @@
                   <Label text="E-mail" />
                   <TextField fx:id="emailTextField" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="Zip code" />
-                  <TextField fx:id="zipTextField" prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="zipTextField" onKeyTyped="#inputValidator" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />
