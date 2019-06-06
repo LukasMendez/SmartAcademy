@@ -24,7 +24,7 @@
     <center>
         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <TabPane fx:id="tabPane" accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tabPane" accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <tabs>
                         <Tab text="Education Matrix">
                             <content>
