@@ -74,16 +74,6 @@ public class Qualification {
         return levelID;
     }
 
-
-
-
-
-
-
-
-
-
-
     public int getQualificationID() {
         return qualificationID;
     }

@@ -33,7 +33,6 @@ public class MainController {
     private NewProviderController newProviderController = new NewProviderController();
 
     // Tab indexes
-
     private int educationMatrixIndex = 0;
     private int employeeIndex = 1;
     private int calenderIndex = 2;
@@ -51,17 +50,14 @@ public class MainController {
     @FXML
     private ComboBox companyDropDown;
 
-
     // Buttons
     @FXML
     private Button buttonLeft, buttonMiddle, buttonRight;
 
     private DB db = DB.getInstance();
-    private CourseToEPController courseToEPController = new CourseToEPController();
 
     @FXML
     private TabPane tabPane;
-
     @FXML
     private TableView courseTableView, educationMatrixTableView, employeeTableView, companyTableView, providerTableView;
 
@@ -82,7 +78,6 @@ public class MainController {
         companyDropDown.setItems(db.getCompanyList());
         companyDropDown.getSelectionModel().selectFirst();
         selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
-
 
 
         selectedCompanyHandler();
@@ -143,18 +138,16 @@ public class MainController {
         providerCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
         //representing the data in the columns
         providerTableView.getColumns().setAll(providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn);
-    }
+    } // TODO COULD WE ADD THE .SETCELLVALUEFACTORY INTO PRIVATE HELPERMETHODS????
 
     //Test method
-    @FXML
+    @FXML // TODO REMOVE WHEN YOU THINK ITS NECESSARY
     public void testAddCourse() {
         courseList.add(new Course(1, "156", "bloop", "bleep", 8, "locName", "providerName"));
     }
 
-    //---------------------------- OPEN NEW WINDOWS---------------------------------//
 
-    // BUTTON EVENT HANDLERS
-
+    //-------------Button action event handlers--------------//
 
     /**
      * In this method we handle the button actions differently depending on which tab is selected. We do that by
@@ -162,23 +155,14 @@ public class MainController {
      */
     @FXML
     public void leftBottomButtonAction() {
-
         if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
-
             deleteSelectedCourse();
-
         } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
-
             deleteSelectedCompany();
-
             companyDropDown.setItems(db.getCompanyList());
-
         } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex) {
-
             deleteSelectedProvider();
-
         } else if (tabPane.getSelectionModel().getSelectedIndex() == employeeIndex) {
-
             deleteSelectedEmployee();
         }
 
@@ -201,7 +185,7 @@ public class MainController {
         }
     }
 
-    // FUNCTIONS
+    // --------------Open Window methods-----------------//
 
     /**
      * In this method we check if the stage is already initialized and open. This way we can prevent the program from
@@ -214,8 +198,6 @@ public class MainController {
             newCourseController.openWindow();
             newCourseController = (NewCourseController) newCourseController.getController();
             closeStageHandler(newCourseController.getStage(), newCourseController);
-
-
         } else {
             System.out.println("Window already open");
         }
@@ -232,17 +214,13 @@ public class MainController {
      */
     @FXML
     public void openAddDatesToCourseWindow() {
-
         if (!datesToCourseController.isStageOpen() && courseTableView.getSelectionModel().getSelectedItem() != null) {
             datesToCourseController.openWindow();
             datesToCourseController = (DatesToCourseController) datesToCourseController.getController();
-
             // Will cast the object as Course
             Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
-
             // Will give the Course object to the controller so that it can display the corresponding periodID's
             datesToCourseController.setSelectedCourse(course);
-
         } else {
             System.out.println("Window already open or nothing is selected");
         }
@@ -260,14 +238,12 @@ public class MainController {
      */
     @FXML
     public void openNewEmployeeWindow() {
-        if (!newEmployeeController.isStageOpen() && selectedCompany!=null) {
-
+        if (!newEmployeeController.isStageOpen() && selectedCompany != null) {
             if (companyDropDown.getSelectionModel().getSelectedItem() != null) {
                 newEmployeeController.openWindow();
                 newEmployeeController = (NewEmployeeController) newEmployeeController.getController();
                 newEmployeeController.setSelectedCompany(selectedCompany);
                 closeStageHandler(newEmployeeController.getStage(), newEmployeeController);
-
             }
         } else {
             System.out.println("Window is already open");
@@ -285,9 +261,7 @@ public class MainController {
         if (!newCompanyController.isStageOpen()) {
             newCompanyController.openWindow();
             newCompanyController = (NewCompanyController) newCompanyController.getController();
-
             closeStageHandler(newCompanyController.getStage(), newCompanyController);
-
         } else {
             System.out.println("Window is already open");
         }
@@ -305,12 +279,13 @@ public class MainController {
             newProviderController.openWindow();
             newProviderController = (NewProviderController) newProviderController.getController();
             closeStageHandler(newProviderController.getStage(), newProviderController);
-
         } else {
             System.out.println("Window is already open");
         }
     }
 
+
+    //---------------Helper methods------------------//
 
     /**
      * This method will configure everything needed for the ManageEmployeeWindow. This includes opening of the ManageEmployeeWindow as well
@@ -318,7 +293,6 @@ public class MainController {
      * the employee ID and applying the closeEventHandler that refreshes the Employee table when the window is closed.
      */
     private void configureManageEmployee() {
-
         // Will get the employee object that the user selects from the table view
         Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
         // 1) Open the window
@@ -327,13 +301,10 @@ public class MainController {
         manageEmployeeController = (ManageEmployeeController) manageEmployeeController.getController();
         // Will hand in the employee object to the next controller
         manageEmployeeController.setSelectedEmployee(employee);
-
         // Will display the qualifications when the window is opened
         manageEmployeeController.displayQualifications();
         // Will activate the eventHandler to check if the stage is closed
-
         closeStageHandler(manageEmployeeController.getStage(), manageEmployeeController);
-
         //Start method to use as entry point
         manageEmployeeController.start();
     }
@@ -344,16 +315,10 @@ public class MainController {
      * to the database.
      */
     private void newCompanyRefresher() {
-
-
         companyDropDown.setItems(db.getCompanyList());
-
         //will make sure to reselect the item you were already looking at
         companyDropDown.getSelectionModel().select(selectedCompany);
-
         System.out.println("Executed: newCompanyRefresher()");
-
-
     }
 
     /**
@@ -362,24 +327,19 @@ public class MainController {
      * was been removed.
      */
     private void removalOfCompanyRefresher() {
-
         System.out.println("Selected company CVR: " + selectedCompany.getCVRNumber());
         System.out.println("Deleted company CVR: " + deletedCompany.getCVRNumber());
-
-        if ((selectedCompany.getCVRNumber().equals(deletedCompany.getCVRNumber()))){
+        if ((selectedCompany.getCVRNumber().equals(deletedCompany.getCVRNumber()))) {
             selectedCompany = null;
             companyDropDown.setItems(db.getCompanyList());
             companyDropDown.getSelectionModel().select(selectedCompany);
-
             System.out.println("Company deleted was the same as selected");
         } else {
             System.out.println("Company selected and deleted company was not the same");
             companyDropDown.setItems(db.getCompanyList());
             companyDropDown.getSelectionModel().select(selectedCompany);
-
         }
     }
-
 
 
     //---------------------Event handlers--------------------------//
@@ -395,9 +355,7 @@ public class MainController {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem() != null) {
                         if (!manageEmployeeController.isStageOpen()) {
-
                             configureManageEmployee();
-
                         } else {
                             System.out.println("Please close the first window before opening a new one");
                         }
@@ -407,12 +365,18 @@ public class MainController {
         });
     }
 
+    /**
+     * This method initializes the Window EventHandler. It's purpose is to update a certain TableView depending
+     * on which application window that was closes.
+     *
+     * @param stage      the stage object. Typically given from a controller
+     * @param controller the controller object used together with instanceof to check which class it belongs to
+     */
     public void closeStageHandler(Stage stage, Object controller) {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
                 System.out.println("THE WINDOW WAS CLOSED");
-
                 if (controller instanceof NewCourseController) {
                     System.out.println("Updated course table view");
                     updateCourseTableView();
@@ -433,135 +397,34 @@ public class MainController {
                 if (controller instanceof NewEmployeeController) {
                     System.out.println("Update employee table view");
                     updateEmployeeTableView();
-
                 }
-
-
-                // TODO CONTINUE
-
-
             }
         });
     }
 
+
+    /**
+     * This method is used for initializing a listener that handles events from the combobox. The main purpose is get the
+     * selected value and assign it to the selectedCompany variable. In this way we can update the tables at the moment we select
+     * a new value to make sure that the data shown is only associated with the company selected.
+     */
     private void selectedCompanyHandler() {
-
         companyDropDown.valueProperty().addListener((obs, oldItem, newItem) -> {
-
-            // System.out.println("User clicked on: " + newItem);
-
             if (companyDropDown.getSelectionModel().getSelectedItem() != null) {
-
                 selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
-
                 System.out.println("You just casted the object as a Company, and the output is: " + selectedCompany.getName());
-
                 updateProviderTableView();
                 updateCompanyTableView();
                 updateCourseTableView();
-
                 updateEmployeeTableView();
-
             }
-
-
         });
-
     }
 
-
-    //------DELETE ELEMENT FROM TABLEVIEW----/(
-
-    private void deleteSelectedCourse() {
-
-
-        Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
-
-        db.deleteCourse(course);
-
-        updateCourseTableView();
-
-
-    }
-
-
-    private void deleteSelectedCompany() {
-
-        Company company = (Company) companyTableView.getSelectionModel().getSelectedItem();
-
-        db.deleteCompany(company);
-
-        updateCompanyTableView();
-
-        deletedCompany = company;
-
-        removalOfCompanyRefresher();
-
-
-
-    }
-
-    private void deleteSelectedProvider() {
-
-        Provider provider = (Provider) providerTableView.getSelectionModel().getSelectedItem();
-
-        db.deleteProvider(provider);
-
-        updateProviderTableView();
-        updateCourseTableView();
-
-
-    }
-
-    private void deleteSelectedEmployee() {
-
-        Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
-
-        db.deleteEmployee(employee);
-
-        updateEmployeeTableView();
-
-
-    }
-
-
-    //------REFRESH THE TABLEVIEWS--------//
-    private void updateCourseTableView() {
-        //constructing data model
-        courseList = db.getCourseList();
-        //data binding
-        courseTableView.setItems(courseList);
-        System.out.println("Updated Course TableView");
-    }
-
-    private void updateEmployeeTableView() {
-        //constructing data model
-        employeeList = db.getEmployeeList(selectedCompany.getCVRNumber());
-        //data binding
-        employeeTableView.setItems(employeeList);
-        System.out.println("Updated Employee TableView");
-    }
-
-    private void updateCompanyTableView() {
-        //constructing data model
-        companyList = db.getCompanyList();
-        //data binding
-        companyTableView.setItems(companyList);
-        System.out.println("Updated Company TableView");
-
-       // companyDropDown.getSelectionModel().selectFirst();
-
-    }
-
-    private void updateProviderTableView() {
-        //constructing data model
-        providerList = db.getProviderList();
-        //data binding
-        providerTableView.setItems(providerList);
-        System.out.println("Updated Provider TableView");
-
-    }
-
+    /**
+     * This method initializes an EventHandler that observes the TabPane and changes the button properties such text and visibility
+     * based on what what tab is currently active.
+     */
     private void tabHandler() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             System.out.println("The tab selected now has the index: " + newTab.getTabPane().getSelectionModel().getSelectedIndex());
@@ -592,7 +455,6 @@ public class MainController {
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Company");
                 buttonRight.setVisible(true);
-                // TODO If this turns out to be the company that you are currently working on, it should handle the situation without issues
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == providerIndex) {
                 buttonLeft.setText("Delete Provider");
                 buttonLeft.setVisible(true);
@@ -603,6 +465,100 @@ public class MainController {
             // TODO REFACTOR CODE
         });
     }
+
+
+    //------DELETE ELEMENT FROM TABLEVIEW----/(
+
+    /**
+     * Method used for deleting a course in the database. After completion, the TableView will be updated.
+     */
+    private void deleteSelectedCourse() {
+        Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
+        db.deleteCourse(course);
+        updateCourseTableView();
+    }
+
+    /**
+     * Method used for deleting a company in the database. After completion, the TableView will be updated. In this method
+     * we also take the currently selected company in to consideration. This means, that if you delete the company that you
+     * are currently working on, the helper-method removalOfCompanyRefresher() will make sure to deselect the object, so
+     * that you can commit changes to a company that is non-existent.
+     */
+    private void deleteSelectedCompany() {
+        Company company = (Company) companyTableView.getSelectionModel().getSelectedItem();
+        db.deleteCompany(company);
+        updateCompanyTableView();
+        deletedCompany = company;
+        removalOfCompanyRefresher();
+    }
+
+    /**
+     * Method used for deleting a provider in the database. Since the courses are tied to the provider, you cannot delete a provider
+     * without also deleting the courses of the provider. Therefore we have to update both tables at the end of the method.
+     */
+    private void deleteSelectedProvider() {
+        Provider provider = (Provider) providerTableView.getSelectionModel().getSelectedItem();
+        db.deleteProvider(provider);
+        updateProviderTableView();
+        updateCourseTableView();
+    }
+
+    /**
+     * Method used for deleting an employee in the database. After completion, the TableView will be updated.
+     */
+    private void deleteSelectedEmployee() {
+        Employee employee = (Employee) employeeTableView.getSelectionModel().getSelectedItem();
+        db.deleteEmployee(employee);
+        updateEmployeeTableView();
+    }
+
+    //------REFRESH THE TABLEVIEWS--------//
+
+    /**
+     * Updates the course table by retrieving a fresh ObservableList from the DB class
+     */
+    private void updateCourseTableView() {
+        //constructing data model
+        courseList = db.getCourseList();
+        //data binding
+        courseTableView.setItems(courseList);
+        System.out.println("Updated Course TableView");
+    }
+
+    /**
+     * Updates the employee table by retrieving a fresh ObservableList from the DB class. The method makes sure to
+     * check what from which company it should retrieve the list of employees.
+     */
+    private void updateEmployeeTableView() {
+        //constructing data model
+        employeeList = db.getEmployeeList(selectedCompany.getCVRNumber());
+        //data binding
+        employeeTableView.setItems(employeeList);
+        System.out.println("Updated Employee TableView");
+    }
+
+    /**
+     * Updates the company table by retrieving a fresh ObservableList from the DB class
+     */
+    private void updateCompanyTableView() {
+        //constructing data model
+        companyList = db.getCompanyList();
+        //data binding
+        companyTableView.setItems(companyList);
+        System.out.println("Updated Company TableView");
+    }
+
+    /**
+     * Updates the provider table by retrieving a fresh ObservableList from the DB class
+     */
+    private void updateProviderTableView() {
+        //constructing data model
+        providerList = db.getProviderList();
+        //data binding
+        providerTableView.setItems(providerList);
+        System.out.println("Updated Provider TableView");
+    }
+
 
 
 }

@@ -55,7 +55,9 @@ public class NewCourseController implements Openable{
         locationDropDown.setItems(locations);
     }
 
-
+    /**
+     * Method used for configuring the Window and opening it.
+     */
     @Override
     public void openWindow() {
         try {
@@ -67,13 +69,15 @@ public class NewCourseController implements Openable{
 
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();
-
             addCourseStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Methods that prevents you from operating other windows before you close the current one.
+     */
     @Override
     public void setupModality(){
         if (!isInitialized){
@@ -82,22 +86,40 @@ public class NewCourseController implements Openable{
         }
     }
 
-
+    /**
+     * Will check if the stage is showing (open).
+     * @return true or false
+     */
     @Override
     public boolean isStageOpen(){
         return addCourseStage.isShowing();
     }
 
+
+    /**
+     * Will get you the stage of the instance you are working with.
+     * @return a Stage instance.
+     */
     @Override
     public Stage getStage() {
         return addCourseStage;
     }
 
+    /**
+     * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
+     * is important to regain control of the active Controller. The method only
+     * returns an Object, but the object can be casted as a different object type (As the controller object needed)
+     * @return Object (Controller)
+     */
     @Override
     public Object getController() {
         return fxmlLoader.getController();
     }
 
+    /**
+     * Will take the Strings from the text fields and LocationID from the dropdown menu and insert it into the database. If there are any problems with the given
+     * arguments it will display an error on a label.
+     */
     @FXML
     public void addNewCourse(){
 

@@ -133,7 +133,9 @@ public class ManageEmployeeController implements Openable {
         }
     }
 
-
+    /**
+     * Method used for configuring the Window and opening it.
+     */
     @Override
     public void openWindow() {
         try {
@@ -153,6 +155,9 @@ public class ManageEmployeeController implements Openable {
         }
     }
 
+    /**
+     * Methods that prevents you from operating other windows before you close the current one.
+     */
     @Override
     public void setupModality(){
         if (!isInitialized){
@@ -161,20 +166,32 @@ public class ManageEmployeeController implements Openable {
         }
     }
 
-
-
+    /**
+     * Will check if the stage is showing (open).
+     * @return true or false
+     */
     @Override
     public boolean isStageOpen() {
         System.out.println("manageEmployeeStage showing: " + manageEmployeeStage);
         return manageEmployeeStage.isShowing();
     }
 
+    /**
+     * Will get you the stage of the instance you are working with.
+     * @return a Stage instance.
+     */
     @Override
     public Stage getStage() {
         return manageEmployeeStage;
     }
 
 
+    /**
+     * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
+     * is important to regain control of the active Controller. The method only
+     * returns an Object, but the object can be casted as a different object type (As the controller object needed)
+     * @return Object (Controller)
+     */
     @Override
     public Object getController() {
         return fxmlLoader.getController();
@@ -189,33 +206,41 @@ public class ManageEmployeeController implements Openable {
      */
     public void setSelectedEmployee(Employee employee) {
         selectedEmployee = employee;
-
         nameTextField.setText(selectedEmployee.getName());
         cprTextField.setText(selectedEmployee.getCPRNumber());
         emailTextField.setText(selectedEmployee.getEmail());
         phoneNumTextField.setText(selectedEmployee.getPhoneNumber());
-
         System.out.println("The record belongs to: " + selectedEmployee.getName() + " and the ID is: " + selectedEmployee.getEmployeeID());
     }
 
 
+    /**
+     * This method is used when you want to edit the selected employee. It basically sets the text fields to editable, and
+     * enables the save button.
+     */
     @FXML
     public void editMode() {
+        // MAKE THE TEXT FIELDS EDITABLE
         nameTextField.setEditable(true);
         cprTextField.setEditable(true);
         emailTextField.setEditable(true);
         phoneNumTextField.setEditable(true);
-
+        // RE-ENABLE THE TEXT FIELDS
         nameTextField.setDisable(false);
         cprTextField.setDisable(false);
         emailTextField.setDisable(false);
         phoneNumTextField.setDisable(false);
-
+        // DISABLE THE EDIT BUTTON AND ENABLE THE SAVE BUTTON
         editInfoButton.setDisable(true);
         applyChangesButton.setDisable(false);
         infoLabel.setVisible(false);
     }
 
+    /**
+     * This method is connected with the save button ("Apply changes") which creates an Employee object and calls the db.updateEmployee method from the DB class.
+     * The DB method will either return a complete Employee object or null. If it returns a usable object it indicates, that the changes were saved successfully.
+     * If it returns null it means that there was some kind of error, and the user will have to check the fields to see if he wrote something invalid.
+     */
     @FXML
     public void saveChangesToEmployee() {
         // This method will try to update the data in the database and return a new fresh employee object if the action succeeded or null if there was an error
@@ -259,7 +284,13 @@ public class ManageEmployeeController implements Openable {
         }
     }
 
-    public void closeStageHandler(Stage stage, Object controller) {
+    /**
+     * This method initializes the Window EventHandler. It's purpose is to execute some code after you close the window chosen.
+     *
+     * @param stage      the stage object. Typically given from a controller
+     * @param controller the controller object used together with instanceof to check which class it belongs to
+     */
+    public void closeStageHandler(Stage stage, Object controller) { //TODO WILL WE USE THE CONTROLLER??
         stage.setOnHiding(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
@@ -325,33 +356,29 @@ public class ManageEmployeeController implements Openable {
 
     // QUALIFICATION SECTION
 
+    /**
+     * Will display all the qualifications of the selected employee in a TableView. This method is called at the very beginning to make sure, that
+     * these information are visible as soon as the window is presented.
+     */
     public void displayQualifications() {
-
         qualificationsList = db.getQualifications(selectedEmployee);
-
         qualificationsTableView.setItems(qualificationsList);
-
         typeColumn.setCellValueFactory(new PropertyValueFactory("type"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory("description"));
         levelColumn.setCellValueFactory(new PropertyValueFactory("level"));
-
         qualificationsTableView.getColumns().setAll(typeColumn, descriptionColumn, levelColumn);
     }
 
 
     /**
      * This method makes you able to update the values of an existing qualification by editing directly from the table cell.
-     *
      * @param cellEditEvent the new value that is entered
      */
-
     @FXML
     public void onEditChangedType(TableColumn.CellEditEvent cellEditEvent) {
-
         Qualification qualification = (Qualification) qualificationsTableView.getSelectionModel().getSelectedItem();
 
         if (cellEditEvent.getTablePosition().getColumn() == 0) {
-
             System.out.println("Changed info in type");
             Type newType = (Type) cellEditEvent.getNewValue();
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
@@ -361,7 +388,6 @@ public class ManageEmployeeController implements Openable {
             db.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
 
         } else if (cellEditEvent.getTablePosition().getColumn() == 1) {
-
             System.out.println("Changed info in description");
             String newDescription = cellEditEvent.getNewValue().toString();
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
@@ -370,7 +396,6 @@ public class ManageEmployeeController implements Openable {
             db.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
 
         } else if (cellEditEvent.getTablePosition().getColumn() == 2) {
-
             System.out.println("Changed info in level");
             Level newLevel = (Level) cellEditEvent.getNewValue();
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
@@ -379,40 +404,37 @@ public class ManageEmployeeController implements Openable {
             // Will update the qualification table with the new type selected
             db.updateQualification(qualification.getQualificationID(), qualification.getType(), qualification.getDescription(), newLevel.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), newLevel.getLevelID());
         }
-
     }
 
+    /**
+     * This method adds a new qualification. The default value on all fields will typically just "Unspecified". The user can then modify the information so that is suits the qualification of the employee.
+     */
     @FXML
     public void addNewQualification() {
-
-
         db.insertQualification(selectedEmployee);
-
         displayQualifications();
-
     }
 
+    /**
+     * This method deletes the qualification selected in the TableView. It will start by executing the delete statement in the DB class and then refresh the TableView.
+     */
     @FXML
     public void deleteQualification() {
-
         Qualification qualification = (Qualification) qualificationsTableView.getSelectionModel().getSelectedItem();
-
         System.out.println("You selected: " + qualification.getQualificationID());
-
         db.deleteQualification(qualification);
-
         displayQualifications();
     }
 
-
+    /**
+     * Object from the Business Service layer used for running input validation on the TextFields.
+     *
+     * @param event every single time a user types something on the keyboard
+     */
     @FXML
     public void inputValidator(KeyEvent event) {
-
         InputValidation inputValidation = new InputValidation();
-
         inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, event);
-
-
     }
 
 
