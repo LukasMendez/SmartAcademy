@@ -362,6 +362,10 @@ public class ManageEmployeeController implements Openable {
      */
     public void displayQualifications() {
         qualificationsList = db.getQualifications(selectedEmployee);
+
+        System.out.println("First description of qualification: " + qualificationsList.get(0).getDescription());
+
+
         qualificationsTableView.setItems(qualificationsList);
         typeColumn.setCellValueFactory(new PropertyValueFactory("type"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory("description"));
