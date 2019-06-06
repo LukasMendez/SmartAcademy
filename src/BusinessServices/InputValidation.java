@@ -56,11 +56,17 @@ public class InputValidation {
         char asciiTableNumber = 43;
 
 
-        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
+
+        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck)) && phoneNumTextField.getLength()>0) {
 
             event.consume();
             phoneNumTextField.setStyle("-fx-text-box-border:red;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
 
+        }
+
+        if (Character.isLetter(event.getCharacter().charAt(firstLetterCheck))){
+
+            event.consume();
         } else {
             phoneNumTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
 

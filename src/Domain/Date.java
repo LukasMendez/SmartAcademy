@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
  */
 public class Date {
 
-
     private String date;
     private int dateID;
 
@@ -27,11 +26,7 @@ public class Date {
 
     @Override
     public String toString(){
-
         return date;
     }
-
-
-
 
 }

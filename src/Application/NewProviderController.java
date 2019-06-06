@@ -32,11 +32,12 @@ public class NewProviderController implements Openable {
     @FXML
     private TextField nameTextField, cvrTextField, addressTextField, emailTextField, phoneNoTextField, zipTextField;
 
-
-
     // Used to check if the stage has been initialized before. Used for setting Modality
     private static boolean isInitialized = false;
 
+    /**
+     * Method used for configuring the Window and opening it.
+     */
     @Override
     public void openWindow() {
         try {
@@ -49,13 +50,15 @@ public class NewProviderController implements Openable {
 
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();
-
             newProviderStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Methods that prevents you from operating other windows before you close the current one.
+     */
     @Override
     public void setupModality() {
         if (!isInitialized) {
@@ -64,25 +67,46 @@ public class NewProviderController implements Openable {
         }
     }
 
+    /**
+     * Will check if the stage is showing (open).
+     *
+     * @return true or false
+     */
     @Override
     public boolean isStageOpen() {
         return newProviderStage.isShowing();
     }
 
-    @Override
-    public Object getController() {
-        return fxmlLoader.getController();
-    }
-
+    /**
+     * Will get you the stage of the instance you are working with.
+     *
+     * @return a Stage instance.
+     */
     @Override
     public Stage getStage() {
         return newProviderStage;
     }
 
+    /**
+     * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
+     * is important to regain control of the active Controller. The method only
+     * returns an Object, but the object can be casted as a different object type (As the controller object needed)
+     *
+     * @return Object (Controller)
+     */
+    @Override
+    public Object getController() {
+        return fxmlLoader.getController();
+    }
 
-    @FXML @SuppressWarnings("Duplicates")
-    public void confirmChanges(){
-
+    /**
+     * This method saves the data from the text fields in the database. We proceed the information using a method from the DB instance.
+     * The method returns a number indicating the amount of rows affected. If 1 or more rows were affected it will let the user know, that the data was saved
+     * successfully (It should only be possible to affect 1 row though, and not more). Else it will display an error message.
+     */
+    @FXML
+    @SuppressWarnings("Duplicates")
+    public void confirmChanges() {
         String cvrNo = cvrTextField.getText();
         String address = addressTextField.getText();
         String name = nameTextField.getText();
@@ -90,10 +114,8 @@ public class NewProviderController implements Openable {
         String phoneNo = phoneNoTextField.getText();
         int zipCode = Integer.parseInt(zipTextField.getText());
 
-        int rowsAffected = db.insertProvider(cvrNo,name,address,mail,phoneNo,zipCode);
-
-        if (rowsAffected==1){
-
+        int rowsAffected = db.insertProvider(cvrNo, name, address, mail, phoneNo, zipCode);
+        if (rowsAffected == 1) {
             infoLabel.setVisible(true);
             infoLabel.setText("Saved successfully");
             cvrTextField.setText("");
@@ -102,79 +124,21 @@ public class NewProviderController implements Openable {
             emailTextField.setText("");
             phoneNoTextField.setText("");
             zipTextField.setText("");
-
         } else {
-
             infoLabel.setText("Invalid info! Please check your entered data again!");
         }
-
     }
 
-
-    @FXML
-    @SuppressWarnings("Duplicate")
-    public void redFieldName (KeyEvent event){
-        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\sa-zA-Z*")) {
-                nameTextField.setText(newValue.replaceAll("[^\\sa-zA-Z]", "")); // Allows only wirte a letters!
-            }
-        });
-    }
-
-
-    @FXML
-    @SuppressWarnings("Duplicate")
-    public void redFieldPHoneNumber(KeyEvent event) { // Allows you write only numbers !
-
-        char asciiTableNumber = 43;
-        char firstLetterCheck = 0;
-
-        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
-
-            event.consume();
-            phoneNoTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
-
-        } else {
-            phoneNoTextField.setStyle("-fx-text-box-border:#fff5fa;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
-
-        }
-
-    }
-
-
-    @FXML
-    public void redFieldZipCode(KeyEvent event) { // Allows you write only numbers !
-
-        char asciiTableNumber = 9;
-        char firstLetterCheck = 0;
-
-        if (((int) event.getCharacter().charAt(firstLetterCheck)) != asciiTableNumber && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck))) {
-
-            event.consume();
-            zipTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
-
-        } else {
-            zipTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:#fbffff;");
-
-        }
-
-    }
-
-
+    /**
+     * Object from the Business Service layer used for running input validation on the TextFields.
+     *
+     * @param event every single time a user types something on the keyboard
+     */
     @FXML
     public void inputValidator(KeyEvent event) {
-
         InputValidation inputValidation = new InputValidation();
-
-        inputValidation.checkInputCompany(phoneNoTextField,zipTextField,event);
-
-
+        inputValidation.checkInputCompany(phoneNoTextField, zipTextField, event);
     }
-
-
-
-
-
 
 }
 
