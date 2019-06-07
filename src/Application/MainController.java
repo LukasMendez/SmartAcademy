@@ -79,6 +79,9 @@ public class MainController {
 
     public void initialize() {
 
+        companyDropDown.setItems(db.getCompanyList());
+        companyDropDown.getSelectionModel().selectFirst();
+        selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
 
         // Checking for a valid database server connection
         if(DB.DBConnectionFailed == true){
@@ -88,11 +91,6 @@ public class MainController {
         }else{
             DatabaseConnectionErrorMSG.setVisible(false);
         }
-
-        companyDropDown.setItems(db.getCompanyList());
-        companyDropDown.getSelectionModel().selectFirst();
-        selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
-
 
         selectedCompanyHandler();
         mouseClickEmployeeHandler();
