@@ -1,16 +1,11 @@
 package Domain;
 
-/**
- * Created by Lukas
- * 27-05-2019.
- */
 public class Location {
 
     private int locationID;
     private String name;
     private String address;
     private int zip;
-
 
     public Location(int locationID, String name, String address, int zip){
 
@@ -20,7 +15,6 @@ public class Location {
         this.zip=zip;
 
     }
-
 
     public int getLocationID() {
         return locationID;
@@ -32,12 +26,7 @@ public class Location {
 
     @Override
     public String toString(){
-
         return zip + ", " + name + ", " + address;
-
     }
-
-
-
 
 }

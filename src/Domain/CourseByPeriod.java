@@ -55,8 +55,5 @@ public class CourseByPeriod {
         if (periodID == null) periodID = new SimpleIntegerProperty(this, "periodID");
         return periodID;
     }
-/*
-    public String toString(){
-        return "" + information + " " + provider + " " + location + " " + period + " " + periodID;
-    }*/
+
 }

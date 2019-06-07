@@ -1,9 +1,5 @@
 package Domain;
 
-/**
- * Created by Lukas
- * 27-05-2019.
- */
 public class Level {
 
     private int levelID;

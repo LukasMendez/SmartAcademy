@@ -11,8 +11,6 @@ import javafx.beans.property.StringProperty;
  */
 public class Qualification {
 
-
-
     private int qualificationID;
     private StringProperty type;
     private StringProperty description;
