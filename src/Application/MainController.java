@@ -33,8 +33,8 @@ public class MainController {
     private NewProviderController newProviderController = new NewProviderController();
 
     // Tab indexes
-    private int educationMatrixIndex = 0;
-    private int employeeIndex = 1;
+    private int employeeIndex = 0;
+    private int educationMatrixIndex = 1;
     private int calenderIndex = 2;
     private int coursesIndex = 3;
     private int companiesIndex = 4;
