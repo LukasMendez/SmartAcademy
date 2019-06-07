@@ -177,7 +177,10 @@ VBox {
     -fx-background-radius: 0em;
 }
 
-
-
+/* The Color for the Error msg if no database connection found */
+#noDatabaseConnectionErrorMSG{
+    -fx-background-color: RED;
+    -fx-text-fill: WHITE;
+}
 
 

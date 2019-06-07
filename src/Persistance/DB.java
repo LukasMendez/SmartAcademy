@@ -24,6 +24,8 @@ public class DB {
     private static String propertiesPath = System.getProperty("user.dir") + "\\src\\Foundation\\db.properties";
     private static DB instance;
 
+    public static boolean DBConnectionFailed = false;
+
     private DB() {
     }
 
@@ -55,9 +57,11 @@ public class DB {
             //connecting to database
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:" + port + ";databaseName=" + databaseName, userName, password);
+            DBConnectionFailed = false;
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            DBConnectionFailed = true;
         }
     }
 

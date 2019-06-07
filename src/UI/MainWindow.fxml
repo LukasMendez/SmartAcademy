@@ -174,7 +174,8 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="711.0" minWidth="10.0" prefWidth="711.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="106.0" minHeight="10.0" prefHeight="104.19999694824219" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0" minHeight="0.0" prefHeight="1.8000030517578125" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -194,6 +195,11 @@
                         </Label>
                     </children>
                 </HBox>
+            <Label id="noDatabaseConnectionErrorMSG" fx:id="DatabaseConnectionErrorMSG" alignment="CENTER" text="Database connection could not be established" textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
             </children>
         </GridPane>
     </top>
