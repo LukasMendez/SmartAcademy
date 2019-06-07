@@ -84,6 +84,9 @@ public class CourseToEPController implements Openable {
         addCourseToEPTableView.getColumns().setAll(informationColumn, providerColumn, locationColumn, periodColumn);
     }
 
+    /**
+     * Updates the addCourseToEP table by retrieving a fresh ObservableList from the DB class
+     */
     private void updateAddCourseToEPTableView() {
         //constructing data model
         coursesByPeriodList = db.getCoursesByPeriod();
@@ -91,6 +94,9 @@ public class CourseToEPController implements Openable {
         addCourseToEPTableView.setItems(coursesByPeriodList);
     }
 
+    /**
+     * Storing the selected Course in variable for later use, and closing the stage/window.
+     */
     @FXML
     private void setSelectedCourse(){
         //storing the selected course

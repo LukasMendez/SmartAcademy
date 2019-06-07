@@ -6,7 +6,6 @@ public class Type {
     private int typeID;
     private String type;
 
-
     public Type(int typeID, String type) {
         this.typeID = typeID;
         this.type = type;

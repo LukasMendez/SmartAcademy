@@ -32,6 +32,7 @@ public class ManageEmployeeController implements Openable {
     private DB db = DB.getInstance();
 
     private boolean history;
+    private int consultantID = 1; //hardcoded since consultant handling has not been implemented
 
     // Static because we want to make sure to always have access to the same (and only) stage
     private static Stage manageEmployeeStage = new Stage();
@@ -82,8 +83,11 @@ public class ManageEmployeeController implements Openable {
         levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(db.getQualificationLevel()));
     }
 
+    /**
+     * setting up databinding for tableView
+     */
     public void start(){
-        history = false;
+        history = false; //used for toggling between history and active courses
 
         //EducationPlan
         //constructing data model + data binding
@@ -101,6 +105,9 @@ public class ManageEmployeeController implements Openable {
         educationPlanTableView.getColumns().setAll(dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn, completedColumn);
     }
 
+    /**
+     * Updates the educationPlan table by retrieving a fresh ObservableList from the DB class
+     */
     private void updateEducationPlanTableView(boolean isActive){
         //constructing data model
         educationPlansList = db.getEducationPlanList(selectedEmployee.getEmployeeID(), isActive);
@@ -113,7 +120,9 @@ public class ManageEmployeeController implements Openable {
 
       //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
 
-
+    /**
+     * Used for toggling between history/active courses in educationPlanTableView when pressing toggleHistoryButton
+     */
     @FXML
     private void toggleHistory(){
         if(history == false){
@@ -270,7 +279,10 @@ public class ManageEmployeeController implements Openable {
         }
     }
 
-
+    /**
+     * Opening the AddCourseToEP window when pressing the addButton.
+     * Sets up the controller and stageHandler and runs the start method from courseToEPController
+     */
     @FXML
     public void addCourseToEducationPlan() {
         if (!courseToEPController.isStageOpen()) {
@@ -286,6 +298,7 @@ public class ManageEmployeeController implements Openable {
 
     /**
      * This method initializes the Window EventHandler. It's purpose is to execute some code after you close the window chosen.
+     * Calls the method that adds the selected course to the education plan (addCourseToEP())
      *
      * @param stage      the stage object. Typically given from a controller
      * @param controller the controller object used together with instanceof to check which class it belongs to
@@ -301,34 +314,58 @@ public class ManageEmployeeController implements Openable {
         });
     }
 
+    /**
+     * Method for adding the selected course to the active education plan.
+     * Creates a new record in tblCoursePlan in the database.
+     *
+     * @param selectedCourse the course to be added (that was selected in the CourseToEPController)
+     */
     private void addCourseToEP(CourseByPeriod selectedCourse){
-        System.out.println(selectedCourse);
-        //add new coursePlan record to DB
+        //create new active education plan if there is none
+        createNewEP();
+        //search for an active plan and assign to activePlan variable
+        setActivePlan();
+        //adding the selected course to the active plan by inserting record in DB
+        db.addCoursePlan(activePlan, selectedCourse);
+        //updating the table view to reflect the change
+        updateEducationPlanTableView(true); //updating tableView
+    }
+
+    /**
+     * Creates a new active education plan if there is none
+     */
+    private void createNewEP(){
         //if getPlanID db method returns sentinel value(is null)
-        if(db.getActivePlanID(selectedEmployee.getEmployeeID(),1) == 0){ //TODO fix consultantID so its not hardcoded
+        if(db.getActivePlanID(selectedEmployee.getEmployeeID(),consultantID) == 0){
             //create new active education plan
-            db.createNewEducationPlan(selectedEmployee.getEmployeeID(), 1); //TODO also fix consultantID here
+            db.createNewEducationPlan(selectedEmployee.getEmployeeID(), consultantID);
         }
-        //set activePlan to the current active plan
-        updateEducationPlanTableView(true); //updating the list
+    }
+
+    /**
+     * Iterating the educationPlansList to find a plan that is active.
+     * If no active plan is found a placeholder will be set.
+     */
+    private void setActivePlan(){
+        //searching for active plan
         for (int i = 0; i < educationPlansList.size(); i++) {
             //will only get a hit if the list is not empty
             if(educationPlansList.get(i).getIsActive() == 1 && educationPlansList.get(i).getEmployeeID() == selectedEmployee.getEmployeeID()){
+                //assigning the found active plan to activePlan variable
                 activePlan = educationPlansList.get(i);
             }
         }
-        //set placeholder education plan if activePlan is null (prevents error if adding course and plan list is empty)
+        //set placeholder education plan if activePlan is still null (prevents error if adding course and plan list is empty)
         if(activePlan == null){
             activePlan = new EducationPlan(0,null, null, null, null, 0,
                     db.getActivePlanID(selectedEmployee.getEmployeeID(), 1),1,0,
                     selectedEmployee.getEmployeeID());
         }
-
-        System.out.println("selected planID is" + activePlan.getPlanID());
-        db.addCoursePlan(activePlan, selectedCourse);
-        updateEducationPlanTableView(true); //updating tableView
     }
 
+    /**
+     * Removes a course plan record from the database using coursePlanID
+     */
     @FXML
     private void removeCourseFromEp(){
         //get coursePlanID
@@ -339,6 +376,9 @@ public class ManageEmployeeController implements Openable {
         updateEducationPlanTableView(true);
     }
 
+    /**
+     * Sets the selected course as completed in the database and updates the table view to reflect the change.
+     */
     @FXML
     private void setCoursePlanAsCompleted(){
         //get coursePlanID
@@ -349,8 +389,14 @@ public class ManageEmployeeController implements Openable {
         updateEducationPlanTableView(true);
     }
 
+    /**
+     * Looks at the selected item in the tableView to get the associated coursePlanID from the database
+     * @return the coursePlanID of the selected item
+     */
     private int getCoursePlanID(){
+        //assigns the selected coursePlan to activePlan global variable
         activePlan = (EducationPlan)educationPlanTableView.getSelectionModel().getSelectedItem();
+        //queries database for coursePlanID by looking at dateID and planID of activePlan
         return db.getCoursePlanID(activePlan.getDateID(), activePlan.getPlanID());
     }
 
@@ -363,7 +409,7 @@ public class ManageEmployeeController implements Openable {
     public void displayQualifications() {
         qualificationsList = db.getQualifications(selectedEmployee);
 
-        System.out.println("First description of qualification: " + qualificationsList.get(0).getDescription());
+//        System.out.println("First description of qualification: " + qualificationsList.get(0).getDescription());
 
 
         qualificationsTableView.setItems(qualificationsList);

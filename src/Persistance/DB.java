@@ -30,7 +30,7 @@ public class DB {
     /**
      * Singleton DB object (note private constructor)
      *
-     * @return
+     * @return instance of the DB class
      */
     public static synchronized DB getInstance() {
         if (instance == null)
@@ -75,6 +75,10 @@ public class DB {
 
     //EDUCATION PLAN RELATED METHODS
 
+    /**
+     * Queries database for courses by period using stored procedure
+     * @return list of courses by period
+     */
     public static ObservableList<CourseByPeriod> getCoursesByPeriod() {
         ObservableList<CourseByPeriod> listOfCoursesByPeriod = FXCollections.observableArrayList();
         try {
@@ -93,9 +97,6 @@ public class DB {
                 int periodID = rs.getInt("fldPeriodID");
                 listOfCoursesByPeriod.add(new CourseByPeriod(information, provider, location, period, periodID));
             }
-
-            //printing for debugging
-            System.out.println();
             close();
 
         } catch (Exception e) {
@@ -105,6 +106,11 @@ public class DB {
         return listOfCoursesByPeriod;
     }
 
+    /**
+     * Inserts new tblCoursePlan record into database
+     * @param coursePlan the education plan object to be inserted
+     * @param coursePeriod the courseByPeriod object used to set the PeriodID of the CoursePlan
+     */
     public static void addCoursePlan(EducationPlan coursePlan, CourseByPeriod coursePeriod) {
         int rowsAffected = 0;
         try {
@@ -121,7 +127,6 @@ public class DB {
             if (rowsAffected > 0) {
                 System.out.println(rowsAffected + " rows was affected!");
             }
-
             close();
 
         } catch (Exception e) {
@@ -129,6 +134,12 @@ public class DB {
         }
     }
 
+    /**
+     * Queries the database for a CoursePlanID that has the provided dateID and planID
+     * @param dateID dateID used to find the correct CoursePlanID
+     * @param planID planID used to find the correct CoursePlanID
+     * @return
+     */
     @SuppressWarnings("Duplicates")
     public static int getCoursePlanID(int dateID, int planID) {
         int coursePlanID = 0;
@@ -143,7 +154,6 @@ public class DB {
             while (rs.next()) {
                 coursePlanID = rs.getInt(1);
             }
-
             close();
 
         } catch (Exception e) {
@@ -153,6 +163,11 @@ public class DB {
         return coursePlanID;
     }
 
+    /**
+     * Inserts a new record into tblEducationPlan in the database
+     * @param employeeID employeeID used in the new education plan
+     * @param consultantID consultantID used in the new education plan
+     */
     public static void createNewEducationPlan(int employeeID, int consultantID) {
         int rowsAffected = 0;
         try {
@@ -167,7 +182,6 @@ public class DB {
             if (rowsAffected > 0) {
                 System.out.println(rowsAffected + " rows was affected!");
             }
-
             close();
 
         } catch (Exception e) {
@@ -175,6 +189,12 @@ public class DB {
         }
     }
 
+    /**
+     * Calls UDF that finds an employees active education plan
+     * @param employeeID the employee whos plan to find
+     * @param consultantID the consultant who created the active plan
+     * @return
+     */
     @SuppressWarnings("Duplicates")
     public static int getActivePlanID(int employeeID, int consultantID) {
         int activePlanID = 0; //sentinel value
@@ -189,7 +209,6 @@ public class DB {
             while (rs.next()) {
                 activePlanID = rs.getInt(1);
             }
-
             close();
 
         } catch (Exception e) {
@@ -199,6 +218,10 @@ public class DB {
         return activePlanID;
     }
 
+    /**
+     * Toggles the field fldIsCompleted in tblCoursePlan between 1 an 0
+     * @param coursePlanID the ID of the course plan to be changed
+     */
     @SuppressWarnings("Duplicates")
     public static void toggleCoursePlanCompletion(int coursePlanID) {
         int rowsAffected = 0;
@@ -213,7 +236,6 @@ public class DB {
             if (rowsAffected > 0) {
                 System.out.println(rowsAffected + " rows was affected!");
             }
-
             close();
 
         } catch (Exception e) {
@@ -221,6 +243,10 @@ public class DB {
         }
     }
 
+    /**
+     * Deletes a course plan record from tblCoursePlan
+     * @param coursePlanID the ID of the course plan to be deleted
+     */
     @SuppressWarnings("Duplicates")
     public static void removeCoursePlan(int coursePlanID) {
         int rowsAffected = 0;
@@ -235,7 +261,6 @@ public class DB {
             if (rowsAffected > 0) {
                 System.out.println(rowsAffected + " rows was affected!");
             }
-
             close();
 
         } catch (Exception e) {
@@ -244,9 +269,8 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Courses
-     *
-     * @return ObservableList</ Course>
+     * Finds all course records in tblCourse
+     * @return an observable list of courses
      */
     public static ObservableList<Course> getCourseList() {
         ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
@@ -268,7 +292,6 @@ public class DB {
                 String provider = rs.getString("fldProvider");
                 listOfCourses.add(new Course(courseID, amuNumber, information, additionalInformation, numberOfDays, location, provider));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -278,8 +301,7 @@ public class DB {
 
     /**
      * Retrieve an ObservableList of Employees based on the CVR number they belong to.
-     *
-     * @return ObservableList</ Qualification>
+     * @return an observable list of employees
      */
     public static ObservableList<Employee> getEmployeeList(String cvrNo) {
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
@@ -301,7 +323,6 @@ public class DB {
                 String company = rs.getString("fldCompany");
                 listOfEmployees.add(new Employee(employeeID, name, CPRNumber, email, phoneNumber, company));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -310,9 +331,8 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Company
-     *
-     * @return ObservableList</ Company>
+     * Retrieve an ObservableList of all Companies
+     * @return an observable list of companies
      */
     @SuppressWarnings("Duplicates")
     public static ObservableList<Company> getCompanyList() {
@@ -336,7 +356,6 @@ public class DB {
                 String CVRNumber = rs.getString("fldCVRNumber");
                 listOfCompanies.add(new Company(name, address, zip, email, phoneNumber, CVRNumber));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -345,9 +364,8 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Locations
-     *
-     * @return ObservableList</ Location>
+     * Retrieve an ObservableList of all Locations
+     * @return an observable list of locations
      */
     public static ObservableList<Location> getLocationList() {
         ObservableList<Location> listOfLocations = FXCollections.observableArrayList();
@@ -368,7 +386,6 @@ public class DB {
                 int zip = rs.getInt("fldZip");
                 listOfLocations.add(new Location(locationID, name, address, zip));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -377,10 +394,9 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Integers that all represent the PeriodIDs
-     *
+     * Retrieve an ObservableList of Integers that represent all the PeriodIDs for a single course
      * @param courseID the courseID of the course
-     * @return ObservableList</ Integer>
+     * @return an observable list of Integer periodIDs
      */
     public static ObservableList<Integer> getPeriodList(int courseID) {
         ObservableList<Integer> listOfPeriods = FXCollections.observableArrayList();
@@ -407,10 +423,9 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Dates
-     *
+     * Retrieve an ObservableList of all Dates in a single Period
      * @param periodID the periodID of the period
-     * @return ObservableList</ Date>
+     * @return an observable list of Dates
      */
     public static ObservableList<Date> getDatesList(int periodID) {
         ObservableList<Date> listOfDates = FXCollections.observableArrayList();
@@ -438,9 +453,8 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Providers
-     *
-     * @return ObservableList</ Providers>
+     * Retrieve an ObservableList of all Providers
+     * @return an observable list of Providers
      */
     @SuppressWarnings("Duplicates")
     public static ObservableList<Provider> getProviderList() {
@@ -451,8 +465,6 @@ public class DB {
             //create Statement + ResultSet
             CallableStatement cs = con.prepareCall("{call dbo.getAllProviders}");
             ResultSet rs = cs.executeQuery();
-            //create ResultSetMetaData
-            ResultSetMetaData rsmd = rs.getMetaData();
             //add data to observableList
             while (rs.next()) {
                 String name = rs.getString("fldname");
@@ -463,7 +475,6 @@ public class DB {
                 String CVRNumber = rs.getString("fldCVRNumber");
                 listOfProviders.add(new Provider(name, address, zip, email, phoneNumber, CVRNumber));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -472,11 +483,10 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of the EducationPlans
-     *
-     * @param employeeID the employeeID
+     * Retrieve an ObservableList of all EducationPlans for a single employee
+     * @param employeeID the employeeID to be used for the search
      * @param isActive   true or false (is the education plan active)
-     * @return ObservableList</ EducationPlan>
+     * @return an observable list of education plans
      */
     public ObservableList<EducationPlan> getEducationPlanList(int employeeID, boolean isActive) {
         ObservableList<EducationPlan> listOfEducationPlans = FXCollections.observableArrayList();
@@ -517,12 +527,10 @@ public class DB {
         return listOfEducationPlans;
     }
 
-
     /**
-     * Retrieve an ObservableList of Qualifications
-     *
+     * Retrieve an ObservableList of all Qualifications for a single employee
      * @param employee the employee object
-     * @return ObservableList</ Qualification>
+     * @return an observable list of qualifications
      */
     public static ObservableList<Qualification> getQualifications(Employee employee) {
         ObservableList<Qualification> listOfQualifications = FXCollections.observableArrayList();
@@ -547,7 +555,6 @@ public class DB {
                 int levelID = rs.getInt("fldLevelID");
                 listOfQualifications.add(new Qualification(qualificationID, typeName, description, levelName, employeeID, typeID, levelID));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -556,9 +563,8 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Types
-     *
-     * @return ObservableList</ Type>
+     * Retrieve an ObservableList of all Types for a single Qualification
+     * @return an observable list of types
      */
     public static ObservableList<Type> getQualificationTypes() {
         ObservableList<Type> listOfQualificationTypes = FXCollections.observableArrayList();
@@ -574,7 +580,6 @@ public class DB {
                 String type = rs.getString("fldTypeName");
                 listOfQualificationTypes.add(new Type(typeID, type));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -583,9 +588,8 @@ public class DB {
     }
 
     /**
-     * Retrieve an ObservableList of Levels
-     *
-     * @return ObservableList</ Level>
+     * Retrieve an ObservableList of all Levels for a single Qualification
+     * @return an observable list of levels
      */
     public static ObservableList<Level> getQualificationLevel() {
         ObservableList<Level> listOfLevels = FXCollections.observableArrayList();
@@ -601,7 +605,6 @@ public class DB {
                 String level = rs.getString("fldLevelName");
                 listOfLevels.add(new Level(levelID, level));
             }
-
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -614,7 +617,6 @@ public class DB {
 
     /**
      * Make changes to the qualification of an employee in the database.
-     *
      * @param qualificationID the qualificationID
      * @param type            type of qualification
      * @param description     description of the employees qualification
@@ -624,7 +626,6 @@ public class DB {
      * @param levelID         levelID (because Level has its own table in the DB)
      * @return a qualification object. If the changes couldn't apply it will just return the object as null.
      */
-
     public static Qualification updateQualification(int qualificationID, String type, String description, String level, int employeeID, int typeID, int levelID) {
         int rowsAffected = 0;
         Qualification qualification = null;
@@ -932,7 +933,6 @@ public class DB {
         }
         return rowsAffected;
     }
-
 
     // REMOVE/DELETE
 

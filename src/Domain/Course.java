@@ -19,7 +19,6 @@ public class Course {
     private StringProperty location;
     private StringProperty CVRNumber;
 
-
     public Course(int courseID, String courseNumber, String information, String additionalInformation, int numberOfDays, String location, String CVRNumber){
         this.setCourseID(courseID);
         this.setCourseNumber(courseNumber);
@@ -36,7 +35,6 @@ public class Course {
         if (courseID == null) courseID = new SimpleIntegerProperty(this, "courseID");
         return courseID;
     }
-
 
     public void setCourseNumber(String value) { courseNumberProperty().set(value); }
     public String getCourseNumber() { return courseNumberProperty().get(); }
@@ -59,10 +57,6 @@ public class Course {
         return additionalInformation;
     }
 
-
-
-
-
     public void setNumberOfDays(int value) { numberOfDaysProperty().set(value); }
     public int getNumberOfDays() { return numberOfDaysProperty().get(); }
     public IntegerProperty numberOfDaysProperty() {
@@ -83,12 +77,5 @@ public class Course {
         if (CVRNumber == null) CVRNumber = new SimpleStringProperty(this, "CVRNumber");
         return CVRNumber;
     }
-/*
-    public String toString(){
-        return "" + courseNumber + " " + information + " " + additionalInformation + " " + numberOfDays + " " + locationID + " " + CVRNumber;
-    }*/
-
-
-
 
 }
