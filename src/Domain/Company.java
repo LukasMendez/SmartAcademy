@@ -69,4 +69,10 @@ public class Company {
         return CVRNumber;
     }
 
+    @Override
+    public String toString(){
+
+        return getName();
+    }
+
 }

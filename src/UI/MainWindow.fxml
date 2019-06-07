@@ -26,22 +26,6 @@
             <children>
                 <TabPane fx:id="tabPane" accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <tabs>
-                        <Tab text="Education Matrix">
-                            <content>
-                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleScrollPane.css">
-                                    <content>
-                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/styleTableViewWhite.css">
-                                            <columns>
-                                                <TableColumn editable="false" prefWidth="132.5" text="Employee Number" />
-                                                <TableColumn editable="false" minWidth="0.0" prefWidth="148.5" text="Education Title" />
-                                                <TableColumn editable="false" minWidth="0.0" prefWidth="146.5" text="Information" />
-                                                <TableColumn editable="false" prefWidth="113.5" text="Provider" />
-                                            </columns>
-                                        </TableView>
-                                    </content>
-                                </ScrollPane>
-                            </content>
-                        </Tab>
                         <Tab fx:id="companiesTab" text="Employee">
                             <content>
                                 <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
@@ -56,6 +40,22 @@
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                 </TableView>
+                            </content>
+                        </Tab>
+                        <Tab text="Education Matrix">
+                            <content>
+                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleScrollPane.css">
+                                    <content>
+                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                            <columns>
+                                                <TableColumn editable="false" prefWidth="132.5" text="Employee Number" />
+                                                <TableColumn editable="false" minWidth="0.0" prefWidth="148.5" text="Education Title" />
+                                                <TableColumn editable="false" minWidth="0.0" prefWidth="146.5" text="Information" />
+                                                <TableColumn editable="false" prefWidth="113.5" text="Provider" />
+                                            </columns>
+                                        </TableView>
+                                    </content>
+                                </ScrollPane>
                             </content>
                         </Tab>
                         <Tab text="Calendar">
@@ -142,7 +142,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Button fx:id="buttonLeft" mnemonicParsing="false" onAction="#leftBottomButtonAction" text="Delete Course" visible="false" />
+                        <Button fx:id="buttonLeft" mnemonicParsing="false" onAction="#leftBottomButtonAction" text="Delete Employee" />
                     </children>
                     <padding>
                         <Insets left="20.0" />
@@ -150,7 +150,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                     <children>
-                        <Button fx:id="buttonRight" mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Add New Course" visible="false" />
+                        <Button fx:id="buttonRight" mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Add New Employee" />
                     </children>
                     <opaqueInsets>
                         <Insets />
