@@ -50,6 +50,10 @@ public class MainController {
     @FXML
     private ComboBox companyDropDown;
 
+    // Labels
+    @FXML
+    private Label DatabaseConnectionErrorMSG;
+
     // Buttons
     @FXML
     private Button buttonLeft, buttonMiddle, buttonRight;
@@ -74,6 +78,16 @@ public class MainController {
     private ObservableList<Provider> providerList;
 
     public void initialize() {
+
+
+        // Checking for a valid database server connection
+        if(DB.DBConnectionFailed == true){
+            // IF no valid connection found, show error label
+            System.out.println("DB Connection not found");
+            DatabaseConnectionErrorMSG.setVisible(true);
+        }else{
+            DatabaseConnectionErrorMSG.setVisible(false);
+        }
 
         companyDropDown.setItems(db.getCompanyList());
         companyDropDown.getSelectionModel().selectFirst();
@@ -530,8 +544,13 @@ public class MainController {
      * check what from which company it should retrieve the list of employees.
      */
     private void updateEmployeeTableView() {
+
+        try{
         //constructing data model
         employeeList = db.getEmployeeList(selectedCompany.getCVRNumber());
+        }catch(NullPointerException npe){
+        System.err.println(npe.getMessage());
+        }
         //data binding
         employeeTableView.setItems(employeeList);
         System.out.println("Updated Employee TableView");
