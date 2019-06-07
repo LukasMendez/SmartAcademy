@@ -83,14 +83,7 @@ public class MainController {
         companyDropDown.getSelectionModel().selectFirst();
         selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
 
-        // Checking for a valid database server connection
-        if(DB.DBConnectionFailed == true){
-            // IF no valid connection found, show error label
-            System.out.println("DB Connection not found");
-            DatabaseConnectionErrorMSG.setVisible(true);
-        }else{
-            DatabaseConnectionErrorMSG.setVisible(false);
-        }
+        checkDBConnection();
 
         selectedCompanyHandler();
         mouseClickEmployeeHandler();
@@ -152,12 +145,19 @@ public class MainController {
         providerTableView.getColumns().setAll(providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn);
     } // TODO COULD WE ADD THE .SETCELLVALUEFACTORY INTO PRIVATE HELPERMETHODS????
 
-    //Test method
-    @FXML // TODO REMOVE WHEN YOU THINK ITS NECESSARY
-    public void testAddCourse() {
-        courseList.add(new Course(1, "156", "bloop", "bleep", 8, "locName", "providerName"));
+    /**
+     * Checking if there is a connection and setting a label if there is not.
+     */
+    private void checkDBConnection(){
+        // Checking for a valid database server connection
+        if(DB.DBConnectionFailed == true){
+            // IF no valid connection found, show error label
+            System.out.println("DB Connection not found");
+            DatabaseConnectionErrorMSG.setVisible(true);
+        }else{
+            DatabaseConnectionErrorMSG.setVisible(false);
+        }
     }
-
 
     //-------------Button action event handlers--------------//
 
