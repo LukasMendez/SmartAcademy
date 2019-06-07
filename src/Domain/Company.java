@@ -69,4 +69,8 @@ public class Company {
         return CVRNumber;
     }
 
+    public String toString(){
+        return getName();
+    }
+
 }
