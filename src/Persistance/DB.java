@@ -115,43 +115,7 @@ public class DB {
     }
 
 
-    public static ObservableList<Course> getCourseList() {
-        ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
-        try {
-            //connect
-            connect();
-            //create Statement + ResultSet
-            CallableStatement cs = con.prepareCall("{call dbo.getAllCourses}");
-            ResultSet rs = cs.executeQuery();
-            //create ResultSetMetaData
-            ResultSetMetaData rsmd = rs.getMetaData(); //TODO Will you use this or not??
 
-            //add data to observableList
-            while (rs.next()) {
-                int courseID = rs.getInt("fldCourseID");
-                String amuNumber = rs.getString("fldAMUNumber");
-                String information = rs.getString("fldInformation");
-                String additionalInformation = rs.getString("fldAdditionalInformation");
-                int numberOfDays = rs.getInt("fldNumberOfDays");
-                String location = rs.getString("fldLocation");
-                String provider = rs.getString("fldProvider");
-
-                listOfCourses.add(new Course(courseID, amuNumber, information, additionalInformation, numberOfDays, location, provider));
-            }
-            /*
-            //printing for debugging
-            for (int i = 0; i < listOfCourses.size(); i++) {
-                System.out.println(listOfCourses.get(i).toString());
-            }*/
-            //close
-            close();
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-
-        return listOfCourses;
-    }
 
     //EDUCATION PLAN RELATED METHODS
 
