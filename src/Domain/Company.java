@@ -75,5 +75,4 @@ public class Company {
         return getName();
     }
 
-
 }

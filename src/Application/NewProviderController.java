@@ -24,6 +24,7 @@ public class NewProviderController implements Openable {
 
     private static Stage newProviderStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
 
     // Labels
     @FXML
@@ -33,10 +34,12 @@ public class NewProviderController implements Openable {
     @FXML
     private TextField nameTextField, cvrTextField, addressTextField, emailTextField, phoneNoTextField, zipTextField;
 
-
     // Used to check if the stage has been initialized before. Used for setting Modality
     private static boolean isInitialized = false;
 
+    /**
+     * Method used for configuring the Window and opening it.
+     */
     @Override
     public void openWindow() {
         try {
@@ -49,13 +52,15 @@ public class NewProviderController implements Openable {
 
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();
-
             newProviderStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Methods that prevents you from operating other windows before you close the current one.
+     */
     @Override
     public void setupModality() {
         if (!isInitialized) {
@@ -64,26 +69,46 @@ public class NewProviderController implements Openable {
         }
     }
 
+    /**
+     * Will check if the stage is showing (open).
+     *
+     * @return true or false
+     */
     @Override
     public boolean isStageOpen() {
         return newProviderStage.isShowing();
     }
 
-    @Override
-    public Object getController() {
-        return fxmlLoader.getController();
-    }
-
+    /**
+     * Will get you the stage of the instance you are working with.
+     *
+     * @return a Stage instance.
+     */
     @Override
     public Stage getStage() {
         return newProviderStage;
     }
 
+    /**
+     * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
+     * is important to regain control of the active Controller. The method only
+     * returns an Object, but the object can be casted as a different object type (As the controller object needed)
+     *
+     * @return Object (Controller)
+     */
+    @Override
+    public Object getController() {
+        return fxmlLoader.getController();
+    }
 
+    /**
+     * This method saves the data from the text fields in the database. We proceed the information using a method from the DB instance.
+     * The method returns a number indicating the amount of rows affected. If 1 or more rows were affected it will let the user know, that the data was saved
+     * successfully (It should only be possible to affect 1 row though, and not more). Else it will display an error message.
+     */
     @FXML
     @SuppressWarnings("Duplicates")
     public void confirmChanges() {
-
         String cvrNo = cvrTextField.getText();
         String address = addressTextField.getText();
         String name = nameTextField.getText();
@@ -92,7 +117,6 @@ public class NewProviderController implements Openable {
         int zipCode = Integer.parseInt(zipTextField.getText());
 
         int rowsAffected = DB.insertProvider(cvrNo, name, address, mail, phoneNo, zipCode);
-
         if (rowsAffected == 1) {
 
             infoLabel.setVisible(true);
@@ -103,9 +127,7 @@ public class NewProviderController implements Openable {
             emailTextField.setText("");
             phoneNoTextField.setText("");
             zipTextField.setText("");
-
         } else {
-
             infoLabel.setText("Invalid info! Please check your entered data again!");
         }
 
@@ -116,11 +138,7 @@ public class NewProviderController implements Openable {
      */
     @FXML
     public void inputValidator(KeyEvent event) {
-
-
         InputValidation inputValidation = new InputValidation();
-
-
         inputValidation.checkInputCompany(phoneNoTextField, zipTextField, nameTextField, event);
         smallWindowPopUpProvider();
 
@@ -158,9 +176,7 @@ public class NewProviderController implements Openable {
         emailTextField.setTooltip(tooltipEmail);
         phoneNoTextField.setTooltip(tooltipPhone);
         zipTextField.setTooltip(tooltipZip);
-
     }
-
 
 }
 

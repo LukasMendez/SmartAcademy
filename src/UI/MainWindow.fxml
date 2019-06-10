@@ -24,24 +24,8 @@
     <center>
         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <TabPane fx:id="tabPane" accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tabPane" accessibleRole="BUTTON" nodeOrientation="LEFT_TO_RIGHT" prefHeight="651.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <tabs>
-                        <Tab text="Education Matrix">
-                            <content>
-                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleScrollPane.css">
-                                    <content>
-                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/styleTableViewWhite.css">
-                                            <columns>
-                                                <TableColumn editable="false" prefWidth="132.5" text="Employee Number" />
-                                                <TableColumn editable="false" minWidth="0.0" prefWidth="148.5" text="Education Title" />
-                                                <TableColumn editable="false" minWidth="0.0" prefWidth="146.5" text="Information" />
-                                                <TableColumn editable="false" prefWidth="113.5" text="Provider" />
-                                            </columns>
-                                        </TableView>
-                                    </content>
-                                </ScrollPane>
-                            </content>
-                        </Tab>
                         <Tab fx:id="companiesTab" text="Employee">
                             <content>
                                 <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
@@ -58,6 +42,22 @@
                                 </TableView>
                             </content>
                         </Tab>
+                        <Tab text="Education Matrix">
+                            <content>
+                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleScrollPane.css">
+                                    <content>
+                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                            <columns>
+                                                <TableColumn editable="false" prefWidth="132.5" text="Employee Number" />
+                                                <TableColumn editable="false" minWidth="0.0" prefWidth="148.5" text="Education Title" />
+                                                <TableColumn editable="false" minWidth="0.0" prefWidth="146.5" text="Information" />
+                                                <TableColumn editable="false" prefWidth="113.5" text="Provider" />
+                                            </columns>
+                                        </TableView>
+                                    </content>
+                                </ScrollPane>
+                            </content>
+                        </Tab>
                         <Tab text="Calendar">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -70,7 +70,7 @@
                                     </children></AnchorPane>
                             </content>
                         </Tab>
-                        <Tab text="Courses">
+                        <Tab id="tab-pane-special-tabs" text="Courses">
                             <content>
                                 <TableView fx:id="courseTableView" prefHeight="665.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
@@ -84,7 +84,7 @@
                                 </TableView>
                             </content>
                         </Tab>
-                        <Tab text="Companies">
+                        <Tab id="tab-pane-special-tabs" text="Companies">
                             <content>
                                 <TableView fx:id="companyTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
                                     <columns>
@@ -101,7 +101,7 @@
                                 </TableView>
                             </content>
                         </Tab>
-                        <Tab text="Provider">
+                        <Tab id="tab-pane-special-tabs" text="Provider">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                             </content>
@@ -142,7 +142,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Button fx:id="buttonLeft" mnemonicParsing="false" onAction="#leftBottomButtonAction" text="Delete Course" visible="false" />
+                        <Button fx:id="buttonLeft" mnemonicParsing="false" onAction="#leftBottomButtonAction" text="Delete Employee" />
                     </children>
                     <padding>
                         <Insets left="20.0" />
@@ -150,7 +150,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                     <children>
-                        <Button fx:id="buttonRight" mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Add New Course" visible="false" />
+                        <Button fx:id="buttonRight" mnemonicParsing="false" onAction="#rightBottomButtonAction" text="Add New Employee" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -174,7 +174,8 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="711.0" minWidth="10.0" prefWidth="711.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="106.0" minHeight="10.0" prefHeight="104.19999694824219" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0" minHeight="0.0" prefHeight="1.8000030517578125" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -194,6 +195,11 @@
                         </Label>
                     </children>
                 </HBox>
+            <Label id="noDatabaseConnectionErrorMSG" fx:id="DatabaseConnectionErrorMSG" alignment="CENTER" text="Database connection could not be established" textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
             </children>
         </GridPane>
     </top>

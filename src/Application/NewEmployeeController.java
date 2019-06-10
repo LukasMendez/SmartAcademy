@@ -24,6 +24,7 @@ public class NewEmployeeController implements Openable {
 
     private static Stage newEmployeeStage = new Stage();
     private FXMLLoader fxmlLoader;
+    private DB db = DB.getInstance();
 
     // The company which is sent from the Main Controller
     private Company selectedCompany;
@@ -39,6 +40,9 @@ public class NewEmployeeController implements Openable {
     // Used to check if the stage has been initialized before. Used for setting Modality
     private static boolean isInitialized = false;
 
+    /**
+     * Method used for configuring the Window and opening it.
+     */
     @Override
     public void openWindow() {
         try {
@@ -51,13 +55,15 @@ public class NewEmployeeController implements Openable {
 
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();
-
             newEmployeeStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Methods that prevents you from operating other windows before you close the current one.
+     */
     @Override
     public void setupModality() {
         if (!isInitialized) {
@@ -66,38 +72,61 @@ public class NewEmployeeController implements Openable {
         }
     }
 
+    /**
+     * Will check if the stage is showing (open).
+     *
+     * @return true or false
+     */
     @Override
     public boolean isStageOpen() {
         return newEmployeeStage.isShowing();
     }
 
-    @Override
-    public Object getController() {
-        return fxmlLoader.getController();
-    }
-
+    /**
+     * Will get you the stage of the instance you are working with.
+     *
+     * @return a Stage instance.
+     */
     @Override
     public Stage getStage() {
         return newEmployeeStage;
     }
 
+    /**
+     * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
+     * is important to regain control of the active Controller. The method only
+     * returns an Object, but the object can be casted as a different object type (As the controller object needed)
+     *
+     * @return Object (Controller)
+     */
+    @Override
+    public Object getController() {
+        return fxmlLoader.getController();
+    }
 
+    /**
+     * Whenever you add a new employee it is important to know which company he/she is working for. Therefore we use
+     * this method to tell the controller what company he/she should be added to.
+     *
+     * @param company
+     */
     public void setSelectedCompany(Company company) {
         this.selectedCompany = company;
 
     }
 
-
+    /**
+     * This method saves the data from the text fields in the database. We proceed the information using a method from the DB instance.
+     * The method returns a number indicating the amount of rows affected. If 1 or more rows were affected it will let the user know, that the data was saved
+     * successfully (It should only be possible to affect 1 row though, and not more). Else it will display an error message.
+     */
     @FXML
     @SuppressWarnings("Duplicates")
     public void saveEmployee() {
-
-
         String cprNo = cprTextField.getText();
         String name = nameTextField.getText();
         String mail = emailTextField.getText();
         String phoneNo = phoneNoTextField.getText();
-
 
         int rowsAffected = DB.insertEmployee(cprNo, name, mail, phoneNo, selectedCompany.getCVRNumber());
 
@@ -105,17 +134,13 @@ public class NewEmployeeController implements Openable {
 
             infoLabel.setVisible(true);
             infoLabel.setText("Saved successfully");
-
             cprTextField.setText("");
             nameTextField.setText("");
             emailTextField.setText("");
             phoneNoTextField.setText("");
-
         } else {
-
             infoLabel.setText("Invalid info! Please check your entered data again!");
         }
-
     }
 
     /**
@@ -123,7 +148,6 @@ public class NewEmployeeController implements Openable {
      */
     @FXML
     public void inputValidator(KeyEvent event) {
-
         InputValidation inputValidation = new InputValidation();
 
         inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNoTextField, emailTextField, event);

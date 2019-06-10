@@ -11,8 +11,6 @@ import javafx.beans.property.StringProperty;
  */
 public class Qualification {
 
-
-
     private int qualificationID;
     private StringProperty type;
     private StringProperty description;
@@ -73,16 +71,6 @@ public class Qualification {
         if (levelID == null) levelID = new SimpleIntegerProperty(this, "levelID");
         return levelID;
     }
-
-
-
-
-
-
-
-
-
-
 
     public int getQualificationID() {
         return qualificationID;

@@ -87,16 +87,12 @@ public class InputValidation {
         boolean backSlash = (int) event.getCharacter().charAt(firstLetterCheck) != backSlashASCII;
         boolean deleteButton = (int) event.getCharacter().charAt(firstLetterCheck) != deleteASCII;
 
-
         if (phoneNumTextField.getLength() <= asciiTableNumber) {
             if (backSlash && deleteButton && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck)) && phoneNumTextField.getLength() > 0) {
-
                 event.consume();
                 phoneNumTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
-
             } else {
                 phoneNumTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
-
             }
         } else if (phoneNumTextField.getLength() > asciiTableNumber) {
             event.consume();

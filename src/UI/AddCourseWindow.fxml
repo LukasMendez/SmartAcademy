@@ -42,7 +42,7 @@
                   <Label text="CVR number" />
                   <TextField fx:id="cvrNoTextField" prefWidth="280.0" />
                   <Label text="Location" />
-                  <ComboBox fx:id="locationDropDown" prefHeight="22.0" prefWidth="280.0" promptText="Location" />
+                  <ComboBox id="combo-box-add-course-location" fx:id="locationDropDown" prefHeight="22.0" prefWidth="280.0" promptText="Location" />
                </children>
                <GridPane.margin>
                   <Insets />

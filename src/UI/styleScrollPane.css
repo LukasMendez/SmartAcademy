@@ -6,7 +6,8 @@
 }
 
 /* The increment and decrement button CSS class of ScrollSar */
-.increment-button , .decrement-button {
+.increment-button ,
+.decrement-button {
     -fx-background-color:transparent;
     -fx-border-color:derive(gray,0%);
 }

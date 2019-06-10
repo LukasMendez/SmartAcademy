@@ -1,9 +1,5 @@
 package Domain;
 
-/**
- * Created by Lukas
- * 27-05-2019.
- */
 public class Level {
 
     private int levelID;
@@ -12,9 +8,7 @@ public class Level {
     public Level(int levelID, String level) {
         this.levelID = levelID;
         this.level = level;
-
     }
-
 
     public int getLevelID() {
         return levelID;
@@ -26,7 +20,6 @@ public class Level {
 
     @Override
     public String toString(){
-
         return level;
     }
 
