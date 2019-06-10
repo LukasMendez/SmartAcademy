@@ -25,7 +25,7 @@
                   <Label text="Name" />
                   <TextField fx:id="nameTextField" onKeyTyped="#inputValidator" prefHeight="23.0" prefWidth="170.0" />
                   <Label text="E-mail" />
-                  <TextField fx:id="emailTextField" prefHeight="23.0" prefWidth="170.0" />
+                  <TextField fx:id="emailTextField" onKeyTyped="#inputValidator" prefHeight="23.0" prefWidth="170.0" />
                </children>
                <GridPane.margin>
                   <Insets />

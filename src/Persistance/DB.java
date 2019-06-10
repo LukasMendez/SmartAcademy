@@ -91,7 +91,7 @@ public class DB {
                 String phoneNumber = rs.getString("fldPhoneNumber");
                 String CVRNumber = rs.getString("fldCVRNumber");
 
-                company = new Company(name,address,zip,email,phoneNumber,CVRNumber);
+                company = new Company(name, address, zip, email, phoneNumber, CVRNumber);
             }
 
             //close
@@ -105,8 +105,6 @@ public class DB {
 
         return company;
     }
-
-
 
 
     public static ObservableList<Course> getCourseList() {
@@ -318,7 +316,7 @@ public class DB {
             connect();
             //create Statement + ResultSet
             CallableStatement cs = con.prepareCall("{call dbo.getAllEmployeesCVR (?)}");
-            cs.setString(1,cvrNo);
+            cs.setString(1, cvrNo);
             ResultSet rs = cs.executeQuery();
 
             //add data to observableList
@@ -524,7 +522,7 @@ public class DB {
         return listOfProviders;
     }
 
-    public ObservableList<EducationPlan> getEducationPlanList(int employeeID, boolean isActive){
+    public ObservableList<EducationPlan> getEducationPlanList(int employeeID, boolean isActive) {
         ObservableList<EducationPlan> listOfEducationPlans = FXCollections.observableArrayList();
         try {
             //connect
@@ -535,8 +533,11 @@ public class DB {
             cs.setInt(1, employeeID);
             //converting parameter boolean to bit for sql use
             int isActiveBit;
-            if(isActive){isActiveBit = 1;}
-            else{isActiveBit = 0;}
+            if (isActive) {
+                isActiveBit = 1;
+            } else {
+                isActiveBit = 0;
+            }
             cs.setInt(2, isActiveBit);
             //Create ResultSet
             ResultSet rs = cs.executeQuery();
@@ -562,7 +563,7 @@ public class DB {
             //close
             close();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
@@ -1222,7 +1223,6 @@ public class DB {
     }
 
 
-
     public static void deleteDate(int dateID) {
 
         int rowsAffected = 0;
@@ -1256,8 +1256,6 @@ public class DB {
 
 
     }
-
-
 
 
 }

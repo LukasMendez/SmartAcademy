@@ -82,7 +82,7 @@ public class ManageEmployeeController implements Openable {
         levelColumn.setCellFactory(ComboBoxTableCell.forTableColumn(DB.getQualificationLevel()));
     }
 
-    public void start(){
+    public void start() {
         history = false;
 
         //EducationPlan
@@ -101,29 +101,29 @@ public class ManageEmployeeController implements Openable {
         educationPlanTableView.getColumns().setAll(dateColumn, informationColumn, providerColumn, locationColumn, priorityColumn, planIDColumn, activeColumn, completedColumn);
     }
 
-    private void updateEducationPlanTableView(boolean isActive){
+    private void updateEducationPlanTableView(boolean isActive) {
         //constructing data model
         educationPlansList = db.getEducationPlanList(selectedEmployee.getEmployeeID(), isActive);
         //data binding
-        if(educationPlansList != null){
+        if (educationPlansList != null) {
             educationPlanTableView.setItems(educationPlansList);
         }
     }
 
 
-      //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
+    //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
 
 
     @FXML
-    private void toggleHistory(){
-        if(history == false){
+    private void toggleHistory() {
+        if (history == false) {
             updateEducationPlanTableView(false);
             toggleHistoryButton.setText("Show Active");
             deleteButton.setVisible(false);
             completedButton.setVisible(false);
             addButton.setVisible(false);
             history = true;
-        }else{
+        } else {
             updateEducationPlanTableView(true);
             toggleHistoryButton.setText("Show History");
             deleteButton.setVisible(true);
@@ -154,13 +154,12 @@ public class ManageEmployeeController implements Openable {
     }
 
     @Override
-    public void setupModality(){
-        if (!isInitialized){
+    public void setupModality() {
+        if (!isInitialized) {
             manageEmployeeStage.initModality(Modality.APPLICATION_MODAL);
-            isInitialized=true;
+            isInitialized = true;
         }
     }
-
 
 
     @Override
@@ -250,7 +249,7 @@ public class ManageEmployeeController implements Openable {
     public void addCourseToEducationPlan() {
         if (!courseToEPController.isStageOpen()) {
             courseToEPController.openWindow();
-            courseToEPController = (CourseToEPController)courseToEPController.getController();
+            courseToEPController = (CourseToEPController) courseToEPController.getController();
             closeStageHandler(courseToEPController.getStage(), courseToEPController);
             courseToEPController.start();
 
@@ -270,11 +269,11 @@ public class ManageEmployeeController implements Openable {
         });
     }
 
-    private void addCourseToEP(CourseByPeriod selectedCourse){
+    private void addCourseToEP(CourseByPeriod selectedCourse) {
         System.out.println(selectedCourse);
         //add new coursePlan record to DB
         //if getPlanID db method returns sentinel value(is null)
-        if(db.getActivePlanID(selectedEmployee.getEmployeeID(),1) == 0){ //TODO fix consultantID so its not hardcoded
+        if (db.getActivePlanID(selectedEmployee.getEmployeeID(), 1) == 0) { //TODO fix consultantID so its not hardcoded
             //create new active education plan
             db.createNewEducationPlan(selectedEmployee.getEmployeeID(), 1); //TODO also fix consultantID here
         }
@@ -282,14 +281,14 @@ public class ManageEmployeeController implements Openable {
         updateEducationPlanTableView(true); //updating the list
         for (int i = 0; i < educationPlansList.size(); i++) {
             //will only get a hit if the list is not empty
-            if(educationPlansList.get(i).getIsActive() == 1 && educationPlansList.get(i).getEmployeeID() == selectedEmployee.getEmployeeID()){
+            if (educationPlansList.get(i).getIsActive() == 1 && educationPlansList.get(i).getEmployeeID() == selectedEmployee.getEmployeeID()) {
                 activePlan = educationPlansList.get(i);
             }
         }
         //set placeholder education plan if activePlan is null (prevents error if adding course and plan list is empty)
-        if(activePlan == null){
-            activePlan = new EducationPlan(0,null, null, null, null, 0,
-                    db.getActivePlanID(selectedEmployee.getEmployeeID(), 1),1,0,
+        if (activePlan == null) {
+            activePlan = new EducationPlan(0, null, null, null, null, 0,
+                    db.getActivePlanID(selectedEmployee.getEmployeeID(), 1), 1, 0,
                     selectedEmployee.getEmployeeID());
         }
 
@@ -299,7 +298,7 @@ public class ManageEmployeeController implements Openable {
     }
 
     @FXML
-    private void removeCourseFromEp(){
+    private void removeCourseFromEp() {
         //get coursePlanID
         int coursePlanID = getCoursePlanID();
         //remove course plan from db
@@ -309,7 +308,7 @@ public class ManageEmployeeController implements Openable {
     }
 
     @FXML
-    private void setCoursePlanAsCompleted(){
+    private void setCoursePlanAsCompleted() {
         //get coursePlanID
         int coursePlanID = getCoursePlanID();
         //update completed field in db
@@ -318,8 +317,8 @@ public class ManageEmployeeController implements Openable {
         updateEducationPlanTableView(true);
     }
 
-    private int getCoursePlanID(){
-        activePlan = (EducationPlan)educationPlanTableView.getSelectionModel().getSelectedItem();
+    private int getCoursePlanID() {
+        activePlan = (EducationPlan) educationPlanTableView.getSelectionModel().getSelectedItem();
         return db.getCoursePlanID(activePlan.getDateID(), activePlan.getPlanID());
     }
 
@@ -404,17 +403,43 @@ public class ManageEmployeeController implements Openable {
         displayQualifications();
     }
 
-
+    /**
+     * Checking the input, what user have entered. The is the other method "information pop up window", then the user pointing with the mouse on TextField.
+     */
     @FXML
     public void inputValidator(KeyEvent event) {
 
+
         InputValidation inputValidation = new InputValidation();
+        smallWindowPopUpProvider();
 
-        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, event);
 
+        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, emailTextField, event);
 
     }
 
+    /**
+     * The small window pop up then user putting mouse on the TextField in manage employee window (where the user want to edit employee).
+     */
+    @FXML
+    private void smallWindowPopUpProvider() {
 
+        final Tooltip tooltipName = new Tooltip();
+        tooltipName.setText("Enter the name");
+
+        final Tooltip tooltipCPR = new Tooltip();
+        tooltipCPR.setText("Enter the CPR number");
+
+        final Tooltip tooltipPhoneNo = new Tooltip();
+        tooltipPhoneNo.setText("Enter the phone number");
+
+        final Tooltip tooltipMail = new Tooltip();
+        tooltipMail.setText("Enter the email");
+
+        nameTextField.setTooltip(tooltipName);
+        cprTextField.setTooltip(tooltipCPR);
+        phoneNumTextField.setTooltip(tooltipPhoneNo);
+        emailTextField.setTooltip(tooltipMail);
+    }
 
 }
