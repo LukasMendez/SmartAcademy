@@ -483,7 +483,7 @@ public class ManageEmployeeController implements Openable {
     public void inputValidator(KeyEvent event) {
         InputValidation inputValidation = new InputValidation();
         smallWindowPopUpProvider();
-        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, emailTextField, event);
+        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, event);
     }
 
     /**

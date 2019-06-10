@@ -15,10 +15,10 @@ public class InputValidation {
 
 
     /**
-     * This method do, checking input in Employee window, its checking what its get, like eg. in nameTF, cprNo, phoneNo.
+     * This method checks the input in Employee window, its checking what its get, like eg. in nameTF, cprNo, phoneNo.
      * Its connected to the other method, and its checking if is number or its a letters. Every TextFields connected to buttons on Key Typed.
      */
-    public void checkInputEmployee(TextField nameTF, TextField cprNo, TextField phoneNo, TextField mail, KeyEvent event) {
+    public void checkInputEmployee(TextField nameTF, TextField cprNo, TextField phoneNo, KeyEvent event) {
 
 
         if (event.getSource() == nameTF) {
@@ -27,9 +27,11 @@ public class InputValidation {
 
         } else if (event.getSource() == phoneNo) {
 
+
             redFieldNumber(phoneNo, event);
 
         } else if (event.getSource() == cprNo) {
+
 
             redFieldCPRNoAndZip(cprNo, event);
 
@@ -79,24 +81,26 @@ public class InputValidation {
 
         char firstLetterCheck = 0;
 
-        char asciiTableNumber = 43;
-
+        char plusSymbolASCII = 43;
         char backSlashASCII = 8;
         char deleteASCII = 127;
 
         boolean backSlash = (int) event.getCharacter().charAt(firstLetterCheck) != backSlashASCII;
         boolean deleteButton = (int) event.getCharacter().charAt(firstLetterCheck) != deleteASCII;
 
-        if (phoneNumTextField.getLength() <= asciiTableNumber) {
+        if (phoneNumTextField.getLength()==0 && event.getCharacter().charAt(firstLetterCheck)!=plusSymbolASCII){
+
+            System.out.println("The char was not a +");
+            event.consume();
+        }
+
+        if (phoneNumTextField.getLength() <= plusSymbolASCII) {
             if (backSlash && deleteButton && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck)) && phoneNumTextField.getLength() > 0) {
                 event.consume();
                 phoneNumTextField.setStyle("-fx-text-box-border:#ff2000;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
             } else {
                 phoneNumTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
             }
-        } else if (phoneNumTextField.getLength() > asciiTableNumber) {
-            event.consume();
-            phoneNumTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
         }
     }
 
@@ -111,30 +115,30 @@ public class InputValidation {
         char backSlashASCII = 8;
         char deleteASCII = 127;
 
-        int cprAndZipLenght = 9;
+        int maxLength = 9;
 
         boolean backSlash = (int) event.getCharacter().charAt(firstLetterCheck) != backSlashASCII;
         boolean deleteButton = (int) event.getCharacter().charAt(firstLetterCheck) != deleteASCII;
 
 
-        if (cprTextField.getLength() <= cprAndZipLenght) {
+        if (cprTextField.getLength() <= maxLength) {
 
-            if (backSlash && deleteButton && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck)) && cprTextField.getLength() > 0) {
-
+            if (backSlash && deleteButton && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck)) && cprTextField.getLength() >= 0) {
 
                 event.consume();
 
+                System.out.println("Event consumed");
+
                 cprTextField.setStyle("-fx-text-box-border:red;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
             } else {
+
+                System.out.println("Character accepted");
                 cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
             }
 
-
-        } else if (cprTextField.getLength() > cprAndZipLenght) {
-
-
+        } else if (cprTextField.getLength() > maxLength) {
+            System.out.println("Event consumed");
             event.consume();
-
             cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
         }
     }
