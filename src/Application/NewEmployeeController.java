@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
@@ -127,8 +128,10 @@ public class NewEmployeeController implements Openable {
         String mail = emailTextField.getText();
         String phoneNo = phoneNoTextField.getText();
 
-        int rowsAffected = db.insertEmployee(cprNo, name, mail, phoneNo, selectedCompany.getCVRNumber());
-        if (rowsAffected > 0) {
+        int rowsAffected = DB.insertEmployee(cprNo, name, mail, phoneNo, selectedCompany.getCVRNumber());
+
+        if (rowsAffected == 1) {
+
             infoLabel.setVisible(true);
             infoLabel.setText("Saved successfully");
             cprTextField.setText("");
@@ -141,14 +144,37 @@ public class NewEmployeeController implements Openable {
     }
 
     /**
-     * Object from the Business Service layer used for running input validation on the TextFields.
-     *
-     * @param event every single time a user types something on the keyboard
+     * Checking the input, what user have entered. The is the other method "information pop up window", then the user pointing with the mouse on TextField.
      */
     @FXML
     public void inputValidator(KeyEvent event) {
         InputValidation inputValidation = new InputValidation();
-        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNoTextField, event);
-    }
 
+        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNoTextField, emailTextField, event);
+        smallWindowPopUpProvider();
+    }
+    /**
+     * A small information window, then the user points on TextField inside the window add new employee.
+     */
+    @FXML
+    private void smallWindowPopUpProvider() {
+
+        final Tooltip tooltipName = new Tooltip();
+        tooltipName.setText("Enter the name ");
+
+        final Tooltip tooltipCPR = new Tooltip();
+        tooltipCPR.setText("Enter the CPR number ");
+
+        final Tooltip tooltipPhone = new Tooltip();
+        tooltipPhone.setText("Enter the phoneNo. ");
+
+        final Tooltip tooltipEmail = new Tooltip();
+        tooltipEmail.setText("Enter the Email ");
+
+        nameTextField.setTooltip(tooltipName);
+        cprTextField.setTooltip(tooltipCPR);
+        phoneNoTextField.setTooltip(tooltipPhone);
+        emailTextField.setTooltip(tooltipEmail);
+
+    }
 }

@@ -112,27 +112,27 @@ public class ManageEmployeeController implements Openable {
         //constructing data model
         educationPlansList = db.getEducationPlanList(selectedEmployee.getEmployeeID(), isActive);
         //data binding
-        if(educationPlansList != null){
+        if (educationPlansList != null) {
             educationPlanTableView.setItems(educationPlansList);
         }
     }
 
 
-      //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
+    //  manageEmployeeStage.setOnCloseRequest(event -> manageEmployeeStage.initModality(null));
 
     /**
      * Used for toggling between history/active courses in educationPlanTableView when pressing toggleHistoryButton
      */
     @FXML
-    private void toggleHistory(){
-        if(history == false){
+    private void toggleHistory() {
+        if (history == false) {
             updateEducationPlanTableView(false);
             toggleHistoryButton.setText("Show Active");
             deleteButton.setVisible(false);
             completedButton.setVisible(false);
             addButton.setVisible(false);
             history = true;
-        }else{
+        } else {
             updateEducationPlanTableView(true);
             toggleHistoryButton.setText("Show History");
             deleteButton.setVisible(true);
@@ -168,10 +168,10 @@ public class ManageEmployeeController implements Openable {
      * Methods that prevents you from operating other windows before you close the current one.
      */
     @Override
-    public void setupModality(){
-        if (!isInitialized){
+    public void setupModality() {
+        if (!isInitialized) {
             manageEmployeeStage.initModality(Modality.APPLICATION_MODAL);
-            isInitialized=true;
+            isInitialized = true;
         }
     }
 
@@ -287,7 +287,7 @@ public class ManageEmployeeController implements Openable {
     public void addCourseToEducationPlan() {
         if (!courseToEPController.isStageOpen()) {
             courseToEPController.openWindow();
-            courseToEPController = (CourseToEPController)courseToEPController.getController();
+            courseToEPController = (CourseToEPController) courseToEPController.getController();
             closeStageHandler(courseToEPController.getStage(), courseToEPController);
             courseToEPController.start();
 
@@ -367,7 +367,7 @@ public class ManageEmployeeController implements Openable {
      * Removes a course plan record from the database using coursePlanID
      */
     @FXML
-    private void removeCourseFromEp(){
+    private void removeCourseFromEp() {
         //get coursePlanID
         int coursePlanID = getCoursePlanID();
         //remove course plan from db
@@ -380,7 +380,7 @@ public class ManageEmployeeController implements Openable {
      * Sets the selected course as completed in the database and updates the table view to reflect the change.
      */
     @FXML
-    private void setCoursePlanAsCompleted(){
+    private void setCoursePlanAsCompleted() {
         //get coursePlanID
         int coursePlanID = getCoursePlanID();
         //update completed field in db
@@ -477,16 +477,37 @@ public class ManageEmployeeController implements Openable {
     }
 
     /**
-     * Object from the Business Service layer used for running input validation on the TextFields.
-     *
-     * @param event every single time a user types something on the keyboard
+     * Checking the input, what user have entered. The is the other method "information pop up window", then the user pointing with the mouse on TextField.
      */
     @FXML
     public void inputValidator(KeyEvent event) {
         InputValidation inputValidation = new InputValidation();
-        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, event);
+        smallWindowPopUpProvider();
+        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNumTextField, emailTextField, event);
     }
 
+    /**
+     * The small window pop up then user putting mouse on the TextField in manage employee window (where the user want to edit employee).
+     */
+    @FXML
+    private void smallWindowPopUpProvider() {
 
+        final Tooltip tooltipName = new Tooltip();
+        tooltipName.setText("Enter the name");
+
+        final Tooltip tooltipCPR = new Tooltip();
+        tooltipCPR.setText("Enter the CPR number");
+
+        final Tooltip tooltipPhoneNo = new Tooltip();
+        tooltipPhoneNo.setText("Enter the phone number");
+
+        final Tooltip tooltipMail = new Tooltip();
+        tooltipMail.setText("Enter the email");
+
+        nameTextField.setTooltip(tooltipName);
+        cprTextField.setTooltip(tooltipCPR);
+        phoneNumTextField.setTooltip(tooltipPhoneNo);
+        emailTextField.setTooltip(tooltipMail);
+    }
 
 }

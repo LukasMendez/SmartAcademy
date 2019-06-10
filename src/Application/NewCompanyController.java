@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
@@ -110,8 +111,9 @@ public class NewCompanyController implements Openable {
         String phoneNo = phoneNoTextField.getText();
         int zipCode = Integer.parseInt(zipTextField.getText());
 
-        int rowsAffected = db.insertCompany(cvrNo, address, name, mail, phoneNo, zipCode);
-        if (rowsAffected > 0) {
+        int rowsAffected = DB.insertCompany(cvrNo, address, name, mail, phoneNo, zipCode);
+
+        if (rowsAffected == 1) {
             infoLabel.setVisible(true);
             infoLabel.setText("Saved successfully");
             cvrNoTextField.setText("");
@@ -126,13 +128,50 @@ public class NewCompanyController implements Openable {
     }
 
     /**
-     * Object from the Business Service layer used for running input validation on the TextFields.
-     *
-     * @param event every single time a user types something on the keyboard
+     * Checking the input, what user have entered. The is the other method "information pop up window", then the user pointing with the mouse on TextField.
      */
     @FXML
     public void inputValidator(KeyEvent event) {
         InputValidation inputValidation = new InputValidation();
-        inputValidation.checkInputCompany(phoneNoTextField, zipTextField, event);
+
+        inputValidation.checkInputCompany(phoneNoTextField, zipTextField, nameTextField, event);
+        smallWindowPopUpCompany();
+
+    }
+
+
+    /**
+     * A small information window, then the user points on TextField inside the window add new company.
+     */
+    @FXML
+    @SuppressWarnings("Duplicates")
+    private void smallWindowPopUpCompany() {
+
+        final Tooltip tooltipName = new Tooltip();
+        tooltipName.setText("Enter the name ");
+
+        final Tooltip tooltipCVR = new Tooltip();
+        tooltipCVR.setText("Enter the CVR number");
+
+        final Tooltip tooltipAddress = new Tooltip();
+        tooltipAddress.setText("Enter the address");
+
+        final Tooltip tooltipEmail = new Tooltip();
+        tooltipEmail.setText("Enter the Email ");
+
+        final Tooltip tooltipPhone = new Tooltip();
+        tooltipPhone.setText("Enter the phone no. ");
+
+        final Tooltip tooltipZip = new Tooltip();
+        tooltipZip.setText("Enter the zip");
+
+
+        nameTextField.setTooltip(tooltipName);
+        cvrNoTextField.setTooltip(tooltipCVR);
+        addressTextField.setTooltip(tooltipAddress);
+        emailTextField.setTooltip(tooltipEmail);
+        phoneNoTextField.setTooltip(tooltipPhone);
+        zipTextField.setTooltip(tooltipZip);
+
     }
 }

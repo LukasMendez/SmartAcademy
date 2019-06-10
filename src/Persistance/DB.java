@@ -77,6 +77,82 @@ public class DB {
         }
     }
 
+    // TODO CAN WE AGREE TO USE THIS SOLUTION?
+    // TODO TEST THIS WITH NO COMPANIES
+    @SuppressWarnings("Duplicates")
+    public static Company getFirstCompany() {
+        Company company = null;
+
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getFirstCompany}");
+            ResultSet rs = cs.executeQuery();
+
+            //add data to observableList
+            while (rs.next()) {
+                String name = rs.getString("fldname");
+                String address = rs.getString("fldAddress");
+                int zip = rs.getInt("fldZip");
+                String email = rs.getString("fldEmail");
+                String phoneNumber = rs.getString("fldPhoneNumber");
+                String CVRNumber = rs.getString("fldCVRNumber");
+
+                company = new Company(name, address, zip, email, phoneNumber, CVRNumber);
+            }
+
+            //close
+            close();
+
+            System.out.println("First company selected: " + company.getName());
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return company;
+    }
+
+
+    public static ObservableList<Course> getCourseList() {
+        ObservableList<Course> listOfCourses = FXCollections.observableArrayList();
+        try {
+            //connect
+            connect();
+            //create Statement + ResultSet
+            CallableStatement cs = con.prepareCall("{call dbo.getAllCourses}");
+            ResultSet rs = cs.executeQuery();
+            //create ResultSetMetaData
+            ResultSetMetaData rsmd = rs.getMetaData(); //TODO Will you use this or not??
+
+            //add data to observableList
+            while (rs.next()) {
+                int courseID = rs.getInt("fldCourseID");
+                String amuNumber = rs.getString("fldAMUNumber");
+                String information = rs.getString("fldInformation");
+                String additionalInformation = rs.getString("fldAdditionalInformation");
+                int numberOfDays = rs.getInt("fldNumberOfDays");
+                String location = rs.getString("fldLocation");
+                String provider = rs.getString("fldProvider");
+
+                listOfCourses.add(new Course(courseID, amuNumber, information, additionalInformation, numberOfDays, location, provider));
+            }
+            /*
+            //printing for debugging
+            for (int i = 0; i < listOfCourses.size(); i++) {
+                System.out.println(listOfCourses.get(i).toString());
+            }*/
+            //close
+            close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listOfCourses;
+    }
+
     //EDUCATION PLAN RELATED METHODS
 
     /**
@@ -523,8 +599,8 @@ public class DB {
                 int isCompleted = rs.getInt("fldIsCompleted");
                 listOfEducationPlans.add(new EducationPlan(dateID, date, information, provider, location, priority, planID, isActiveBit, isCompleted, employeeID));
             }
-
             close();
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

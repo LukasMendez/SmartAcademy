@@ -43,7 +43,7 @@
                         <Label id="employee-information-box-headings" text="Name" />
                         <TextField fx:id="nameTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" />
                         <Label id="employee-information-box-headings" text="E-mail" />
-                        <TextField fx:id="emailTextField" disable="true" editable="false" focusTraversable="false" />
+                        <TextField fx:id="emailTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1">
