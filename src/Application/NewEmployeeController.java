@@ -150,7 +150,7 @@ public class NewEmployeeController implements Openable {
     public void inputValidator(KeyEvent event) {
         InputValidation inputValidation = new InputValidation();
 
-        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNoTextField, emailTextField, event);
+        inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNoTextField, event);
         smallWindowPopUpProvider();
     }
     /**
