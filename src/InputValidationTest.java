@@ -64,8 +64,6 @@ public class InputValidationTest {
     @Test
     public void checkInputEmployee() throws Exception {
 
-
-
         // Amount of times we write the character
         for (int i = 0; i < 20; i++) {
             textField.fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "5", "5",

@@ -11,11 +11,23 @@ import static org.junit.Assert.assertEquals;
 public class DBTest {
 
     public DB instance;
+    public Employee validEmployee;
+    public Employee invalidEmployee;
 
 
     @org.junit.Before
     public void setUp() throws Exception {
+
+        int validEmployeeNum = 5;
+        int invalidEmployeeNum = -1;
+
         instance = DB.getInstance();
+
+        validEmployee = instance.updateEmployee("DemoEmployee", "123456",
+                "newName@email.com","+4500000000","UTCompany",validEmployeeNum);
+
+        invalidEmployee = instance.updateEmployee("DemoEmployee", "123456",
+                "newName@email.com","+4500000000","UTCompany",invalidEmployeeNum);
 
     }
 
@@ -27,11 +39,7 @@ public class DBTest {
     @org.junit.Test
     public void updateEmployeeNotNull() {
 
-        int employeeID = 5;
-        Employee employee = instance.updateEmployee("DemoEmployee", "123456",
-                "newName@email.com","+4500000000","UTCompany",employeeID);
-
-        assertNotNull(employee);
+        assertNotNull(validEmployee);
 
     }
 
@@ -42,11 +50,7 @@ public class DBTest {
     @org.junit.Test
     public void updateEmployeeNull() {
 
-        int employeeID = -1;
-        Employee employee = instance.updateEmployee("DemoEmployee", "123456",
-                "newName@email.com","+4500000000","UTCompany",employeeID);
-
-        assertNull(employee);
+        assertNull(invalidEmployee);
 
     }
 
@@ -57,17 +61,12 @@ public class DBTest {
     @org.junit.Test
     public void updateEmployeeAttributes() {
 
-        int employeeID = 5;
-        Employee employee = instance.updateEmployee("DemoEmployee", "123456",
-                "newName@email.com","+4500000000","UTCompany",employeeID);
-
         String expectedEmail = "newName@email.com";
-        String actualEmail = employee.getEmail();
+        String actualEmail = validEmployee.getEmail();
 
         assertEquals(expectedEmail,actualEmail);
 
     }
-
 
     /**
      * In this test we try to insert a Company record in the database. We then check the amount of rows affected to see
