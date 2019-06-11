@@ -20,30 +20,22 @@ public class InputValidation {
      */
     public void checkInputEmployee(TextField nameTF, TextField cprNo, TextField phoneNo, KeyEvent event) {
 
-
         if (event.getSource() == nameTF) {
-
             checkIfRedName(nameTF, event);
 
         } else if (event.getSource() == phoneNo) {
-
-
             redFieldNumber(phoneNo, event);
 
         } else if (event.getSource() == cprNo) {
-
-
             redFieldCPRNoAndZip(cprNo, event);
 
         }
-
     }
 
     /**
      * In this method we checking input in textfield Phone number, Zip code. User can write only number and plus in this TextField.
      */
     public void checkInputCompany(TextField phoneNo, TextField zip, TextField name, KeyEvent event) {
-
         if (event.getSource() == phoneNo) {
             redFieldNumber(phoneNo, event);
         } else if (event.getSource() == zip) {
