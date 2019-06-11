@@ -6,6 +6,9 @@ import Domain.Employee;
 import Domain.Provider;
 import Persistance.DB;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -53,6 +56,10 @@ public class MainController {
     // Labels
     @FXML
     private Label DatabaseConnectionErrorMSG;
+
+    // TextFields / Boxes
+    @FXML
+    private TextField searchBar;
 
     // Buttons
     @FXML
@@ -440,6 +447,7 @@ public class MainController {
     private void tabHandler() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             System.out.println("The tab selected now has the index: " + newTab.getTabPane().getSelectionModel().getSelectedIndex());
+            searchBar.setText("");
             if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == coursesIndex) {
                 buttonLeft.setText("Delete Course");
                 buttonLeft.setVisible(true);
@@ -575,6 +583,73 @@ public class MainController {
         providerTableView.setItems(providerList);
         System.out.println("Updated Provider TableView");
     }
+
+    //------Search in Tables--------//
+
+    /**
+     *  Handles the input in the search field and checks in which tab the user is using the search field
+     *  After checking in which tab we are, it will set the TableView and ObservableList to that tab
+     */
+    @FXML
+    private void searchForEnteredInput() {
+
+        // Checks which tab is open.
+        if (tabPane.getSelectionModel().getSelectedIndex() == employeeIndex) {
+            System.out.println("Search in Employee");
+            filteredSearch(employeeTableView,employeeList);
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
+            System.out.println("Search in Company");
+            filteredSearch(companyTableView,companyList);
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
+            System.out.println("Search in Courses");
+            filteredSearch(courseTableView,courseList);
+        }
+    }
+
+    /**
+     * Method that updates the tables with a temporally ObservableList, by filtering the tables after a giving letter in the
+     * search field.
+     * @param filteredTableView a temporally TableView
+     * @param filteredTableList a temporally ObservableList
+     */
+    private void filteredSearch(TableView filteredTableView, ObservableList<?>filteredTableList){
+
+        // Creates a listener by checking the input
+        searchBar.textProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable o) {
+
+                // If the searchbar is empty or gets cleared, it will restore the tables with it's original content
+                if(searchBar.textProperty().get().isEmpty()) {
+
+                    filteredTableView.setItems(filteredTableList);
+                    return;
+                }
+
+                // Temporally ObservableList. They will store a temporally ObservableList of the original content.
+                ObservableList<Object> tableItems = FXCollections.observableArrayList();
+                ObservableList<TableColumn<Object, ?>> cols = filteredTableView.getColumns();
+
+                // This will check the temporally ObservableList with the letters entered in the search field.
+                for(int i=0; i<filteredTableList.size(); i++) {
+
+                    for(int j=0; j<cols.size(); j++) {
+                        TableColumn col = cols.get(j);
+                        String cellValue = col.getCellData(filteredTableList.get(i)).toString();
+                        cellValue = cellValue.toLowerCase();
+                        if(cellValue.contains(searchBar.textProperty().get().toLowerCase())) {
+                            tableItems.add(filteredTableList.get(i));
+                            break;
+                        }
+                    }
+                }
+                // Will set the tables of the TableView with the temporally content, after filtering it's content.
+                filteredTableView.setItems(tableItems);
+            }
+        });
+    }
+
+
 
 
 
