@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@/UI/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@/UI/CSS/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.MainController">
     <center>
         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
@@ -29,7 +29,7 @@
                     <tabs>
                         <Tab fx:id="companiesTab" text="Employee">
                             <content>
-                                <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                <TableView fx:id="employeeTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="employeeNameColumn" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="employeeCPRColumn" prefWidth="75.0" text="CPR-number" />
@@ -45,9 +45,9 @@
                         </Tab>
                         <Tab text="Education Matrix">
                             <content>
-                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleScrollPane.css">
+                                <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/CSS/styleScrollPane.css">
                                     <content>
-                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                        <TableView fx:id="educationMatrixTableView" minWidth="1000.0" prefHeight="561.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
                                             <columns>
                                                 <TableColumn editable="false" prefWidth="132.5" text="Employee Number" />
                                                 <TableColumn editable="false" minWidth="0.0" prefWidth="148.5" text="Education Title" />
@@ -65,7 +65,7 @@
                                     <children>
                                         <ImageView fitHeight="292.0" fitWidth="648.0" layoutX="119.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@Images/comingsoon.png" />
+                                                <Image url="@../Images/comingsoon.png" />
                                             </image>
                                         </ImageView>
                                     </children></AnchorPane>
@@ -73,7 +73,7 @@
                         </Tab>
                         <Tab id="tab-pane-special-tabs" text="Courses">
                             <content>
-                                <TableView fx:id="courseTableView" prefHeight="665.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                <TableView fx:id="courseTableView" prefHeight="665.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="courseNumberColumn" prefWidth="120.5" text="Course Number" />
                                         <TableColumn fx:id="informationColumn" prefWidth="180.0" text="Information" />
@@ -87,7 +87,7 @@
                         </Tab>
                         <Tab id="tab-pane-special-tabs" text="Companies">
                             <content>
-                                <TableView fx:id="companyTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                <TableView fx:id="companyTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="companyNameColumn" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="companyAddressColumn" prefWidth="75.0" text="Address" />
@@ -107,7 +107,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                             </content>
                             <content>
-                                <TableView fx:id="providerTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/styleTableViewWhite.css">
+                                <TableView fx:id="providerTableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
                                     <columns>
                                         <TableColumn fx:id="providerNameColumn" prefWidth="75.0" text="Name" />
                                         <TableColumn fx:id="providerAddressColumn" prefWidth="75.0" text="Address" />
