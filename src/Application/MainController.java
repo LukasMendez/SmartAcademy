@@ -453,6 +453,7 @@ public class MainController {
                 buttonMiddle.setVisible(true);
                 buttonRight.setText("Add New Course");
                 buttonRight.setVisible(true);
+                updateCourseTableView();
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == educationMatrixIndex) {
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
@@ -463,6 +464,7 @@ public class MainController {
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Employee");
                 buttonRight.setVisible(true);
+                updateEmployeeTableView();
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == calenderIndex) {
                 buttonLeft.setVisible(false);
                 buttonMiddle.setVisible(false);
@@ -473,12 +475,14 @@ public class MainController {
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Company");
                 buttonRight.setVisible(true);
+                updateCompanyTableView();
             } else if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == providerIndex) {
                 buttonLeft.setText("Delete Provider");
                 buttonLeft.setVisible(true);
                 buttonMiddle.setVisible(false);
                 buttonRight.setText("Add New Provider");
                 buttonRight.setVisible(true);
+                updateProviderTableView();
             }
         });
     }
@@ -551,6 +555,7 @@ public class MainController {
         //constructing data model
         employeeList = db.getEmployeeList(selectedCompany.getCVRNumber());
         }catch(NullPointerException npe){
+            employeeList = null;
         }
         //data binding
         employeeTableView.setItems(employeeList);

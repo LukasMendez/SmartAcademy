@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 import java.util.Comparator;
 
 public class NewCourseController implements Openable{
@@ -123,7 +125,7 @@ public class NewCourseController implements Openable{
             infoLabel.setVisible(true);
             infoLabel.setText("Data saved successfully!");
 
-        }catch (NumberFormatException e){
+        }catch (Exception e){
 
             infoLabel.setVisible(true);
             infoLabel.setText("Error! Invalid input! Please try again");
