@@ -38,7 +38,7 @@ public class NewCompanyController implements Openable {
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCompanyWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\AddCompanyWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newCompanyStage.setTitle("Add New Company");
             newCompanyStage.getIcons().add(new Image("UI/Images/factory.png"));

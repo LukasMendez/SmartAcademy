@@ -72,7 +72,7 @@ public class DatesToCourseController implements Openable {
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\DatesToCourseWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\DatesToCourseWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             addDatesToCourseStage.setTitle("Add dates to selected source");
             addDatesToCourseStage.setScene(new Scene(root));

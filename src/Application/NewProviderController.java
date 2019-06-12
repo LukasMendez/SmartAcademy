@@ -38,7 +38,7 @@ public class NewProviderController implements Openable {
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddProviderWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\AddProviderWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newProviderStage.setTitle("Add New Provider");
             newProviderStage.getIcons().add(new Image("UI/Images/building.png"));

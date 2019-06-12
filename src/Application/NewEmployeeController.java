@@ -42,7 +42,7 @@ public class NewEmployeeController implements Openable {
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddEmployeeWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\AddEmployeeWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             newEmployeeStage.setTitle("Add New Employee");
             newEmployeeStage.getIcons().add(new Image("UI/Images/users.png"));
