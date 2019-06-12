@@ -183,7 +183,6 @@ public class MainController {
         // Checking for a valid database server connection
         if(DB.DBConnectionFailed == true){
             // IF no valid connection found, show error label
-            System.out.println("DB Connection not found");
             DatabaseConnectionErrorMSG.setVisible(true);
         }else{
             DatabaseConnectionErrorMSG.setVisible(false);
@@ -241,8 +240,6 @@ public class MainController {
             newCourseController.openWindow();
             newCourseController = (NewCourseController) newCourseController.getController();
             closeStageHandler(newCourseController.getStage(), newCourseController);
-        } else {
-            System.out.println("Window already open");
         }
     }
 
@@ -264,8 +261,6 @@ public class MainController {
             Course course = (Course) courseTableView.getSelectionModel().getSelectedItem();
             // Will give the Course object to the controller so that it can display the corresponding periodID's
             datesToCourseController.setSelectedCourse(course);
-        } else {
-            System.out.println("Window already open or nothing is selected");
         }
     }
 
@@ -288,8 +283,6 @@ public class MainController {
                 newEmployeeController.setSelectedCompany(selectedCompany);
                 closeStageHandler(newEmployeeController.getStage(), newEmployeeController);
             }
-        } else {
-            System.out.println("Window is already open");
         }
     }
 
@@ -305,8 +298,6 @@ public class MainController {
             newCompanyController.openWindow();
             newCompanyController = (NewCompanyController) newCompanyController.getController();
             closeStageHandler(newCompanyController.getStage(), newCompanyController);
-        } else {
-            System.out.println("Window is already open");
         }
     }
 
@@ -322,8 +313,6 @@ public class MainController {
             newProviderController.openWindow();
             newProviderController = (NewProviderController) newProviderController.getController();
             closeStageHandler(newProviderController.getStage(), newProviderController);
-        } else {
-            System.out.println("Window is already open");
         }
     }
 
@@ -361,7 +350,6 @@ public class MainController {
         companyDropDown.setItems(db.getCompanyList());
         //will make sure to reselect the item you were already looking at
         companyDropDown.getSelectionModel().select(selectedCompany);
-        System.out.println("Executed: newCompanyRefresher()");
     }
 
     /**
@@ -370,15 +358,11 @@ public class MainController {
      * was been removed.
      */
     private void removalOfCompanyRefresher() {
-        System.out.println("Selected company CVR: " + selectedCompany.getCVRNumber());
-        System.out.println("Deleted company CVR: " + deletedCompany.getCVRNumber());
         if ((selectedCompany.getCVRNumber().equals(deletedCompany.getCVRNumber()))) {
             selectedCompany = null;
             companyDropDown.setItems(db.getCompanyList());
             companyDropDown.getSelectionModel().select(selectedCompany);
-            System.out.println("Company deleted was the same as selected");
         } else {
-            System.out.println("Company selected and deleted company was not the same");
             companyDropDown.setItems(db.getCompanyList());
             companyDropDown.getSelectionModel().select(selectedCompany);
         }
@@ -399,8 +383,6 @@ public class MainController {
                     if (mouseEvent.getClickCount() == 2 && employeeTableView.getSelectionModel().getSelectedItem() != null) {
                         if (!manageEmployeeController.isStageOpen()) {
                             configureManageEmployee();
-                        } else {
-                            System.out.println("Please close the first window before opening a new one");
                         }
                     }
                 }
@@ -419,26 +401,20 @@ public class MainController {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
-                System.out.println("THE WINDOW WAS CLOSED");
                 if (controller instanceof NewCourseController) {
-                    System.out.println("Updated course table view");
                     updateCourseTableView();
                 }
                 if (controller instanceof ManageEmployeeController) {
-                    System.out.println("Updated employee table view");
                     updateEmployeeTableView();
                 }
                 if (controller instanceof NewCompanyController) {
-                    System.out.println("Updated company table view");
                     updateCompanyTableView();
                     newCompanyRefresher();
                 }
                 if (controller instanceof NewProviderController) {
-                    System.out.println("Updated provider table view");
                     updateProviderTableView();
                 }
                 if (controller instanceof NewEmployeeController) {
-                    System.out.println("Update employee table view");
                     updateEmployeeTableView();
                 }
             }
@@ -455,7 +431,6 @@ public class MainController {
         companyDropDown.valueProperty().addListener((obs, oldItem, newItem) -> {
             if (companyDropDown.getSelectionModel().getSelectedItem() != null) {
                 selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
-                System.out.println("You just casted the object as a Company, and the output is: " + selectedCompany.getName());
                 updateProviderTableView();
                 updateCompanyTableView();
                 updateCourseTableView();
@@ -470,7 +445,6 @@ public class MainController {
      */
     private void tabHandler() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            System.out.println("The tab selected now has the index: " + newTab.getTabPane().getSelectionModel().getSelectedIndex());
             searchBar.setText("");
             if (newTab.getTabPane().getSelectionModel().getSelectedIndex() == coursesIndex) {
                 buttonLeft.setText("Delete Course");
@@ -565,7 +539,6 @@ public class MainController {
         courseList = db.getCourseList();
         //data binding
         courseTableView.setItems(courseList);
-        System.out.println("Updated Course TableView");
     }
 
     /**
@@ -578,11 +551,9 @@ public class MainController {
         //constructing data model
         employeeList = db.getEmployeeList(selectedCompany.getCVRNumber());
         }catch(NullPointerException npe){
-        System.err.println(npe.getMessage());
         }
         //data binding
         employeeTableView.setItems(employeeList);
-        System.out.println("Updated Employee TableView");
     }
 
     /**
@@ -593,7 +564,6 @@ public class MainController {
         companyList = db.getCompanyList();
         //data binding
         companyTableView.setItems(companyList);
-        System.out.println("Updated Company TableView");
     }
 
     /**
@@ -604,7 +574,6 @@ public class MainController {
         providerList = db.getProviderList();
         //data binding
         providerTableView.setItems(providerList);
-        System.out.println("Updated Provider TableView");
     }
 
     //------Search in Tables--------//
@@ -618,13 +587,10 @@ public class MainController {
 
         // Checks which tab is open.
         if (tabPane.getSelectionModel().getSelectedIndex() == employeeIndex) {
-            System.out.println("Search in Employee");
             filteredSearch(employeeTableView,employeeList);
         } else if (tabPane.getSelectionModel().getSelectedIndex() == companiesIndex) {
-            System.out.println("Search in Company");
             filteredSearch(companyTableView,companyList);
         } else if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
-            System.out.println("Search in Courses");
             filteredSearch(courseTableView,courseList);
         }
     }

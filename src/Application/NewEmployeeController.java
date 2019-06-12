@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -124,7 +123,7 @@ public class NewEmployeeController implements Openable {
         String mail = emailTextField.getText();
         String phoneNo = phoneNoTextField.getText();
 
-        int rowsAffected = DB.insertEmployee(cprNo, name, mail, phoneNo, selectedCompany.getCVRNumber());
+        int rowsAffected = db.insertEmployee(cprNo, name, mail, phoneNo, selectedCompany.getCVRNumber());
 
         if (rowsAffected == 1) {
 

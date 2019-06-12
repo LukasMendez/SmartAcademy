@@ -2,10 +2,6 @@ package Persistance;
 
 import Domain.*;
 import Domain.Date;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,10 +9,6 @@ import java.io.FileReader;
 import java.sql.*;
 import java.util.Properties;
 
-/**
- * Created by Lukas
- * 21-05-2019.
- */
 public class DB {
 
     private static Connection con;
@@ -105,8 +97,6 @@ public class DB {
             //close
             close();
 
-            System.out.println("First company selected: " + company.getName());
-
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -169,7 +159,6 @@ public class DB {
             rowsAffected = cs.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println(rowsAffected + " rows was affected!");
             }
             close();
 
@@ -213,7 +202,6 @@ public class DB {
      * @param consultantID consultantID used in the new education plan
      */
     public static void createNewEducationPlan(int employeeID, int consultantID) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -221,11 +209,8 @@ public class DB {
             CallableStatement cs = con.prepareCall("{call dbo.createNewEducationPlan(?,?)}");
             cs.setInt(1, employeeID);
             cs.setInt(2, consultantID);
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println(rowsAffected + " rows was affected!");
-            }
             close();
 
         } catch (Exception e) {
@@ -268,18 +253,14 @@ public class DB {
      */
     @SuppressWarnings("Duplicates")
     public static void toggleCoursePlanCompletion(int coursePlanID) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
             //create Statement + ResultSet
             CallableStatement cs = con.prepareCall("{call dbo.setCoursePlanAsCompleted(?)}");
             cs.setInt(1, coursePlanID);
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println(rowsAffected + " rows was affected!");
-            }
             close();
 
         } catch (Exception e) {
@@ -293,18 +274,13 @@ public class DB {
      */
     @SuppressWarnings("Duplicates")
     public static void removeCoursePlan(int coursePlanID) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
             //create Statement + ResultSet
             CallableStatement cs = con.prepareCall("{call dbo.deleteCoursePlan(?)}");
             cs.setInt(1, coursePlanID);
-            rowsAffected = cs.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println(rowsAffected + " rows was affected!");
-            }
+            cs.executeUpdate();
             close();
 
         } catch (Exception e) {
@@ -484,7 +460,6 @@ public class DB {
             ResultSet rs = cs.executeQuery();
             //add data to observableList
             while (rs.next()) {
-                System.out.println("Found a record!");
                 int dateID = rs.getInt("fldDateID");
                 String date = rs.getString("fldDate");
                 listOfDates.add(new Date(date, dateID));
@@ -684,7 +659,6 @@ public class DB {
             cs.setInt(3, levelID);
             cs.setInt(4, employeeID);
             cs.setInt(5, qualificationID);
-
             rowsAffected = cs.executeUpdate();
             cs.close();
             close();
@@ -692,7 +666,6 @@ public class DB {
             System.err.println(e.getMessage());
         }
         if (rowsAffected > 0) {
-            System.out.println(rowsAffected + " rows was affected!");
             qualification = new Qualification(qualificationID, type, description, level, employeeID, typeID, levelID);
         }
         return qualification;
@@ -749,7 +722,6 @@ public class DB {
      * @param cvrNo          cvr number
      */
     public static void insertCourse(int amuNumber, String information, String additionalInfo, int numberOfDays, int locationID, String cvrNo) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -762,15 +734,11 @@ public class DB {
             cs.setInt(4, numberOfDays);
             cs.setInt(5, locationID);
             cs.setString(6, cvrNo);
-
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
         }
     }
 
@@ -780,7 +748,6 @@ public class DB {
      * @param employee the employee object containing the employeeID
      */
     public static void insertQualification(Employee employee) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -796,15 +763,11 @@ public class DB {
             cs.setString(2, description);
             cs.setInt(3, levelID);
             cs.setInt(4, employee.getEmployeeID());
-
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
         }
     }
 
@@ -815,7 +778,6 @@ public class DB {
      * @param periodID periodID of the period
      */
     public static void insertDate(String newDate, int periodID) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -824,15 +786,11 @@ public class DB {
             CallableStatement cs = con.prepareCall("{call dbo.addDate(?,?)}");
             cs.setString(1, newDate);
             cs.setInt(2, periodID);
-
-            rowsAffected = cs.executeUpdate();
+           cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
         }
     }
 
@@ -842,7 +800,6 @@ public class DB {
      * @param courseID courseID
      */
     public static void insertPeriod(int courseID) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -851,14 +808,11 @@ public class DB {
             CallableStatement cs = con.prepareCall("{call dbo.addPeriod(?)}");
             cs.setInt(1, courseID);
 
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
         }
     }
 
@@ -894,9 +848,6 @@ public class DB {
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
         }
         return rowsAffected;
     }
@@ -934,9 +885,6 @@ public class DB {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
-        }
         return rowsAffected;
     }
 
@@ -971,10 +919,6 @@ public class DB {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-
-        if (rowsAffected > 0) {
-            System.out.println("Added " + rowsAffected + " new record");
-        }
         return rowsAffected;
     }
 
@@ -1001,9 +945,6 @@ public class DB {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        if (rowsAffected > 0) {
-            System.out.println("Removed " + rowsAffected + " new record");
-        }
     }
 
     /**
@@ -1027,9 +968,6 @@ public class DB {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        if (rowsAffected > 0) {
-            System.out.println("Removed " + rowsAffected + " new record");
-        }
     }
 
     /**
@@ -1038,7 +976,6 @@ public class DB {
      * @param company a company object.
      */
     public static void deleteCompany(Company company) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -1046,15 +983,11 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.deleteCompany (?)}");
             cs.setString(1, company.getCVRNumber());
-
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Removed " + rowsAffected + " new record");
         }
     }
 
@@ -1064,7 +997,6 @@ public class DB {
      * @param provider a provider object.
      */
     public static void deleteProvider(Provider provider) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -1072,15 +1004,11 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.deleteProvider (?)}");
             cs.setString(1, provider.getCVRNumber());
-
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Removed " + rowsAffected + " new record");
         }
     }
 
@@ -1091,7 +1019,6 @@ public class DB {
      */
     @SuppressWarnings("Duplicates")
     public static void deleteEmployee(Employee employee) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -1099,15 +1026,11 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.deleteEmployee (?)}");
             cs.setInt(1, employee.getEmployeeID());
-
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Removed " + rowsAffected + " new record");
         }
     }
 
@@ -1117,7 +1040,6 @@ public class DB {
      * @param dateID an integer with the dateID
      */
     public static void deleteDate(int dateID) {
-        int rowsAffected = 0;
         try {
             //connect
             connect();
@@ -1125,15 +1047,11 @@ public class DB {
             //create Statement
             CallableStatement cs = con.prepareCall("{call dbo.deleteDate (?)}");
             cs.setInt(1, dateID);
-
-            rowsAffected = cs.executeUpdate();
+            cs.executeUpdate();
             cs.close();
             close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
-        if (rowsAffected > 0) {
-            System.out.println("Removed " + rowsAffected + " new record");
         }
     }
 

@@ -142,7 +142,6 @@ public class DatesToCourseController implements Openable {
         selectedCourse = course;
         // and update the drop down list with the corresponding period id's
         periodDropDown.setItems(db.getPeriodList(selectedCourse.getCourseID()));
-        System.out.println(course.getCourseID() + " and " + course.getInformation() + " and " + course.getCourseNumber());
         // Will display course name in header
         headerLabel.setText("Add dates to AMU number: " + course.getCourseNumber());
     }
@@ -165,7 +164,6 @@ public class DatesToCourseController implements Openable {
     @FXML
     public void deleteSelectedDate() {
         Date selectedDate = (Date) dateListView.getSelectionModel().getSelectedItem();
-        System.out.println("User wants to delete dateID: " + selectedDate.getDateID());
         db.deleteDate(selectedDate.getDateID());
         updateListView(selectedPeriodID);
     }
@@ -176,7 +174,6 @@ public class DatesToCourseController implements Openable {
      */
     @FXML
     public void closeWindow() {
-        System.out.println("Closing stage");
         addDatesToCourseStage.close();
     }
 
@@ -208,11 +205,8 @@ public class DatesToCourseController implements Openable {
                         // Will only add a date if a periodID is selected
                         if (periodDropDown.getSelectionModel().getSelectedItem() != null) {
                             int selectedPeriodID = (int) periodDropDown.getSelectionModel().getSelectedItem();
-                            System.out.println("The value selected was: " + datePicker.getValue());
                             db.insertDate(newDate, selectedPeriodID);
                             updateListView(selectedPeriodID);
-                        } else {
-                            System.out.println("You need to select a periodID first");
                         }
                     }
                 }
@@ -229,7 +223,6 @@ public class DatesToCourseController implements Openable {
 
             if (periodDropDown.getSelectionModel().getSelectedItem() != null) {
                 selectedPeriodID = (int) periodDropDown.getSelectionModel().getSelectedItem();
-                System.out.println("You just casted the object as an int, and the output is: " + selectedPeriodID);
                 updateListView(selectedPeriodID);
             }
         });

@@ -4,10 +4,7 @@ import Persistance.DB;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Lukas
- * 09-06-2019.
- */
+
 public class DBTest {
 
     public DB instance;
