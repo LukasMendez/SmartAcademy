@@ -54,7 +54,7 @@ public class NewCourseController implements Openable{
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\AddCourseWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             addCourseStage.setTitle("Add New Course");
             addCourseStage.getIcons().add(new Image("UI/Images/diploma.png"));

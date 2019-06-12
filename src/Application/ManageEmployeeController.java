@@ -144,7 +144,7 @@ public class ManageEmployeeController implements Openable {
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\ManageEmployeeWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\ManageEmployeeWindow.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             manageEmployeeStage.setTitle("Manage Selected Employee");
             manageEmployeeStage.getIcons().add(new Image("UI/Images/passport.png"));
