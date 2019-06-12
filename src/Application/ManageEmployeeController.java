@@ -177,7 +177,6 @@ public class ManageEmployeeController implements Openable {
      */
     @Override
     public boolean isStageOpen() {
-        System.out.println("manageEmployeeStage showing: " + manageEmployeeStage);
         return manageEmployeeStage.isShowing();
     }
 
@@ -214,7 +213,6 @@ public class ManageEmployeeController implements Openable {
         cprTextField.setText(selectedEmployee.getCPRNumber());
         emailTextField.setText(selectedEmployee.getEmail());
         phoneNumTextField.setText(selectedEmployee.getPhoneNumber());
-        System.out.println("The record belongs to: " + selectedEmployee.getName() + " and the ID is: " + selectedEmployee.getEmployeeID());
     }
 
 
@@ -267,7 +265,6 @@ public class ManageEmployeeController implements Openable {
             emailTextField.setDisable(true);
             phoneNumTextField.setDisable(true);
 
-            System.out.println("Updated record successfully (DEBUGGING)");
         } else {
             infoLabel.setText("Invalid information. Please try again");
             infoLabel.setVisible(true);
@@ -286,8 +283,6 @@ public class ManageEmployeeController implements Openable {
             closeStageHandler(courseToEPController.getStage(), courseToEPController);
             courseToEPController.start();
 
-        } else {
-            System.out.println("Window is already open");
         }
     }
 
@@ -303,7 +298,6 @@ public class ManageEmployeeController implements Openable {
             @Override
             public void handle(WindowEvent e) {
                 //doing stuff when the window was closed
-                System.out.println("THE WINDOW WAS CLOSED");
                 addCourseToEP(courseToEPController.getSelectedCourse());
             }
         });
@@ -403,10 +397,6 @@ public class ManageEmployeeController implements Openable {
      */
     public void displayQualifications() {
         qualificationsList = db.getQualifications(selectedEmployee);
-
-//        System.out.println("First description of qualification: " + qualificationsList.get(0).getDescription());
-
-
         qualificationsTableView.setItems(qualificationsList);
         typeColumn.setCellValueFactory(new PropertyValueFactory("type"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory("description"));
@@ -424,7 +414,6 @@ public class ManageEmployeeController implements Openable {
         Qualification qualification = (Qualification) qualificationsTableView.getSelectionModel().getSelectedItem();
 
         if (cellEditEvent.getTablePosition().getColumn() == 0) {
-            System.out.println("Changed info in type");
             Type newType = (Type) cellEditEvent.getNewValue();
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setType(newType.getType());
@@ -432,14 +421,12 @@ public class ManageEmployeeController implements Openable {
             // Will update the qualification table with the new type selected
             db.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
         } else if (cellEditEvent.getTablePosition().getColumn() == 1) {
-            System.out.println("Changed info in description");
             String newDescription = cellEditEvent.getNewValue().toString();
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setDescription(newDescription);
             // Will update the qualification table with the new description written
             db.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
         } else if (cellEditEvent.getTablePosition().getColumn() == 2) {
-            System.out.println("Changed info in level");
             Level newLevel = (Level) cellEditEvent.getNewValue();
             // Will update the object as well, so that new data wont get overwritten with old data from the instance
             qualification.setLevel(newLevel.getLevel());
@@ -464,7 +451,6 @@ public class ManageEmployeeController implements Openable {
     @FXML
     public void deleteQualification() {
         Qualification qualification = (Qualification) qualificationsTableView.getSelectionModel().getSelectedItem();
-        System.out.println("You selected: " + qualification.getQualificationID());
         db.deleteQualification(qualification);
         displayQualifications();
     }

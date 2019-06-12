@@ -5,10 +5,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- * Created by Lukas
- * 21-05-2019.
- */
 public class Qualification {
 
     private int qualificationID;

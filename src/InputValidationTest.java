@@ -1,25 +1,14 @@
 import BusinessServices.InputValidation;
 import javafx.embed.swing.JFXPanel;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
-
 import static org.junit.Assert.*;
 
-/**
- * Created by Lukas
- * 10-06-2019.
- *
  * If this class isn't used before hand in date, it should be removed!!
  *
  */

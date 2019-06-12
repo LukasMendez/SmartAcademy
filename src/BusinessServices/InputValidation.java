@@ -4,13 +4,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
 
-/**
- * Created by Alex 03-06-2019 time: 12:09 .
- */
 
-/**
- *
- */
 public class InputValidation {
 
 
@@ -81,8 +75,6 @@ public class InputValidation {
         boolean deleteButton = (int) event.getCharacter().charAt(firstLetterCheck) != deleteASCII;
 
         if (phoneNumTextField.getLength()==0 && event.getCharacter().charAt(firstLetterCheck)!=plusSymbolASCII){
-
-            System.out.println("The char was not a +");
             event.consume();
         }
 
@@ -129,7 +121,6 @@ public class InputValidation {
             }
 
         } else if (cprTextField.getLength() > maxLength) {
-            System.out.println("Event consumed");
             event.consume();
             cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
         }
