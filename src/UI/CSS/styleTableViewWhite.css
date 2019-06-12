@@ -46,7 +46,7 @@
     -fx-background-color: #ffffff;
     -fx-text-fill: #1d1d1d;
 }
-/* Generel text color of/in table cells */
+/* General text color of/in table cells */
 .table-view .table-cell{
     -fx-text-fill: #000000;
 }
@@ -65,7 +65,7 @@
     -fx-text-fill: -fx-text-inner-color;
 }
 
-/* The main scrollbar CSS class of ListView */
+/* The main scrollbar CSS class of TableView */
 .table-view .scroll-bar:horizontal,
 .table-view  .scroll-bar:vertical{
     -fx-background-color:transparent;

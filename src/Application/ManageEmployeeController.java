@@ -293,7 +293,7 @@ public class ManageEmployeeController implements Openable {
      * @param stage      the stage object. Typically given from a controller
      * @param controller the controller object used together with instanceof to check which class it belongs to
      */
-    public void closeStageHandler(Stage stage, Object controller) { //TODO WILL WE USE THE CONTROLLER??
+    public void closeStageHandler(Stage stage, Object controller) {
         stage.setOnHiding(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {

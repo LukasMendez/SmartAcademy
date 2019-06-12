@@ -69,8 +69,7 @@ public class DB {
         }
     }
 
-    // TODO CAN WE AGREE TO USE THIS SOLUTION?
-    // TODO TEST THIS WITH NO COMPANIES
+
     @SuppressWarnings("Duplicates")
     public static Company getFirstCompany() {
         Company company = null;

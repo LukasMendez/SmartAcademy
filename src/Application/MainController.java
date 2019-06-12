@@ -597,6 +597,8 @@ public class MainController {
             filteredSearch(companyTableView,companyList);
         } else if (tabPane.getSelectionModel().getSelectedIndex() == coursesIndex) {
             filteredSearch(courseTableView,courseList);
+        } else if (tabPane.getSelectionModel().getSelectedIndex() == providerIndex){
+            filteredSearch(providerTableView,providerList);
         }
     }
 

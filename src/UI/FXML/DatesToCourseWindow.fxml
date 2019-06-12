@@ -51,7 +51,7 @@
                      <font>
                         <Font name="Arial Bold" size="11.0" />
                      </font></Label>
-                  <ListView fx:id="dateListView" prefHeight="214.0" prefWidth="300.0" />
+                  <ListView fx:id="dateListView" prefHeight="214.0" prefWidth="300.0" stylesheets="@/UI/CSS/styleListView.css" />
                   <HBox alignment="CENTER" prefHeight="66.0" prefWidth="300.0" spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#deleteSelectedDate" text="Delete selected" />
