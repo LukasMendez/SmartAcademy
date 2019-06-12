@@ -23,7 +23,6 @@ public class InputValidationTest {
         // Easiest way to prevent: 'Toolkit not initialized' exception when unit-testing an JavaFX application
         new JFXPanel();
 
-
         textField = new TextField(""){
             {
                 // Necessary in order to read data from the text field
@@ -42,10 +41,6 @@ public class InputValidationTest {
             }
         });
 
-
-
-
-
     }
 
     @Test
@@ -57,14 +52,11 @@ public class InputValidationTest {
                     KeyCode.DIGIT5, false, false, false, false));
         }
 
-        int expected = 8;
+        int expected = 10;
         int actual = textField.getLength();
 
         assertEquals(expected, actual);
 
     }
 
-    @Test
-    public void checkInputCompany() {
-    }
 }

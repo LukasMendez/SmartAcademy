@@ -181,7 +181,7 @@ public class MainController {
      */
     private void checkDBConnection(){
         // Checking for a valid database server connection
-        if(DB.DBConnectionFailed == true){
+        if(db.DBConnectionFailed == true){
             // IF no valid connection found, show error label
             DatabaseConnectionErrorMSG.setVisible(true);
         }else{
