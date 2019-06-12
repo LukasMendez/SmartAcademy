@@ -40,7 +40,7 @@ public class CourseToEPController implements Openable {
     @Override
     public void openWindow() {
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\AddCourseToEPWindow.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("..\\UI\\FXML\\AddCourseToEPWindow.fxml"));
             Parent root = fxmlLoader.load();
             courseToEducationPlanStage.setTitle("Add Course To Education Plan");
             courseToEducationPlanStage.getIcons().add(new Image("UI/Images/clipboard.png"));
