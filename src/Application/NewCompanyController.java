@@ -111,7 +111,7 @@ public class NewCompanyController implements Openable {
         String phoneNo = phoneNoTextField.getText();
         int zipCode = Integer.parseInt(zipTextField.getText());
 
-        int rowsAffected = DB.insertCompany(cvrNo, address, name, mail, phoneNo, zipCode);
+        int rowsAffected = db.insertCompany(cvrNo, address, name, mail, phoneNo, zipCode);
 
         if (rowsAffected == 1) {
             infoLabel.setVisible(true);
@@ -146,25 +146,18 @@ public class NewCompanyController implements Openable {
     @FXML
     @SuppressWarnings("Duplicates")
     private void smallWindowPopUpCompany() {
-
-        final Tooltip tooltipName = new Tooltip();
+        Tooltip tooltipName = new Tooltip();
         tooltipName.setText("Enter the name ");
-
-        final Tooltip tooltipCVR = new Tooltip();
+        Tooltip tooltipCVR = new Tooltip();
         tooltipCVR.setText("Enter the CVR number");
-
-        final Tooltip tooltipAddress = new Tooltip();
+        Tooltip tooltipAddress = new Tooltip();
         tooltipAddress.setText("Enter the address");
-
-        final Tooltip tooltipEmail = new Tooltip();
+        Tooltip tooltipEmail = new Tooltip();
         tooltipEmail.setText("Enter the Email ");
-
-        final Tooltip tooltipPhone = new Tooltip();
+        Tooltip tooltipPhone = new Tooltip();
         tooltipPhone.setText("Enter the phone no. ");
-
-        final Tooltip tooltipZip = new Tooltip();
+        Tooltip tooltipZip = new Tooltip();
         tooltipZip.setText("Enter the zip");
-
 
         nameTextField.setTooltip(tooltipName);
         cvrNoTextField.setTooltip(tooltipCVR);

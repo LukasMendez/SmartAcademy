@@ -2,7 +2,6 @@ package Application;
 
 import Domain.CourseByPeriod;
 import Persistance.DB;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +14,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * Created by Lukas
- * 21-05-2019.
- */
 public class CourseToEPController implements Openable {
 
     private Stage courseToEducationPlanStage = new Stage();
@@ -39,6 +34,9 @@ public class CourseToEPController implements Openable {
     // Instance of itself. Used for regaining access to the instance from the MainController.
     private CourseToEPController courseToEPController;
 
+    /**
+     * Method used for configuring the Window and opening it.
+     */
     @Override
     public void openWindow() {
         try {
@@ -49,20 +47,17 @@ public class CourseToEPController implements Openable {
             courseToEducationPlanStage.setScene(new Scene(root));
             courseToEducationPlanStage.setResizable(false);
 
-
-
             // You may only run .initModality once. Therefore we need to check if the window has been opened before
             setupModality();
-
             courseToEducationPlanStage.show();
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Methods that prevents you from operating other windows before you close the current one.
+     */
     @Override
     public void setupModality(){
         if (!isInitialized){
@@ -71,6 +66,9 @@ public class CourseToEPController implements Openable {
         }
     }
 
+    /**
+     * Entry point for controller
+     */
     public void start(){
         //CoursesByPeriod
         //constructing data model + data binding
@@ -108,20 +106,40 @@ public class CourseToEPController implements Openable {
         }
     }
 
+    /**
+     * Get the selected course
+     * @return course object
+     */
     public CourseByPeriod getSelectedCourse(){
         return selectedCourse;
     }
 
+    /**
+     * Will check if the stage is showing (open).
+     *
+     * @return true or false
+     */
     @Override
     public boolean isStageOpen() {
         return courseToEducationPlanStage.isShowing();
     }
 
+    /**
+     * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
+     * is important to regain control of the active Controller. The method only
+     * returns an Object, but the object can be casted as a different object type (As the controller object needed)
+     *
+     * @return Object (Controller)
+     */
     @Override
     public Object getController() {
         return fxmlLoader.getController();
     }
 
+    /**
+     * Will get you the stage of the instance you are working with.
+     * @return a Stage instance.
+     */
     @Override
     public Stage getStage() {
         return (Stage)addCourseToEPTableView.getScene().getWindow();

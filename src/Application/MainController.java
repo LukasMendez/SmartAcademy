@@ -86,7 +86,9 @@ public class MainController {
 
     public void initialize() {
 
+        // Puts the list of companies in the dropdown menu
         companyDropDown.setItems(db.getCompanyList());
+        // Automatically selects the first element
         companyDropDown.getSelectionModel().selectFirst();
         selectedCompany = (Company) companyDropDown.getSelectionModel().getSelectedItem();
 
@@ -96,13 +98,73 @@ public class MainController {
         mouseClickEmployeeHandler();
         tabHandler();
 
+        // Used for giving the idea of how Education Matrix would look in the TableView
         for (int i = 0; i < 10; i++) {
-            educationMatrixTableView.getColumns().addAll(new TableColumn("Test no." + i));
+            educationMatrixTableView.getColumns().addAll(new TableColumn("Employee name no." + i));
         }
 
         //Courses
         //constructing data model + data binding
         updateCourseTableView();
+        coursesInit();
+
+        //Employees
+        //constructing data model + data binding
+        updateEmployeeTableView();
+        employeesInit();
+
+        //Companies
+        //constructing data model + data binding
+        updateCompanyTableView();
+        company_provider_init(companyNameColumn,companyAddressColumn,companyZipColumn,companyEmailColumn,companyPhoneColumn,companyCVRColumn,companyTableView);
+
+        //Providers
+        //constructing data model + data binding
+        updateProviderTableView();
+        company_provider_init(providerNameColumn,providerAddressColumn,providerZipColumn,providerEmailColumn,providerPhoneColumn,providerCVRColumn,providerTableView);
+    }
+
+    /**
+     * This method is used for initializing the table view for either Company or Provider. They have been
+     * merged into one method since they both have the exact same attributes
+     * @param name name column of the company/provider
+     * @param address address column of the company/provider
+     * @param zip zip code column of the company/provider
+     * @param email email column of the company/provider
+     * @param phoneNo phone number column of the company/provider
+     * @param cvr cvr number column of the company/provider
+     * @param tableView the TableView containing the columns above
+     */
+    private void company_provider_init(TableColumn name, TableColumn address, TableColumn zip, TableColumn email, TableColumn phoneNo, TableColumn cvr, TableView tableView) {
+        //splitting out the data in the model
+        name.setCellValueFactory(new PropertyValueFactory("name"));
+        address.setCellValueFactory(new PropertyValueFactory("address"));
+        zip.setCellValueFactory(new PropertyValueFactory("zip"));
+        email.setCellValueFactory(new PropertyValueFactory("email"));
+        phoneNo.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        cvr.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
+        //representing the data in the columns
+        tableView.getColumns().setAll(name, address, zip, email, phoneNo, cvr);
+    }
+
+    /**
+     * This method is used for initializing the table view of employees
+     */
+    private void employeesInit() {
+        //splitting out the data in the model
+        employeeNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        employeeCPRColumn.setCellValueFactory(new PropertyValueFactory("CPRNumber"));
+        employeeEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
+        employeePhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
+        employeeCompanyColumn.setCellValueFactory(new PropertyValueFactory("company"));
+        //representing the data in the columns
+        employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
+    }
+
+    /**
+     * This method is used for initializing the table view of courses
+     */
+    private void coursesInit() {
         //splitting out the data in the model
         courseNumberColumn.setCellValueFactory(new PropertyValueFactory("courseNumber"));
         informationColumn.setCellValueFactory(new PropertyValueFactory("information"));
@@ -112,45 +174,7 @@ public class MainController {
         CVRNumberColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
         //representing the data in the columns
         courseTableView.getColumns().setAll(courseNumberColumn, informationColumn, additionalInformationColumn, numberOfDaysColumn, locationIDColumn, CVRNumberColumn);
-
-        //Employees
-        //constructing data model + data binding
-        updateEmployeeTableView();
-        //splitting out the data in the model
-        employeeNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        employeeCPRColumn.setCellValueFactory(new PropertyValueFactory("CPRNumber"));
-        employeeEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
-        employeePhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
-        employeeCompanyColumn.setCellValueFactory(new PropertyValueFactory("company"));
-        //representing the data in the columns
-        employeeTableView.getColumns().setAll(employeeNameColumn, employeeCPRColumn, employeeEmailColumn, employeePhoneColumn, employeeCompanyColumn);
-
-        //Companies
-        //constructing data model + data binding
-        updateCompanyTableView();
-        //splitting out the data in the model
-        companyNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        companyAddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
-        companyZipColumn.setCellValueFactory(new PropertyValueFactory("zip"));
-        companyEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
-        companyPhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
-        companyCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
-        //representing the data in the columns
-        companyTableView.getColumns().setAll(companyNameColumn, companyAddressColumn, companyZipColumn, companyEmailColumn, companyPhoneColumn, companyCVRColumn);
-
-        //Providers
-        //constructing data model + data binding
-        updateProviderTableView();
-        //splitting out the data in the model
-        providerNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        providerAddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
-        providerZipColumn.setCellValueFactory(new PropertyValueFactory("zip"));
-        providerEmailColumn.setCellValueFactory(new PropertyValueFactory("email"));
-        providerPhoneColumn.setCellValueFactory(new PropertyValueFactory("phoneNumber"));
-        providerCVRColumn.setCellValueFactory(new PropertyValueFactory("CVRNumber"));
-        //representing the data in the columns
-        providerTableView.getColumns().setAll(providerNameColumn, providerAddressColumn, providerZipColumn, providerEmailColumn, providerPhoneColumn, providerCVRColumn);
-    } // TODO COULD WE ADD THE .SETCELLVALUEFACTORY INTO PRIVATE HELPERMETHODS????
+    }
 
     /**
      * Checking if there is a connection and setting a label if there is not.
@@ -482,12 +506,11 @@ public class MainController {
                 buttonRight.setText("Add New Provider");
                 buttonRight.setVisible(true);
             }
-            // TODO REFACTOR CODE
         });
     }
 
 
-    //------DELETE ELEMENT FROM TABLEVIEW----/(
+    //------DELETE ELEMENT FROM TABLE VIEW----/(
 
     /**
      * Method used for deleting a course in the database. After completion, the TableView will be updated.
@@ -613,23 +636,18 @@ public class MainController {
      * @param filteredTableList a temporally ObservableList
      */
     private void filteredSearch(TableView filteredTableView, ObservableList<?>filteredTableList){
-
         // Creates a listener by checking the input
         searchBar.textProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable o) {
-
                 // If the searchbar is empty or gets cleared, it will restore the tables with it's original content
                 if(searchBar.textProperty().get().isEmpty()) {
-
                     filteredTableView.setItems(filteredTableList);
                     return;
                 }
-
                 // Temporally ObservableList. They will store a temporally ObservableList of the original content.
                 ObservableList<Object> tableItems = FXCollections.observableArrayList();
                 ObservableList<TableColumn<Object, ?>> cols = filteredTableView.getColumns();
-
                 // This will check the temporally ObservableList with the letters entered in the search field.
                 for(int i=0; i<filteredTableList.size(); i++) {
 

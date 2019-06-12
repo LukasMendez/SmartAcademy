@@ -187,13 +187,14 @@
                         <Insets left="20.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="81.0" prefWidth="711.0" GridPane.columnIndex="1">
+                <HBox alignment="CENTER_LEFT" prefHeight="81.0" prefWidth="711.0" spacing="170.0" GridPane.columnIndex="1">
                     <children>
                         <Label text="Smart Academy Manager">
                             <font>
                                 <Font name="Yu Gothic Medium" size="31.0" />
                             </font>
                         </Label>
+                  <TextField fx:id="searchBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#searchForEnteredInput" prefWidth="150.0" promptText="Search.." />
                     </children>
                 </HBox>
             <Label id="noDatabaseConnectionErrorMSG" fx:id="DatabaseConnectionErrorMSG" alignment="CENTER" text="Database connection could not be established" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -201,11 +202,6 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="searchBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#searchForEnteredInput" prefWidth="150.0" promptText="Search.." GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="30.0" right="25.0" />
-               </GridPane.margin>
-            </TextField>
             </children>
         </GridPane>
     </top>

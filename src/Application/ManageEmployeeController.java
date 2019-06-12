@@ -23,10 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-/**
- * Created by Lukas
- * 21-05-2019.
- */
 public class ManageEmployeeController implements Openable {
 
     private DB db = DB.getInstance();
@@ -193,7 +189,6 @@ public class ManageEmployeeController implements Openable {
     public Stage getStage() {
         return manageEmployeeStage;
     }
-
 
     /**
      * Method used for getting the controller of the FXMLLoader. Since the FXMLLoader creates a new Controller instance, it
@@ -436,7 +431,6 @@ public class ManageEmployeeController implements Openable {
             qualification.setTypeID(newType.getTypeID());
             // Will update the qualification table with the new type selected
             db.updateQualification(qualification.getQualificationID(), newType.getType(), qualification.getDescription(), qualification.getLevel(), qualification.getEmployeeID(), newType.getTypeID(), qualification.getLevelID());
-
         } else if (cellEditEvent.getTablePosition().getColumn() == 1) {
             System.out.println("Changed info in description");
             String newDescription = cellEditEvent.getNewValue().toString();
@@ -444,7 +438,6 @@ public class ManageEmployeeController implements Openable {
             qualification.setDescription(newDescription);
             // Will update the qualification table with the new description written
             db.updateQualification(qualification.getQualificationID(), qualification.getType(), newDescription, qualification.getLevel(), qualification.getEmployeeID(), qualification.getTypeID(), qualification.getLevelID());
-
         } else if (cellEditEvent.getTablePosition().getColumn() == 2) {
             System.out.println("Changed info in level");
             Level newLevel = (Level) cellEditEvent.getNewValue();
@@ -491,17 +484,13 @@ public class ManageEmployeeController implements Openable {
      */
     @FXML
     private void smallWindowPopUpProvider() {
-
-        final Tooltip tooltipName = new Tooltip();
+        Tooltip tooltipName = new Tooltip();
         tooltipName.setText("Enter the name");
-
-        final Tooltip tooltipCPR = new Tooltip();
+        Tooltip tooltipCPR = new Tooltip();
         tooltipCPR.setText("Enter the CPR number");
-
-        final Tooltip tooltipPhoneNo = new Tooltip();
+        Tooltip tooltipPhoneNo = new Tooltip();
         tooltipPhoneNo.setText("Enter the phone number");
-
-        final Tooltip tooltipMail = new Tooltip();
+        Tooltip tooltipMail = new Tooltip();
         tooltipMail.setText("Enter the email");
 
         nameTextField.setTooltip(tooltipName);

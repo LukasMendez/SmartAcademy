@@ -10,18 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.Comparator;
 
-/**
- * Created by Lukas
- * 21-05-2019.
- */
 public class NewCourseController implements Openable{
 
     // Static because we want to make sure to always have access to the same (and only) stage
