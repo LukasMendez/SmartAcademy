@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="915.0" stylesheets="@/UI/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.ManageEmployeeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="915.0" stylesheets="@/UI/CSS/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.ManageEmployeeController">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="600.0" prefWidth="435.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -41,9 +41,9 @@
                      </padding>
                      <children>
                         <Label id="employee-information-box-headings" text="Name" />
-                        <TextField fx:id="nameTextField" disable="true" editable="false" focusTraversable="false" />
+                        <TextField fx:id="nameTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" onMouseEntered="#smallWindowPopUpProvider" />
                         <Label id="employee-information-box-headings" text="E-mail" />
-                        <TextField fx:id="emailTextField" disable="true" editable="false" focusTraversable="false" />
+                        <TextField fx:id="emailTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" onMouseEntered="#smallWindowPopUpProvider" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1">
@@ -52,9 +52,9 @@
                      </padding>
                      <children>
                         <Label id="employee-information-box-headings" text="CPR number" />
-                        <TextField fx:id="cprTextField" disable="true" editable="false" focusTraversable="false" />
+                        <TextField fx:id="cprTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" onMouseEntered="#smallWindowPopUpProvider" />
                         <Label id="employee-information-box-headings" text="Phone Number" />
-                        <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" />
+                        <TextField fx:id="phoneNumTextField" disable="true" editable="false" focusTraversable="false" onKeyTyped="#inputValidator" onMouseEntered="#smallWindowPopUpProvider" />
                      </children>
                   </VBox>
                </children>
@@ -81,7 +81,7 @@
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="qualificationsTableView" editable="true" prefHeight="207.0" prefWidth="400.0" stylesheets="@/UI/styleTableViewWhite.css">
+            <TableView fx:id="qualificationsTableView" editable="true" prefHeight="207.0" prefWidth="400.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
               <columns>
                 <TableColumn fx:id="typeColumn" onEditCommit="#onEditChangedType" prefWidth="144.0" text="Type" />
                 <TableColumn fx:id="descriptionColumn" onEditCommit="#onEditChangedType" prefWidth="173.0" text="Description" />
@@ -110,7 +110,7 @@
             </Label>
             <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="506.0" prefWidth="460.0" style="-fx-background-color: lightgrey;">
                <children>
-                  <TableView fx:id="educationPlanTableView" prefHeight="393.0" prefWidth="460.0" stylesheets="@/UI/styleTableViewWhite.css">
+                  <TableView fx:id="educationPlanTableView" prefHeight="393.0" prefWidth="460.0" stylesheets="@/UI/CSS/styleTableViewWhite.css">
                     <columns>
                         <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
                       <TableColumn fx:id="informationColumn" prefWidth="121.0" text="Information" />
