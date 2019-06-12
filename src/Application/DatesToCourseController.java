@@ -4,7 +4,6 @@ import Domain.Course;
 import Domain.Date;
 import Persistance.DB;
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,10 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DatesToCourseController implements Openable {
