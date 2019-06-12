@@ -13,13 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jdk.internal.util.xml.impl.Input;
 
 
-/**
- * Created by Lukas
- * 24-05-2019.
- */
 public class NewProviderController implements Openable {
 
     private static Stage newProviderStage = new Stage();
@@ -116,7 +111,7 @@ public class NewProviderController implements Openable {
         String phoneNo = phoneNoTextField.getText();
         int zipCode = Integer.parseInt(zipTextField.getText());
 
-        int rowsAffected = DB.insertProvider(cvrNo, name, address, mail, phoneNo, zipCode);
+        int rowsAffected = db.insertProvider(cvrNo, name, address, mail, phoneNo, zipCode);
         if (rowsAffected == 1) {
 
             infoLabel.setVisible(true);
@@ -150,25 +145,18 @@ public class NewProviderController implements Openable {
     @FXML
     @SuppressWarnings("Duplicates")
     private void smallWindowPopUpProvider() {
-
-        final Tooltip tooltipName = new Tooltip();
+        Tooltip tooltipName = new Tooltip();
         tooltipName.setText("Enter the name ");
-
-        final Tooltip tooltipCVR = new Tooltip();
+        Tooltip tooltipCVR = new Tooltip();
         tooltipCVR.setText("Enter the CVR number ");
-
-        final Tooltip tooltipAddress = new Tooltip();
+        Tooltip tooltipAddress = new Tooltip();
         tooltipAddress.setText("Enter the address ");
-
-        final Tooltip tooltipEmail = new Tooltip();
+        Tooltip tooltipEmail = new Tooltip();
         tooltipEmail.setText("Enter the Email ");
-
-        final Tooltip tooltipPhone = new Tooltip();
+        Tooltip tooltipPhone = new Tooltip();
         tooltipPhone.setText("Enter the phoneNo. ");
-
-        final Tooltip tooltipZip = new Tooltip();
+        Tooltip tooltipZip = new Tooltip();
         tooltipZip.setText("Enter the zip ");
-
 
         nameTextField.setTooltip(tooltipName);
         cvrTextField.setTooltip(tooltipCVR);

@@ -16,10 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * Created by Lukas
- * 21-05-2019.
- */
 public class NewEmployeeController implements Openable {
 
     private static Stage newEmployeeStage = new Stage();
@@ -151,24 +147,20 @@ public class NewEmployeeController implements Openable {
         InputValidation inputValidation = new InputValidation();
 
         inputValidation.checkInputEmployee(nameTextField, cprTextField, phoneNoTextField, event);
-        smallWindowPopUpProvider();
+        smallWindowPopUpEmployee();
     }
     /**
      * A small information window, then the user points on TextField inside the window add new employee.
      */
     @FXML
-    private void smallWindowPopUpProvider() {
-
-        final Tooltip tooltipName = new Tooltip();
+    private void smallWindowPopUpEmployee() {
+        Tooltip tooltipName = new Tooltip();
         tooltipName.setText("Enter the name ");
-
-        final Tooltip tooltipCPR = new Tooltip();
+        Tooltip tooltipCPR = new Tooltip();
         tooltipCPR.setText("Enter the CPR number ");
-
-        final Tooltip tooltipPhone = new Tooltip();
+        Tooltip tooltipPhone = new Tooltip();
         tooltipPhone.setText("Enter the phoneNo. ");
-
-        final Tooltip tooltipEmail = new Tooltip();
+        Tooltip tooltipEmail = new Tooltip();
         tooltipEmail.setText("Enter the Email ");
 
         nameTextField.setTooltip(tooltipName);
