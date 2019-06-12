@@ -9,9 +9,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
- * If this class isn't used before hand in date, it should be removed!!
- *
- */
+
 public class InputValidationTest {
 
 
