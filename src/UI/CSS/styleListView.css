@@ -1,0 +1,55 @@
+/* Main/General CSS Class for the List view */
+.list-view {
+    -fx-table-cell-border-color: #FFFF;
+    -fx-background-color: #2d2d30;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 0;
+}
+
+/* General text color of/in table cells */
+.list-view .list-cell{
+    -fx-text-fill: WHITE;
+}
+
+/* Color of cell that is focused/selected by the user */
+.list-cell:selected {
+    -fx-background-color: rgba(228, 82, 91, 0.85);
+    /*-fx-text-background-color:  #2e0002; */
+    -fx-table-cell-border-color: transparent;
+}
+/* Color of cell that the user currently is hovering over with the mouse*/
+.list-cell:cell-selection, .list-cell:filled:hover {
+    -fx-background-color: rgba(228, 82, 91, 0.85);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-table-cell-border-color: transparent;
+    -fx-text-fill: -fx-text-inner-color;
+}
+
+/* The main scrollbar CSS class of ListView */
+.list-view .scroll-bar:horizontal,
+.list-view  .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+/* The increment and decrement button of scrollbar */
+.list-view .increment-button ,
+.list-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:derive(gray,0%);
+}
+
+/* The main scrollbar **thumb** which we drag every time (movable) */
+.list-view .scroll-bar:horizontal .thumb,
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
+}
+
+/*The main scrollbar **track** CSS class  */
+.list-view .scroll-bar:horizontal .track ,
+.list-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive(gray,0%);
+    -fx-background-radius: 0em;
+}
