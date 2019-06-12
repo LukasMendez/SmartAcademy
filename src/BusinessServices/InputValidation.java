@@ -111,8 +111,12 @@ public class InputValidation {
 
                 event.consume();
 
+                System.out.println("Event consumed");
+
                 cprTextField.setStyle("-fx-text-box-border:red;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
             } else {
+
+                System.out.println("Character accepted");
                 cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
             }
 
