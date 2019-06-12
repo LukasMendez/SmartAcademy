@@ -69,43 +69,6 @@ public class DB {
         }
     }
 
-
-    @SuppressWarnings("Duplicates")
-    public static Company getFirstCompany() {
-        Company company = null;
-
-        try {
-            //connect
-            connect();
-            //create Statement + ResultSet
-            CallableStatement cs = con.prepareCall("{call dbo.getFirstCompany}");
-            ResultSet rs = cs.executeQuery();
-
-            //add data to observableList
-            while (rs.next()) {
-                String name = rs.getString("fldname");
-                String address = rs.getString("fldAddress");
-                int zip = rs.getInt("fldZip");
-                String email = rs.getString("fldEmail");
-                String phoneNumber = rs.getString("fldPhoneNumber");
-                String CVRNumber = rs.getString("fldCVRNumber");
-
-                company = new Company(name, address, zip, email, phoneNumber, CVRNumber);
-            }
-
-            //close
-            close();
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-
-        return company;
-    }
-
-
-
-
     //EDUCATION PLAN RELATED METHODS
 
     /**

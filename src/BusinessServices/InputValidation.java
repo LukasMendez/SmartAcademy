@@ -7,22 +7,17 @@ import javafx.scene.input.KeyEvent;
 
 public class InputValidation {
 
-
     /**
      * This method checks the input in Employee window, its checking what its get, like eg. in nameTF, cprNo, phoneNo.
      * Its connected to the other method, and its checking if is number or its a letters. Every TextFields connected to buttons on Key Typed.
      */
     public void checkInputEmployee(TextField nameTF, TextField cprNo, TextField phoneNo, KeyEvent event) {
-
         if (event.getSource() == nameTF) {
             checkIfRedName(nameTF, event);
-
         } else if (event.getSource() == phoneNo) {
             redFieldNumber(phoneNo, event);
-
         } else if (event.getSource() == cprNo) {
             redFieldCPRNoAndZip(cprNo, event);
-
         }
     }
 
@@ -106,11 +101,8 @@ public class InputValidation {
 
 
         if (cprTextField.getLength() <= maxLength) {
-
             if (backSlash && deleteButton && !Character.isDigit(event.getCharacter().charAt(firstLetterCheck)) && cprTextField.getLength() >= 0) {
-
                 event.consume();
-
                 cprTextField.setStyle("-fx-text-box-border:red;-fx-control-inner-background:red;-fx-faint-focus-color:red;");
             } else {
                 cprTextField.setStyle("-fx-text-box-border:#feefff;-fx-control-inner-background:white;-fx-faint-focus-color:white;");
